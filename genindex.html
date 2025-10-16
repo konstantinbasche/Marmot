@@ -9,6 +9,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=6bdb3f50" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -31,7 +32,7 @@
           
           <a href="index.html" class="icon icon-home">
             Marmot
-              <img src="_static/marmot_logo.png" class="logo" alt="Logo"/>
+              <img src="_static/marmot_transparent.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -46,7 +47,6 @@
 <li class="toctree-l1"><a class="reference internal" href="pages/interfaces.html">Interfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pages/features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pages/documentation.html">Code documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pages/contributors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pages/publications.html">Publications</a></li>
 </ul>
 
@@ -158,7 +158,7 @@
 </li>
       <li><a href="pages/codedocumentation/mathcore.html#_CPPv4I_6size_t_Dp6size_tEN6Marmot24AutomaticDifferentiation51tensor_to_scalar_function_type_arbitrary_dual_orderE">Marmot::AutomaticDifferentiation::tensor_to_scalar_function_type_arbitrary_dual_order (C++ type)</a>
 </li>
-      <li><a href="pages/codedocumentation/mathcore.html#_CPPv4I_6size_t00EN6Marmot24AutomaticDifferentiation7valnodeERDaR4DualI1T1GE">Marmot::AutomaticDifferentiation::valnode (C++ function)</a>, <a href="pages/codedocumentation/mathcore.html#_CPPv4I_6size_t00EN6Marmot24AutomaticDifferentiation7valnodeERDaRK4DualI1T1GE">[1]</a>
+      <li><a href="pages/codedocumentation/mathcore.html#_CPPv4I_6size_t00EN6Marmot24AutomaticDifferentiation7valnodeERDaR4DualI1T1GE">Marmot::AutomaticDifferentiation::valnode (C++ function)</a>, <a href="pages/codedocumentation/mathcore.html#_CPPv4I_6size_t00EN6Marmot24AutomaticDifferentiation7valnodeERKDaRK4DualI1T1GE">[1]</a>
 </li>
       <li><a href="pages/codedocumentation/mathcore.html#_CPPv4N6Marmot24AutomaticDifferentiation35vector_to_vector_function_type_dualE">Marmot::AutomaticDifferentiation::vector_to_vector_function_type_dual (C++ type)</a>
 </li>
@@ -314,11 +314,15 @@
 </li>
       <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot18ContinuumMechanics19DeformationMeasuresE">Marmot::ContinuumMechanics::DeformationMeasures (C++ type)</a>
 </li>
-      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4I0EN6Marmot18ContinuumMechanics19DeformationMeasures11CauchyGreenE9Tensor33tI1TEK9Tensor33tI1TE">Marmot::ContinuumMechanics::DeformationMeasures::CauchyGreen (C++ function)</a>
-</li>
       <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot18ContinuumMechanics19DeformationMeasures17FirstOrderDerivedE">Marmot::ContinuumMechanics::DeformationMeasures::FirstOrderDerived (C++ type)</a>
 </li>
-      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4I0EN6Marmot18ContinuumMechanics19DeformationMeasures17FirstOrderDerived11CauchyGreenENSt4pairI9Tensor33tI1TE11Tensor3333tI1TEEEK9Tensor33tI1TE">Marmot::ContinuumMechanics::DeformationMeasures::FirstOrderDerived::CauchyGreen (C++ function)</a>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4I0EN6Marmot18ContinuumMechanics19DeformationMeasures17FirstOrderDerived15leftCauchyGreenENSt4pairI9Tensor33tI1TE11Tensor3333tI1TEEERK9Tensor33tI1TE">Marmot::ContinuumMechanics::DeformationMeasures::FirstOrderDerived::leftCauchyGreen (C++ function)</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4I0EN6Marmot18ContinuumMechanics19DeformationMeasures17FirstOrderDerived16rightCauchyGreenENSt4pairI9Tensor33tI1TE11Tensor3333tI1TEEERK9Tensor33tI1TE">Marmot::ContinuumMechanics::DeformationMeasures::FirstOrderDerived::rightCauchyGreen (C++ function)</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4I0EN6Marmot18ContinuumMechanics19DeformationMeasures15leftCauchyGreenE9Tensor33tI1TERK9Tensor33tI1TE">Marmot::ContinuumMechanics::DeformationMeasures::leftCauchyGreen (C++ function)</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4I0EN6Marmot18ContinuumMechanics19DeformationMeasures16rightCauchyGreenE9Tensor33tI1TERK9Tensor33tI1TE">Marmot::ContinuumMechanics::DeformationMeasures::rightCauchyGreen (C++ function)</a>
 </li>
       <li><a href="pages/codedocumentation/mechanicscore.html#_CPPv4N6Marmot18ContinuumMechanics10ElasticityE">Marmot::ContinuumMechanics::Elasticity (C++ type)</a>
 </li>
@@ -827,8 +831,6 @@
       <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement14assignPropertyERK17ElementProperties">Marmot::Elements::DisplacementFiniteStrainULElement::assignProperty (C++ function)</a>, <a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement14assignPropertyERK21MarmotMaterialSection">[1]</a>
 </li>
       <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement15assignStateVarsEPdi">Marmot::Elements::DisplacementFiniteStrainULElement::assignStateVars (C++ function)</a>
-</li>
-      <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement6BSizedE">Marmot::Elements::DisplacementFiniteStrainULElement::BSized (C++ type)</a>
 </li>
       <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement3bsUE">Marmot::Elements::DisplacementFiniteStrainULElement::bsU (C++ member)</a>
 </li>
@@ -1508,8 +1510,6 @@
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N6Marmot13FiniteElement10Quadrature9Spatial1D15gaussPointList2E">Marmot::FiniteElement::Quadrature::Spatial1D::gaussPointList2 (C++ member)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N6Marmot13FiniteElement10Quadrature9Spatial1D15gaussPointList3E">Marmot::FiniteElement::Quadrature::Spatial1D::gaussPointList3 (C++ member)</a>
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N6Marmot13FiniteElement10Quadrature9Spatial1D4nDimE">Marmot::FiniteElement::Quadrature::Spatial1D::nDim (C++ member)</a>
@@ -1530,6 +1530,8 @@
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N6Marmot13FiniteElement10Quadrature9Spatial3D19gaussPointList1x1x1E">Marmot::FiniteElement::Quadrature::Spatial3D::gaussPointList1x1x1 (C++ member)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N6Marmot13FiniteElement10Quadrature9Spatial3D19gaussPointList2x2x2E">Marmot::FiniteElement::Quadrature::Spatial3D::gaussPointList2x2x2 (C++ member)</a>
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N6Marmot13FiniteElement10Quadrature9Spatial3D19gaussPointList3x3x3E">Marmot::FiniteElement::Quadrature::Spatial3D::gaussPointList3x3x3 (C++ member)</a>
@@ -1709,6 +1711,48 @@
       <li><a href="pages/features/adlinearelastic.html#_CPPv4N6Marmot9Materials15ADLinearElastic12getStateViewERKNSt6stringE">Marmot::Materials::ADLinearElastic::getStateView (C++ function)</a>
 </li>
       <li><a href="pages/features/adlinearelastic.html#_CPPv4N6Marmot9Materials15ADLinearElastic2nuE">Marmot::Materials::ADLinearElastic::nu (C++ member)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMisesE">Marmot::Materials::ADVonMises (C++ class)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises10ADVonMisesEPKdii">Marmot::Materials::ADVonMises::ADVonMises (C++ function)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises30ADVonMisesModelStateVarManagerE">Marmot::Materials::ADVonMises::ADVonMisesModelStateVarManager (C++ class)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises30ADVonMisesModelStateVarManager30ADVonMisesModelStateVarManagerEPd">Marmot::Materials::ADVonMises::ADVonMisesModelStateVarManager::ADVonMisesModelStateVarManager (C++ function)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises30ADVonMisesModelStateVarManager5kappaE">Marmot::Materials::ADVonMises::ADVonMisesModelStateVarManager::kappa (C++ member)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises30ADVonMisesModelStateVarManager6layoutE">Marmot::Materials::ADVonMises::ADVonMisesModelStateVarManager::layout (C++ member)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises15assignStateVarsEPdi">Marmot::Materials::ADVonMises::assignStateVars (C++ function)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises15computeStressADEPN8autodiff4dualEPKN8autodiff4dualEPKdKdRd">Marmot::Materials::ADVonMises::computeStressAD (C++ function)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises5deltaE">Marmot::Materials::ADVonMises::delta (C++ member)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises16deltaYieldStressE">Marmot::Materials::ADVonMises::deltaYieldStress (C++ member)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises1EE">Marmot::Materials::ADVonMises::E (C++ member)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4I0EN6Marmot9Materials10ADVonMises1fE1TK1TKd">Marmot::Materials::ADVonMises::f (C++ function)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4I0EN6Marmot9Materials10ADVonMises2fyE1T1T">Marmot::Materials::ADVonMises::fy (C++ function)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4I0EN6Marmot9Materials10ADVonMises1gE1TK1TKdK1T">Marmot::Materials::ADVonMises::g (C++ function)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises1GE">Marmot::Materials::ADVonMises::G (C++ member)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises28getNumberOfRequiredStateVarsEv">Marmot::Materials::ADVonMises::getNumberOfRequiredStateVars (C++ function)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises12getStateViewERKNSt6stringE">Marmot::Materials::ADVonMises::getStateView (C++ function)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises4HLinE">Marmot::Materials::ADVonMises::HLin (C++ member)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises16managedStateVarsE">Marmot::Materials::ADVonMises::managedStateVars (C++ member)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises2nuE">Marmot::Materials::ADVonMises::nu (C++ member)</a>
+</li>
+      <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises11yieldStressE">Marmot::Materials::ADVonMises::yieldStress (C++ member)</a>
 </li>
       <li><a href="pages/features/b4.html#_CPPv4N6Marmot9Materials2B4E">Marmot::Materials::B4 (C++ class)</a>
 </li>
@@ -2928,7 +2972,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, University of Innsbruck and other authors.</p>
+    <p>&#169; Copyright 2025, University of Innsbruck, BOKU Vienna and other authors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
