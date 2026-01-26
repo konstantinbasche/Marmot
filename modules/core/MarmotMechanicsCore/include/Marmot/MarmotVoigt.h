@@ -28,6 +28,7 @@
  */
 
 #pragma once
+#include "Fastor/Fastor.h"
 #include "Marmot/MarmotJournal.h"
 #include "Marmot/MarmotMath.h"
 #include "Marmot/MarmotTypedefs.h"
@@ -315,6 +316,7 @@ namespace Marmot {
      *       conversion to be valid (minor symmetry).
      */
     Eigen::Matrix< double, 6, 6 > stiffnessToVoigt( const Eigen::Tensor< double, 4 >& C );
+    Eigen::Matrix< double, 6, 6 > stiffnessToVoigt( const Fastor::Tensor< double, 3, 3, 3, 3 >& C );
 
     /**
      * @brief Converts a stiffness matrix in Voigt notation (\f$ 6 \times 6 \f$ matrix) to a 4th-order stiffness tensor
@@ -323,7 +325,8 @@ namespace Marmot {
      * @return An Eigen::Tensor of rank 4 (4th-order tensor) representing the stiffness tensor.
      *         The dimensions of the tensor are \f$ 3 \times 3 \times 3 \times 3 \f$.
      */
-    Eigen::Tensor< double, 4 > voigtToStiffness( const Eigen::Matrix< double, 6, 6 >& voigtStiffness );
+    Eigen::Tensor< double, 4 >           voigtToStiffness( const Eigen::Matrix< double, 6, 6 >& voigtStiffness );
+    Fastor::Tensor< double, 3, 3, 3, 3 > voigtToStiffness( const Fastor::Tensor< double, 6, 6 >& voigtStiffness );
 
     /**
      * @brief Converts a stress vector in Voigt notation to its corresponding tensor form.
