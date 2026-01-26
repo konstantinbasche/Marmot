@@ -19,14 +19,19 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
       <node id="3">
-        <label>Marmot/MarmotJournal.h</label>
+        <label>Fastor/Fastor.h</label>
       </node>
       <node id="4">
-        <label>Marmot/MarmotMath.h</label>
+        <label>Marmot/MarmotJournal.h</label>
       </node>
       <node id="5">
+        <label>Marmot/MarmotMath.h</label>
+      </node>
+      <node id="6">
         <label>Marmot/MarmotTypedefs.h</label>
       </node>
     </incdepgraph>
@@ -70,7 +75,7 @@
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Marmot/MarmotVoigt.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight></codeline>
-<codeline lineno="32" refid="namespace_marmot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_marmot" kindref="compound">Marmot</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">Marmot<sp/>{</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
 <codeline lineno="34"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">ContinuumMechanics<sp/>{</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight></codeline>
