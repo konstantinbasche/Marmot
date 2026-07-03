@@ -821,6 +821,55 @@ namespace Marmot {
       }
 
       /**
+       * @brief Computes the derivative \f$ \frac{\partial \theta}{\partial J_2}\f$ of the lode angle \f$ \theta
+       * \f$ with respect to the second deviatoric invariant \f$ J_2 \f$.
+       * @param stress 6-component stress vector in Voigt notation.
+       * @return Scalar derivative \f$ \tfrac{\partial \theta}{\partial J_2} \f$.
+       */
+      template < typename T >
+      T dTheta_dJ2( const Eigen::Matrix< T, 6, 1 >& stress );
+
+      /**
+       * @brief Computes the derivative \f$ \frac{\partial \theta}{\partial J_3}\f$ of the Lode angle
+       * \f$ \theta \f$ with respect to the third deviatoric invariant \f$ J_3 \f$.
+       *
+       * @param stress Stress vector in Voigt notation (\f$ \boldsymbol{\sigma} \f$).
+       * @return Value of the derivative \f$ \frac{\partial \theta}{\partial J_3} \f$.
+       */
+      template < typename T >
+      T dTheta_dJ3( const Eigen::Matrix< T, 6, 1 >& stress );
+
+      /**
+       * @brief Computes the derivative \f$ \frac{\partial J_2}{\partial \boldsymbol{\sigma}}\f$ of the second
+       * deviatoric invariant \f$ J_2 \f$ with respect to the stress vector in Voigt notation.
+       *
+       * @param stress Stress vector in Voigt notation (\f$ \boldsymbol{\sigma} \f$).
+       * @return Vector of partial derivatives \f$ \frac{\partial J_2}{\partial \boldsymbol{\sigma}} \f$ in Voigt
+       * notation.
+       */
+      template < typename T >
+      Eigen::Matrix< T, 6, 1 > dJ2_dStress( const Eigen::Matrix< T, 6, 1 >& stress )
+      {
+        return P.array() * ( IDev * stress ).array();
+      }
+
+      /**
+       * @brief Computes the derivative \f$ \frac{\partial J_3}{\partial \boldsymbol{\sigma}}\f$ of the third deviatoric
+       * invariant \f$ J_3 \f$ with respect to the stress vector in Voigt notation.
+       *
+       * @param stress Stress vector in Voigt notation (\f$ \boldsymbol{\sigma} \f$).
+       * @return Vector of partial derivatives \f$ \frac{\partial J_3}{\partial \boldsymbol{\sigma}} \f$ in Voigt
+       * notation.
+       */
+      template < typename T >
+      Eigen::Matrix< T, 6, 1 > dJ3_dStress( const Eigen::Matrix< T, 6, 1 >& stress )
+      {
+        Eigen::Matrix< T, 6, 1 > s = IDev * stress;
+        return ( P.array() * stressToVoigt< T >( voigtToStress( s ) * voigtToStress( s ) ).array() ).matrix() -
+               2. / 3. * Invariants::J2( stress ) * I;
+      }
+
+      /**
        * @brief Computes the derivative of the lode angle \f$ \theta \f$
        *        with respect to the stress vector.
        *
@@ -830,24 +879,20 @@ namespace Marmot {
        *         \f$ \tfrac{\partial \theta}{\partial \boldsymbol{\sigma}} \f$ in Voigt notation.
        * @note Returns zero if \f$ \theta \leq 10^{-15} \f$ or if \f$ \theta \geq \frac{\pi}{3} - 10^{-15} \f$.
        */
-      Marmot::Vector6d dTheta_dStress( double theta, const Marmot::Vector6d& stress );
+      template < typename T >
+      Eigen::Matrix< T, 6, 1 > dTheta_dStress( T theta, const Eigen::Matrix< T, 6, 1 >& stress )
+      {
+        // if ( Math::makeReal( theta ) <= 1e-15 || Math::makeReal( theta ) >= Constants::Pi / 3. - 1e-15 )
+        //   return Eigen::Matrix< T, 6, 1 >::Zero();
 
-      /**
-       * @brief Computes the derivative \f$ \frac{\partial \theta}{\partial J_2}\f$ of the lode angle \f$ \theta
-       * \f$ with respect to the second deviatoric invariant \f$ J_2 \f$.
-       * @param stress 6-component stress vector in Voigt notation.
-       * @return Scalar derivative \f$ \tfrac{\partial \theta}{\partial J_2} \f$.
-       */
-      double dTheta_dJ2( const Marmot::Vector6d& stress );
+        const T dThetadJ2 = dTheta_dJ2( stress );
+        const T dThetadJ3 = dTheta_dJ3( stress );
 
-      /**
-       * @brief Computes the derivative \f$ \frac{\partial \theta}{\partial J_3}\f$ of the Lode angle
-       * \f$ \theta \f$ with respect to the third deviatoric invariant \f$ J_3 \f$.
-       *
-       * @param stress Stress vector in Voigt notation (\f$ \boldsymbol{\sigma} \f$).
-       * @return Value of the derivative \f$ \frac{\partial \theta}{\partial J_3} \f$.
-       */
-      double dTheta_dJ3( const Marmot::Vector6d& stress );
+        if ( Math::isNaN( dThetadJ2 ) || Math::isNaN( dThetadJ3 ) )
+          return Eigen::Matrix< T, 6, 1 >::Zero();
+
+        return dThetadJ2 * dJ2_dStress( stress ) + dThetadJ3 * dJ3_dStress( stress );
+      }
 
       /**
        * @brief Computes the derivative \f$ \frac{\partial \theta^{(\varepsilon)}}{\partial J^{(\varepsilon)}_2}\f$ of
@@ -868,26 +913,6 @@ namespace Marmot {
        * @return Value of the derivative \f$ \frac{\partial \theta^{(\varepsilon)}}{\partial J^{(\varepsilon)}_3} \f$.
        */
       double dThetaStrain_dJ3Strain( const Marmot::Vector6d& strain );
-
-      /**
-       * @brief Computes the derivative \f$ \frac{\partial J_2}{\partial \boldsymbol{\sigma}}\f$ of the second
-       * deviatoric invariant \f$ J_2 \f$ with respect to the stress vector in Voigt notation.
-       *
-       * @param stress Stress vector in Voigt notation (\f$ \boldsymbol{\sigma} \f$).
-       * @return Vector of partial derivatives \f$ \frac{\partial J_2}{\partial \boldsymbol{\sigma}} \f$ in Voigt
-       * notation.
-       */
-      Marmot::Vector6d dJ2_dStress( const Marmot::Vector6d& stress );
-
-      /**
-       * @brief Computes the derivative \f$ \frac{\partial J_3}{\partial \boldsymbol{\sigma}}\f$ of the third deviatoric
-       * invariant \f$ J_3 \f$ with respect to the stress vector in Voigt notation.
-       *
-       * @param stress Stress vector in Voigt notation (\f$ \boldsymbol{\sigma} \f$).
-       * @return Vector of partial derivatives \f$ \frac{\partial J_3}{\partial \boldsymbol{\sigma}} \f$ in Voigt
-       * notation.
-       */
-      Marmot::Vector6d dJ3_dStress( const Marmot::Vector6d& stress );
 
       /**
        * @brief Computes the derivative \f$ \frac{\partial J^{(\varepsilon)}_2}{\partial \boldsymbol{\varepsilon}} \f$
@@ -1157,4 +1182,73 @@ namespace Marmot {
     } // namespace Transformations
 
   }   // namespace ContinuumMechanics::VoigtNotation
+} // namespace Marmot
+
+#include "Marmot/HaighWestergaard.h"
+
+namespace Marmot {
+  namespace ContinuumMechanics::VoigtNotation::Derivatives {
+    using namespace Constants;
+
+    template < typename T >
+    T dTheta_dJ2( const Eigen::Matrix< T, 6, 1 >& stress )
+    {
+      const T J2_ = Invariants::J2( stress );
+      const T J3_ = Invariants::J3( stress );
+
+      if ( Math::makeReal( J2_ ) < 1e-12 ) {
+        // Hydrostatic axis regularization
+        return T( 0.0 );
+      }
+
+      using HaighWestergaardCoordinates       = ContinuumMechanics::HaighWestergaard::HaighWestergaardCoordinates< T >;
+      const HaighWestergaardCoordinates hw    = ContinuumMechanics::HaighWestergaard::haighWestergaard( stress );
+      T                                 theta = hw.theta;
+
+      // if ( Math::makeReal( theta ) <= 1e-14 || Math::makeReal( theta ) >= Pi / 3. - 1e-14 )
+      //   return T( -1e16 );
+
+      double threshold = 1e-10;
+      if ( Math::makeReal( theta ) <= threshold )
+        theta = T( threshold );
+      else if ( Math::makeReal( theta ) >= Pi / 3. - threshold )
+        theta = T( Pi / 3. - threshold );
+
+      // const T cos2_3theta = cos( 3. * theta ) * cos( 3. * theta );
+      // const T dThetadJ2   = 3 * sqrt3 / 4 * J3_ / ( pow( J2_, 2.5 ) * sqrt( 1.0 - cos2_3theta ) );
+      const T dThetadJ2 = 3 * sqrt3 / 4 * J3_ / ( pow( J2_, 2.5 ) * sin( 3. * theta ) );
+      return dThetadJ2;
+    }
+
+    template < typename T >
+    T dTheta_dJ3( const Eigen::Matrix< T, 6, 1 >& stress )
+    {
+      const T J2_ = Invariants::J2( stress );
+      // const double J3_ = J3(stress);
+
+      if ( Math::makeReal( J2_ ) < 1e-12 ) {
+        // Hydrostatic axis regularization
+        return T( 0.0 );
+      }
+
+      using HaighWestergaardCoordinates       = ContinuumMechanics::HaighWestergaard::HaighWestergaardCoordinates< T >;
+      const HaighWestergaardCoordinates hw    = ContinuumMechanics::HaighWestergaard::haighWestergaard( stress );
+      T                                 theta = hw.theta;
+
+      // if ( Math::makeReal( theta ) <= 1e-14 || Math::makeReal( theta ) >= Pi / 3. - 1e-14 )
+      //   return T( -1e16 );
+
+      double threshold = 1e-10;
+      if ( Math::makeReal( theta ) <= threshold )
+        theta = T( threshold );
+      else if ( Math::makeReal( theta ) >= Pi / 3. - threshold )
+        theta = T( Pi / 3. - threshold );
+
+      // const T cos2_3theta = cos( 3. * theta ) * cos( 3. * theta );
+      // const T dThetadJ3   = -sqrt3 / 2. * 1. / ( pow( J2_, 1.5 ) * sqrt( 1.0 - cos2_3theta ) );
+
+      const T dThetadJ3 = -sqrt3 / 2. * 1. / ( pow( J2_, 1.5 ) * sin( 3. * theta ) );
+      return dThetadJ3;
+    }
+  } // namespace ContinuumMechanics::VoigtNotation::Derivatives
 } // namespace Marmot
