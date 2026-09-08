@@ -4,12 +4,12 @@
     <compoundname>MarmotLowerDimensionalStress.h</compoundname>
     <includes refid="_marmot_voigt_8h" local="yes">Marmot/MarmotVoigt.h</includes>
     <incdepgraph>
-      <node id="7">
+      <node id="8">
         <label>Marmot/HaighWestergaard.h</label>
-        <link refid="_haigh_westergaard_8h_source"/>
-        <childnode refid="5" relation="include">
-        </childnode>
+        <link refid="_haigh_westergaard_8h"/>
         <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
         </childnode>
@@ -33,17 +33,22 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
       <node id="3">
         <label>Fastor/Fastor.h</label>
       </node>
       <node id="4">
-        <label>Marmot/MarmotJournal.h</label>
+        <label>Marmot/MarmotFastorTensorBasics.h</label>
       </node>
       <node id="5">
-        <label>Marmot/MarmotMath.h</label>
+        <label>Marmot/MarmotJournal.h</label>
       </node>
       <node id="6">
+        <label>Marmot/MarmotMath.h</label>
+      </node>
+      <node id="7">
         <label>Marmot/MarmotTypedefs.h</label>
       </node>
     </incdepgraph>
