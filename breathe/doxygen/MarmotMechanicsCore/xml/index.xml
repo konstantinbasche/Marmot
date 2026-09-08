@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.13.2" xml:lang="en-US">
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.18.0" xml:lang="en-US">
   <compound refid="class_marmot_1_1_numerical_algorithms_1_1_adaptive_substepper" kind="class"><name>Marmot::NumericalAlgorithms::AdaptiveSubstepper</name>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_adaptive_substepper_1ae329ee6fb835483510c2d0894fc36e35" kind="enum"><name>SubsteppingState</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_adaptive_substepper_1ae329ee6fb835483510c2d0894fc36e35a6c5c63499b21736ded30de62c0605fb1" kind="enumvalue"><name>FullStep</name></member>
@@ -102,13 +102,13 @@
     <member refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_duvaut_lions_viscosity_1a616ad6bb6d38671744209ca9dd0435e9" kind="function"><name>applyViscosityOnMatTangent</name></member>
   </compound>
   <compound refid="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial" kind="struct"><name>Marmot::Materials::KelvinChain::Factorial</name>
-    <member refid="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial_1a08f48c5caddb0efd16b1e71aa2ef102e" kind="enum"><name></name></member>
+    <member refid="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial_1a08f48c5caddb0efd16b1e71aa2ef102e" kind="enum"><name>@365310044346026174114257325310323277266201377025</name></member>
     <member refid="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial_1a08f48c5caddb0efd16b1e71aa2ef102eadcbcebce91098bce3d6da9bec5e41773" kind="enumvalue"><name>value</name></member>
   </compound>
   <compound refid="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial_3_010_01_4" kind="struct"><name>Marmot::Materials::KelvinChain::Factorial&lt; 0 &gt;</name>
-    <member refid="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial_3_010_01_4_1ad645bab2ad5a6d39ef2f396a5d9d5100" kind="enum"><name></name></member>
+    <member refid="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial_3_010_01_4_1ad645bab2ad5a6d39ef2f396a5d9d5100" kind="enum"><name>@232106076202050135165365157137372226362203205005</name></member>
     <member refid="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial_3_010_01_4_1ad645bab2ad5a6d39ef2f396a5d9d5100a4c2721e671e7e2b17a557a3036bc6173" kind="enumvalue"><name>value</name></member>
-    <member refid="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial_1a08f48c5caddb0efd16b1e71aa2ef102e" kind="enum"><name></name></member>
+    <member refid="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial_1a08f48c5caddb0efd16b1e71aa2ef102e" kind="enum"><name>@365310044346026174114257325310323277266201377025</name></member>
   </compound>
   <compound refid="struct_marmot_1_1_continuum_mechanics_1_1_haigh_westergaard_1_1_haigh_westergaard_coordinates" kind="struct"><name>Marmot::ContinuumMechanics::HaighWestergaard::HaighWestergaardCoordinates</name>
     <member refid="struct_marmot_1_1_continuum_mechanics_1_1_haigh_westergaard_1_1_haigh_westergaard_coordinates_1a2245136a4cde603f80c3289529b5ac76" kind="variable"><name>xi</name></member>
@@ -253,8 +253,8 @@
   </compound>
   <compound refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper" kind="class"><name>Marmot::NumericalAlgorithms::PerezFougetSubstepper</name>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a07cb6783734291b38b62c49bfd7a5e6a" kind="typedef"><name>TangentSizedMatrix</name></member>
-    <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1abce7ed899992c189a9a233ad0eef0e44" kind="typedef"><name>MatrixStateStrain</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a07cb6783734291b38b62c49bfd7a5e6a" kind="typedef"><name>TangentSizedMatrix</name></member>
+    <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1abce7ed899992c189a9a233ad0eef0e44" kind="typedef"><name>MatrixStateStrain</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a6a77df643fc3d9b6fa89aed8d134ef95" kind="variable"><name>initialStepSize</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1adf08d8d200ad249f7adc96a458eef2b3" kind="variable"><name>minimumStepSize</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1ab6e8fa58fef203d923abe32c30745359" kind="variable"><name>scaleUpFactor</name></member>
@@ -264,23 +264,23 @@
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a12d313ee1b5010d70770ae7526e3f155" kind="variable"><name>currentSubstepSize</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a2dfbac2e6378980dbe2f9f23adc680f4" kind="variable"><name>passedSubsteps</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a3a478439f8ee26ef699077239f6f544f" kind="variable"><name>Cel</name></member>
+    <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1ab24aa3c3d0470c7851f721c8fb646a89" kind="variable"><name>consistentTangent</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a774e7268d9ced3aa61f246d10e727c1e" kind="variable"><name>I76</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a096fce47b630dec49c4fa386242303cc" kind="variable"><name>I77</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a993666eaf7fb10e8baee6e21e060feac" kind="variable"><name>consistentTangent</name></member>
-    <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1ab24aa3c3d0470c7851f721c8fb646a89" kind="variable"><name>consistentTangent</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a7c6b5868526644f901d726266ff009cc" kind="function"><name>PerezFougetSubstepper</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1ab79e7997a4c056372aa793abe3edb331" kind="function"><name>isFinished</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1ab9e4415b529945859a03232c6675e56a" kind="function"><name>getNextSubstep</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a675949cac7e8de8b343000c7c4b91ef8" kind="function"><name>decreaseSubstepSize</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a27d20da83471ab632ed120d0b05253cc" kind="function"><name>finishElasticSubstep</name></member>
-    <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a46be9234ccca03554a2ed06ee13c84e6" kind="function"><name>finishSubstep</name></member>
+    <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1ad4745a53ae0319643c8c9f3702d7f095" kind="function"><name>finishSubstep</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a17135fceb4273dc853477269e69c7cec" kind="function"><name>consistentStiffness</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a1efc6ebb4b030b6f8d53050590f4fd76" kind="function"><name>PerezFougetSubstepper</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a4cba185352e9312a12a53b9468ae4d91" kind="function"><name>isFinished</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a5e7732ab00c07a65c3e283b156e2a538" kind="function"><name>getNextSubstep</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1abd4ac1b1512db9667e15a190e7e2047e" kind="function"><name>decreaseSubstepSize</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1acedcf315083f8b02ba5694f1623d0f7f" kind="function"><name>finishElasticSubstep</name></member>
-    <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1ad4745a53ae0319643c8c9f3702d7f095" kind="function"><name>finishSubstep</name></member>
+    <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1a46be9234ccca03554a2ed06ee13c84e6" kind="function"><name>finishSubstep</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_1aaebc5a982bb9825d3488ae3f3789fa18" kind="function"><name>consistentStiffness</name></member>
   </compound>
   <compound refid="class_marmot_1_1_numerical_algorithms_1_1_perez_fouget_substepper_time" kind="class"><name>Marmot::NumericalAlgorithms::PerezFougetSubstepperTime</name>
@@ -349,6 +349,8 @@
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_yield_surface_combination_manager_1ac7fb245059d3a71cc9d8e76024851f66" kind="function"><name>getAnotherYieldFlagCombination</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_yield_surface_combination_manager_1ad123c6b480d1e490e5b25ecc07335b9c" kind="function"><name>markYieldFlagCombinationAsUsed</name></member>
     <member refid="class_marmot_1_1_numerical_algorithms_1_1_yield_surface_combination_manager_1a1f8a7654554eb1b769b4a6583994734c" kind="function"><name>resetUsedYieldFlagCombinations</name></member>
+  </compound>
+  <compound refid="namespace_constants" kind="namespace"><name>Constants</name>
   </compound>
   <compound refid="namespace_continuum_mechanics" kind="namespace"><name>ContinuumMechanics</name>
   </compound>
@@ -465,13 +467,13 @@
     <member refid="_marmot_voigt_8h_1a41acc2721fe56820734fe87999014552" kind="function"><name>dStressMean_dStress</name></member>
     <member refid="_marmot_voigt_8h_1a50b23becf6b6938f52e1a7728d42afb7" kind="function"><name>dRho_dStress</name></member>
     <member refid="_marmot_voigt_8h_1a755b102dd8a1533e5a436cd5b28bb626" kind="function"><name>dRhoStrain_dStrain</name></member>
-    <member refid="_marmot_voigt_8h_1aa876b96e41a7ef09cef0e4671726be21" kind="function"><name>dTheta_dStress</name></member>
-    <member refid="_marmot_voigt_8h_1aaf4858d1cc1fcb49df97ff628bfca2d0" kind="function"><name>dTheta_dJ2</name></member>
-    <member refid="_marmot_voigt_8h_1ae3245e5bf0245bc6cec29bd8fd4a41d6" kind="function"><name>dTheta_dJ3</name></member>
+    <member refid="_marmot_voigt_8h_1a74cf7a20cd4d2b3cb5302d77d62ef92c" kind="function"><name>dTheta_dJ2</name></member>
+    <member refid="_marmot_voigt_8h_1a30dafc5bc79f37a7dc7f5437080db519" kind="function"><name>dTheta_dJ3</name></member>
+    <member refid="_marmot_voigt_8h_1a8f9ee1c7434f54eac96cba0d107df4c6" kind="function"><name>dJ2_dStress</name></member>
+    <member refid="_marmot_voigt_8h_1a90bf386c297b0536df0e5015fe52eb22" kind="function"><name>dJ3_dStress</name></member>
+    <member refid="_marmot_voigt_8h_1a48dc30861d92403bd1e4c4782b678821" kind="function"><name>dTheta_dStress</name></member>
     <member refid="_marmot_voigt_8h_1af1e45032518a82b57a4270f9a025053f" kind="function"><name>dThetaStrain_dJ2Strain</name></member>
     <member refid="_marmot_voigt_8h_1a707baebe1eaa4dd7cd1434bb174dbcc1" kind="function"><name>dThetaStrain_dJ3Strain</name></member>
-    <member refid="_marmot_voigt_8h_1a61cba99154751cba78d0eadffe996146" kind="function"><name>dJ2_dStress</name></member>
-    <member refid="_marmot_voigt_8h_1a19119e54b19dd4d832c5be3b42acec83" kind="function"><name>dJ3_dStress</name></member>
     <member refid="_marmot_voigt_8h_1abf2b3b18118cf171c59b1642ffae50f5" kind="function"><name>dJ2Strain_dStrain</name></member>
     <member refid="_marmot_voigt_8h_1a22d949138e496c4639462980e24fe971" kind="function"><name>dJ3Strain_dStrain</name></member>
     <member refid="_marmot_voigt_8h_1a75b9ecfa6f3df0bad02c94c072a7d015" kind="function"><name>dThetaStrain_dStrain</name></member>

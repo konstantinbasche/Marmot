@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="namespace_marmot_1_1_finite_element_1_1_spatial3_d" kind="namespace" language="C++">
     <compoundname>Marmot::FiniteElement::Spatial3D</compoundname>
-    <innernamespace refid="namespace_marmot_1_1_finite_element_1_1_spatial3_d_1_1_hexa20">Marmot::FiniteElement::Spatial3D::Hexa20</innernamespace>
-    <innernamespace refid="namespace_marmot_1_1_finite_element_1_1_spatial3_d_1_1_hexa8">Marmot::FiniteElement::Spatial3D::Hexa8</innernamespace>
-    <innernamespace refid="namespace_marmot_1_1_finite_element_1_1_spatial3_d_1_1_tetra10">Marmot::FiniteElement::Spatial3D::Tetra10</innernamespace>
     <innernamespace refid="namespace_marmot_1_1_finite_element_1_1_spatial3_d_1_1_tetra4">Marmot::FiniteElement::Spatial3D::Tetra4</innernamespace>
+    <innernamespace refid="namespace_marmot_1_1_finite_element_1_1_spatial3_d_1_1_tetra10">Marmot::FiniteElement::Spatial3D::Tetra10</innernamespace>
+    <innernamespace refid="namespace_marmot_1_1_finite_element_1_1_spatial3_d_1_1_hexa8">Marmot::FiniteElement::Spatial3D::Hexa8</innernamespace>
+    <innernamespace refid="namespace_marmot_1_1_finite_element_1_1_spatial3_d_1_1_hexa20">Marmot::FiniteElement::Spatial3D::Hexa20</innernamespace>
     <sectiondef kind="var">
       <memberdef kind="variable" id="_marmot_finite_element_8h_1a9ac5ef64e27d7a96bb28a4c670713f58" prot="public" static="no" constexpr="yes" mutable="no">
         <type>int</type>

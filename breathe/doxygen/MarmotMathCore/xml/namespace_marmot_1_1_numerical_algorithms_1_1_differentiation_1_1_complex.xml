@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="namespace_marmot_1_1_numerical_algorithms_1_1_differentiation_1_1_complex" kind="namespace" language="C++">
     <compoundname>Marmot::NumericalAlgorithms::Differentiation::Complex</compoundname>
     <innernamespace refid="namespace_marmot_1_1_numerical_algorithms_1_1_differentiation_1_1_complex_1_1_scalar_to_tensor">Marmot::NumericalAlgorithms::Differentiation::Complex::ScalarToTensor</innernamespace>
@@ -8,7 +8,7 @@
     <sectiondef kind="typedef">
       <memberdef kind="typedef" id="_marmot_numerical_differentiation_for_fastor_8h_1a28c6239f908d27d61a4fb860643e54a4" prot="public" static="no">
         <type>std::complex&lt; double &gt;</type>
-        <definition>using Marmot::NumericalAlgorithms::Differentiation::Complex::complexDouble =  std::complex&lt; double &gt;</definition>
+        <definition>using Marmot::NumericalAlgorithms::Differentiation::Complex::complexDouble = std::complex&lt; double &gt;</definition>
         <argsstring></argsstring>
         <name>complexDouble</name>
         <qualifiedname>Marmot::NumericalAlgorithms::Differentiation::Complex::complexDouble</qualifiedname>
@@ -20,7 +20,7 @@
         </inbodydescription>
         <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMathCore/include/Marmot/MarmotNumericalDifferentiationForFastor.h" line="276" column="7" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMathCore/include/Marmot/MarmotNumericalDifferentiationForFastor.h" bodystart="276" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="_marmot_numerical_differentiation_for_fastor_8h_1ab209696084acc4914c384a05bc9412a8" prot="public" static="no">
+      <memberdef kind="typedef" id="_marmot_numerical_differentiation_for_fastor_8h_1aae58d1de685068bfc06f95817abbd0fc" prot="public" static="no">
         <templateparamlist>
           <param>
             <type>size_t</type>
@@ -29,8 +29,8 @@
           </param>
         </templateparamlist>
         <type>std::function&lt; std::complex&lt; double &gt;( const Fastor::Tensor&lt; std::complex&lt; double &gt;, dim, dim &gt; &amp;T) &gt;</type>
-        <definition>using Marmot::NumericalAlgorithms::Differentiation::Complex::tensor_to_scalar_function_type =  std::function&lt; std::complex&lt; double &gt;(
-        const Fastor::Tensor&lt; std::complex&lt; double &gt;, dim, dim &gt;&amp; T ) &gt;</definition>
+        <definition>using Marmot::NumericalAlgorithms::Differentiation::Complex::tensor_to_scalar_function_type = std::function&lt; std::complex&lt; double &gt;(
+       const Fastor::Tensor&lt; std::complex&lt; double &gt;, dim, dim &gt;&amp; T ) &gt;</definition>
         <argsstring></argsstring>
         <name>tensor_to_scalar_function_type</name>
         <qualifiedname>Marmot::NumericalAlgorithms::Differentiation::Complex::tensor_to_scalar_function_type</qualifiedname>
@@ -55,7 +55,7 @@
       </memberdef>
       <memberdef kind="typedef" id="_marmot_numerical_differentiation_8h_1a4a90e6de8284baeb8274c9ef1da60865" prot="public" static="no">
         <type>std::function&lt; complexDouble(const complexDouble x) &gt;</type>
-        <definition>using Marmot::NumericalAlgorithms::Differentiation::Complex::scalar_to_scalar_function_type =  std::function&lt; complexDouble( const complexDouble x ) &gt;</definition>
+        <definition>using Marmot::NumericalAlgorithms::Differentiation::Complex::scalar_to_scalar_function_type = std::function&lt; complexDouble( const complexDouble x ) &gt;</definition>
         <argsstring></argsstring>
         <name>scalar_to_scalar_function_type</name>
         <qualifiedname>Marmot::NumericalAlgorithms::Differentiation::Complex::scalar_to_scalar_function_type</qualifiedname>
@@ -70,7 +70,7 @@
       </memberdef>
       <memberdef kind="typedef" id="_marmot_numerical_differentiation_8h_1a172748ccbd9e78f7805463806da8abc2" prot="public" static="no">
         <type>std::function&lt; Eigen::VectorXcd(const Eigen::VectorXcd &amp;X) &gt;</type>
-        <definition>using Marmot::NumericalAlgorithms::Differentiation::Complex::vector_to_vector_function_type =  std::function&lt; Eigen::VectorXcd( const Eigen::VectorXcd&amp; X ) &gt;</definition>
+        <definition>using Marmot::NumericalAlgorithms::Differentiation::Complex::vector_to_vector_function_type = std::function&lt; Eigen::VectorXcd( const Eigen::VectorXcd&amp; X ) &gt;</definition>
         <argsstring></argsstring>
         <name>vector_to_vector_function_type</name>
         <qualifiedname>Marmot::NumericalAlgorithms::Differentiation::Complex::vector_to_vector_function_type</qualifiedname>
@@ -123,7 +123,7 @@
         <qualifiedname>Marmot::NumericalAlgorithms::Differentiation::Complex::imaginaryUnit</qualifiedname>
         <initializer>= { 0, 1 }</initializer>
         <briefdescription>
-<para>A variable representing <formula id="43">$ 0 + 1i $</formula>. </para>
+<para>A variable representing <formula id="32">$ 0 + 1i $</formula>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -139,7 +139,7 @@
         <qualifiedname>Marmot::NumericalAlgorithms::Differentiation::Complex::complexUnit</qualifiedname>
         <initializer>= { 1, 1 }</initializer>
         <briefdescription>
-<para>A variable representing <formula id="44">$ 1 + 1i $</formula>. </para>
+<para>A variable representing <formula id="33">$ 1 + 1i $</formula>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -155,7 +155,7 @@
         <qualifiedname>Marmot::NumericalAlgorithms::Differentiation::Complex::i_</qualifiedname>
         <initializer>= Marmot::Constants::sqrt2 / 2. * complexUnit</initializer>
         <briefdescription>
-<para>A variable representing <formula id="45">$ \frac{\sqrt{2}}{2} (1+1i) $</formula>. </para>
+<para>A variable representing <formula id="34">$ \frac{\sqrt{2}}{2} (1+1i) $</formula>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -261,8 +261,8 @@
 </parameterlist>
 <simplesect kind="return"><para>The approximated first derivative of f at point x.</para>
 </simplesect>
-It actually computes   <formula id="46">\[ f&apos;(x) \approx \frac{\text{Im}(f(x + ih))}{h}
-\]</formula> with <formula id="47">$ h = 10^{-20} $</formula>.</para>
+It actually computes   <formula id="35">\[ f&apos;(x) \approx \frac{\text{Im}(f(x + ih))}{h}
+\]</formula> with <formula id="36">$ h = 10^{-20} $</formula>.</para>
 <para><simplesect kind="note"><para>This method is highly accurate and does not suffer from subtractive cancellation errors, making it suitable for functions where high precision is required. </para>
 </simplesect>
 </para>
@@ -308,8 +308,8 @@ It actually computes   <formula id="46">\[ f&apos;(x) \approx \frac{\text{Im}(f(
 </parameterlist>
 <simplesect kind="return"><para>A tuple containing the function value at X and the approximated Jacobian matrix of F at point X.</para>
 </simplesect>
-It actually computes   <formula id="48">\[ J_{ij} \approx \frac{\text{Im}(F_i(X + ih e_j))}{h}
-\]</formula> with <formula id="47">$ h = 10^{-20} $</formula>, and <formula id="39">$ e_j $</formula> being the unit vector in the j-th direction.</para>
+It actually computes   <formula id="37">\[ J_{ij} \approx \frac{\text{Im}(F_i(X + ih e_j))}{h}
+\]</formula> with <formula id="36">$ h = 10^{-20} $</formula>, and <formula id="28">$ e_j $</formula> being the unit vector in the j-th direction.</para>
 <para><simplesect kind="note"><para>This method is highly accurate and does not suffer from subtractive cancellation errors, making it suitable for functions where high precision is required. </para>
 </simplesect>
 </para>
@@ -355,8 +355,8 @@ It actually computes   <formula id="48">\[ J_{ij} \approx \frac{\text{Im}(F_i(X 
 </parameterlist>
 <simplesect kind="return"><para>The approximated Jacobian matrix of F at point X.</para>
 </simplesect>
-It actually approximates the Jacobian matrix by   <formula id="49">\[ J_{ij} \approx \frac{\text{Im}(F_i(\boldsymbol{X} + Ih e_j) - F_i(\boldsymbol{X} - Ih e_j))}{2h}
-\]</formula> with <formula id="50">$ I = \sqrt{2}/2( 1+1i )$</formula>, <formula id="42">$ h = \sqrt[3]{\epsilon} \max(1, ||\boldsymbol{X}||) $</formula>, and <formula id="39">$ e_j $</formula> being the unit vector in the j-th direction.</para>
+It actually approximates the Jacobian matrix by   <formula id="38">\[ J_{ij} \approx \frac{\text{Im}(F_i(\boldsymbol{X} + Ih e_j) - F_i(\boldsymbol{X} - Ih e_j))}{2h}
+\]</formula> with <formula id="39">$ I = \sqrt{2}/2( 1+1i )$</formula>, <formula id="31">$ h = \sqrt[3]{\epsilon} \max(1, ||\boldsymbol{X}||) $</formula>, and <formula id="28">$ e_j $</formula> being the unit vector in the j-th direction.</para>
 <para><simplesect kind="note"><para>The formula can be found in Lai et al. (2005) Equ. 19. </para>
 </simplesect>
 </para>
@@ -402,12 +402,12 @@ It actually approximates the Jacobian matrix by   <formula id="49">\[ J_{ij} \ap
 </parameterlist>
 <simplesect kind="return"><para>The approximated Jacobian matrix of F at point X.</para>
 </simplesect>
-It actually approximates the Jacobian matrix by       <formula id="51">\[J_{ij} \approx \frac{\text{Im}(8 [
+It actually approximates the Jacobian matrix by       <formula id="40">\[J_{ij} \approx \frac{\text{Im}(8 [
 F_i(\boldsymbol{X} + I/2h e_j) -
 F_i(\boldsymbol{X} - I/2h e_j)] -
 [F_i(\boldsymbol{X} + Ih e_j) +
 F_i(\boldsymbol{X} - Ih e_j)])}{3\sqrt{2}h}
-\]</formula> with <formula id="50">$ I = \sqrt{2}/2( 1+1i )$</formula>, <formula id="52">$ h = \sqrt{\epsilon} \max(1, ||\boldsymbol{X}||) $</formula>, and <formula id="39">$ e_j $</formula> being the unit vector in the j-th direction.</para>
+\]</formula> with <formula id="39">$ I = \sqrt{2}/2( 1+1i )$</formula>, <formula id="41">$ h = \sqrt{\epsilon} \max(1, ||\boldsymbol{X}||) $</formula>, and <formula id="28">$ e_j $</formula> being the unit vector in the j-th direction.</para>
 <para><simplesect kind="note"><para>The formula can be found in Lai et al. (2005) Equ. 24. </para>
 </simplesect>
 </para>

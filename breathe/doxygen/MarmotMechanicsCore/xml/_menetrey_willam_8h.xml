@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="_menetrey_willam_8h" kind="file" language="C++">
     <compoundname>MenetreyWillam.h</compoundname>
     <includes refid="_haigh_westergaard_8h" local="yes">Marmot/HaighWestergaard.h</includes>
@@ -25,6 +25,8 @@
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -110,10 +112,10 @@
 <codeline lineno="97"><highlight class="normal"></highlight></codeline>
 <codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reduction<sp/>of<sp/>the<sp/>generalized<sp/>failure<sp/>criterion<sp/>to<sp/>a<sp/>specific<sp/>type.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="99" refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1aee31f28f31786081f5eed39684e0d13e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1aee31f28f31786081f5eed39684e0d13e" kindref="member">MenetreyWillamType</ref><sp/>{</highlight></codeline>
-<codeline lineno="100" refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1aee31f28f31786081f5eed39684e0d13ea49cb105243e7fdf66099714c60355f90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1aee31f28f31786081f5eed39684e0d13ea49cb105243e7fdf66099714c60355f90" kindref="member">Mises</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="102" refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1aee31f28f31786081f5eed39684e0d13ea22ebae77a156b83cd52c31ffe36659e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1aee31f28f31786081f5eed39684e0d13ea22ebae77a156b83cd52c31ffe36659e4" kindref="member">Rankine</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="105" refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1aee31f28f31786081f5eed39684e0d13eab8e760502ad9eed0d63818e060313ad0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1aee31f28f31786081f5eed39684e0d13eab8e760502ad9eed0d63818e060313ad0" kindref="member">DruckerPrager</ref>,<sp/></highlight></codeline>
-<codeline lineno="108" refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1aee31f28f31786081f5eed39684e0d13eac61fd18636fa03149662bebe67f7e38f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1aee31f28f31786081f5eed39684e0d13eac61fd18636fa03149662bebe67f7e38f" kindref="member">MohrCoulomb</ref><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100" refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1aee31f28f31786081f5eed39684e0d13ea49cb105243e7fdf66099714c60355f90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Mises,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1aee31f28f31786081f5eed39684e0d13ea22ebae77a156b83cd52c31ffe36659e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Rankine,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1aee31f28f31786081f5eed39684e0d13eab8e760502ad9eed0d63818e060313ad0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DruckerPrager,<sp/></highlight></codeline>
+<codeline lineno="108" refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1aee31f28f31786081f5eed39684e0d13eac61fd18636fa03149662bebe67f7e38f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>MohrCoulomb<sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="113"><highlight class="normal"></highlight></codeline>
 <codeline lineno="120" refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1a8ee143cb61db234593e2eeec70748bf7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1a8ee143cb61db234593e2eeec70748bf7" kindref="member">MenetreyWillam</ref>(<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_marmot_1_1_continuum_mechanics_1_1_common_constitutive_models_1_1_menetrey_willam_1a5515f9b917927018cefd5515c8877dff" kindref="member">ft</ref>,</highlight></codeline>

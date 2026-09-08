@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="class_marmot_material_finite_strain" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>MarmotMaterialFiniteStrain</compoundname>
     <basecompoundref prot="public" virt="non-virtual">MarmotMaterial</basecompoundref>
-    <innerclass refid="struct_marmot_material_finite_strain_1_1_algorithmic_moduli" prot="public">MarmotMaterialFiniteStrain::AlgorithmicModuli</innerclass>
     <innerclass refid="struct_marmot_material_finite_strain_1_1_constitutive_response" prot="public">MarmotMaterialFiniteStrain::ConstitutiveResponse</innerclass>
+    <innerclass refid="struct_marmot_material_finite_strain_1_1_algorithmic_moduli" prot="public">MarmotMaterialFiniteStrain::AlgorithmicModuli</innerclass>
     <innerclass refid="struct_marmot_material_finite_strain_1_1_deformation" prot="public">MarmotMaterialFiniteStrain::Deformation</innerclass>
     <innerclass refid="struct_marmot_material_finite_strain_1_1_time_increment" prot="public">MarmotMaterialFiniteStrain::TimeIncrement</innerclass>
     <sectiondef kind="public-func">
@@ -65,7 +65,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-Computes the Kirchhoff <formula id="43">$\boldsymbol{\tau}$</formula> stress from the deformation gradient <formula id="6">$\boldsymbol{F}$</formula> and the time increment <formula id="44">$\Delta t$</formula>. It further updates the mass density <formula id="45">$\rho$</formula> and the elastic energy density. Additionally, computes the algorithmic tangent moduli <formula id="42">$\frac{\partial \boldsymbol{\tau}}{\partial \boldsymbol{F}}$</formula>. </para>
+Computes the Kirchhoff <formula id="28">$\boldsymbol{\tau}$</formula> stress from the deformation gradient <formula id="6">$\boldsymbol{F}$</formula> and the time increment <formula id="29">$\Delta t$</formula>. It further updates the mass density <formula id="30">$\rho$</formula> and the elastic energy density. Additionally, computes the algorithmic tangent moduli <formula id="27">$\frac{\partial \boldsymbol{\tau}}{\partial \boldsymbol{F}}$</formula>. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>

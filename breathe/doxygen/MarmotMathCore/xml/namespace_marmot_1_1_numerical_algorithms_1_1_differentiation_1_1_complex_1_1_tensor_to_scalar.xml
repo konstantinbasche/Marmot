@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="namespace_marmot_1_1_numerical_algorithms_1_1_differentiation_1_1_complex_1_1_tensor_to_scalar" kind="namespace" language="C++">
     <compoundname>Marmot::NumericalAlgorithms::Differentiation::Complex::TensorToScalar</compoundname>
     <sectiondef kind="typedef">
-      <memberdef kind="typedef" id="_marmot_numerical_differentiation_for_fastor_8h_1a9cc0b108607a8974e79f80c2e47c0a27" prot="public" static="no">
+      <memberdef kind="typedef" id="_marmot_numerical_differentiation_for_fastor_8h_1a6e5d71cd39e0ec693ab2b14216fb76ac" prot="public" static="no">
         <templateparamlist>
           <param>
             <type>size_t...</type>
@@ -12,8 +12,8 @@
           </param>
         </templateparamlist>
         <type>std::function&lt; complexDouble( const Fastor::Tensor&lt; complexDouble, Rest... &gt; &amp;T) &gt;</type>
-        <definition>using Marmot::NumericalAlgorithms::Differentiation::Complex::TensorToScalar::tensor_to_scalar_function_type =  std::function&lt; complexDouble(
-          const Fastor::Tensor&lt; complexDouble, Rest... &gt;&amp; T ) &gt;</definition>
+        <definition>using Marmot::NumericalAlgorithms::Differentiation::Complex::TensorToScalar::tensor_to_scalar_function_type = std::function&lt; complexDouble(
+         const Fastor::Tensor&lt; complexDouble, Rest... &gt;&amp; T ) &gt;</definition>
         <argsstring></argsstring>
         <name>tensor_to_scalar_function_type</name>
         <qualifiedname>Marmot::NumericalAlgorithms::Differentiation::Complex::TensorToScalar::tensor_to_scalar_function_type</qualifiedname>

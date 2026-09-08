@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.13.2" xml:lang="en-US">
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.18.0" xml:lang="en-US">
   <compound refid="class_marmot_element" kind="class"><name>MarmotElement</name>
     <member refid="class_marmot_element_1a4a399e8339bb2f93d379841bb252461b" kind="enum"><name>StateTypes</name></member>
     <member refid="class_marmot_element_1a4a399e8339bb2f93d379841bb252461ba9919c9bf8e81e625b0ef939135057c33" kind="enumvalue"><name>Sigma11</name></member>
@@ -64,7 +64,7 @@
     <member refid="class_marmot_material_1a16ef751ebc410cb5173cb65a2e43e1ec" kind="function"><name>getDensity</name></member>
   </compound>
   <compound refid="class_marmot_library_1_1_marmot_material_factory" kind="class"><name>MarmotLibrary::MarmotMaterialFactory</name>
-    <member refid="class_marmot_library_1_1_marmot_material_factory_1a3e01b88a5e83b50fd7f36080fe91ef00" kind="typedef"><name>materialFactoryFunction</name></member>
+    <member refid="class_marmot_library_1_1_marmot_material_factory_1a5515e3590990d0368b821d5e76be2dbc" kind="typedef"><name>materialFactoryFunction</name></member>
     <member refid="class_marmot_library_1_1_marmot_material_factory_1a6a4fc74ffd40c3334b05c50b5b6823bc" kind="variable"><name>materialNameToCodeAssociation</name></member>
     <member refid="class_marmot_library_1_1_marmot_material_factory_1ac0a79d5afa4f8fb5a299d96e5f45cf55" kind="variable"><name>materialFactoryFunctionByCode</name></member>
     <member refid="class_marmot_library_1_1_marmot_material_factory_1aaf60fde055aece6afe56579cf2e2b75a" kind="function"><name>MarmotMaterialFactory</name></member>

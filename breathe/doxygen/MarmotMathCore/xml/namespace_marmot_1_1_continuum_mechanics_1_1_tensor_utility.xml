@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="namespace_marmot_1_1_continuum_mechanics_1_1_tensor_utility" kind="namespace" language="C++">
     <compoundname>Marmot::ContinuumMechanics::TensorUtility</compoundname>
     <innernamespace refid="namespace_marmot_1_1_continuum_mechanics_1_1_tensor_utility_1_1_index_notation">Marmot::ContinuumMechanics::TensorUtility::IndexNotation</innernamespace>
@@ -20,7 +20,7 @@
           <declname>b</declname>
         </param>
         <briefdescription>
-<para>Kronecker delta function <formula id="69">$ \delta_{ab} $</formula>. </para>
+<para>Kronecker delta function <formula id="72">$ \delta_{ab} $</formula>. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>1 if a == b, otherwise 0. </para>
@@ -142,46 +142,6 @@
 <para>Map an object&apos;s raw data as a fixed-size Eigen matrix (const version). </para>
         </briefdescription>
         <detaileddescription>
-<para>Creates an <computeroutput>Eigen::Map</computeroutput> view of <computeroutput>t</computeroutput> reinterpreted as an <computeroutput>x</computeroutput>-by-<computeroutput>y</computeroutput> matrix. No data is copied; the map directly references the storage returned by <computeroutput>t.data()</computeroutput>.</para>
-<para><parameterlist kind="templateparam"><parameteritem>
-<parameternamelist>
-<parametername>x</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Number of rows (compile-time). </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>y</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Number of columns (compile-time). </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>T</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Object type, must define <computeroutput>Scalar</computeroutput> and provide <computeroutput>data()</computeroutput>. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>t</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Input object. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para><computeroutput>Eigen::Map&lt;Eigen::Matrix&lt;typename T::Scalar, x, y&gt;&gt;</computeroutput>.</para>
-</simplesect>
-<simplesect kind="note"><para>Caller must ensure <computeroutput>t.data()</computeroutput> has at least <computeroutput>x*y</computeroutput> elements and matches Eigen’s default (column-major) layout.    </para>
-</simplesect>
-</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -318,7 +278,7 @@
 <para>Compute the dyadic (outer) product of two 3D vectors. </para>
         </briefdescription>
         <detaileddescription>
-<para>Forms a 3x3 matrix where each entry is given by <formula id="70">$ a_{ij} = b_i c_j $</formula>.</para>
+<para>Forms a 3x3 matrix where each entry is given by <formula id="73">$ a_{ij} = b_i c_j $</formula>.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>vector1</parametername>
@@ -349,6 +309,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMathCore/include/Marmot/MarmotTensor.h" line="233" column="3"/>
+    <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMathCore/include/Marmot/MarmotTensorExponential.h" line="33" column="3"/>
   </compounddef>
 </doxygen>

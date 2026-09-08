@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="namespace_marmot_1_1_finite_element_1_1_spatial3_d_1_1_tetra4" kind="namespace" language="C++">
     <compoundname>Marmot::FiniteElement::Spatial3D::Tetra4</compoundname>
     <sectiondef kind="typedef">
       <memberdef kind="typedef" id="_marmot_finite_element_8h_1a0a6547036f072aa71219d1809fee29ad" prot="public" static="no">
         <type>Eigen::Matrix&lt; double, nNodes *nDim, 1 &gt;</type>
-        <definition>using Marmot::FiniteElement::Spatial3D::Tetra4::CoordinateSized =  Eigen::Matrix&lt; double, nNodes * nDim, 1 &gt;</definition>
+        <definition>using Marmot::FiniteElement::Spatial3D::Tetra4::CoordinateSized = Eigen::Matrix&lt; double, nNodes * nDim, 1 &gt;</definition>
         <argsstring></argsstring>
         <name>CoordinateSized</name>
         <qualifiedname>Marmot::FiniteElement::Spatial3D::Tetra4::CoordinateSized</qualifiedname>
@@ -19,7 +19,7 @@
       </memberdef>
       <memberdef kind="typedef" id="_marmot_finite_element_8h_1afe02eb49fed474d83fdfaea3bccbc6b2" prot="public" static="no">
         <type>Eigen::Matrix&lt; double, 1, nNodes &gt;</type>
-        <definition>using Marmot::FiniteElement::Spatial3D::Tetra4::NSized =  Eigen::Matrix&lt; double, 1, nNodes &gt;</definition>
+        <definition>using Marmot::FiniteElement::Spatial3D::Tetra4::NSized = Eigen::Matrix&lt; double, 1, nNodes &gt;</definition>
         <argsstring></argsstring>
         <name>NSized</name>
         <qualifiedname>Marmot::FiniteElement::Spatial3D::Tetra4::NSized</qualifiedname>
@@ -33,7 +33,7 @@
       </memberdef>
       <memberdef kind="typedef" id="_marmot_finite_element_8h_1afa9fef8694caf6b656cad7d807bfa302" prot="public" static="no">
         <type>Eigen::Matrix&lt; double, nDim, nNodes &gt;</type>
-        <definition>using Marmot::FiniteElement::Spatial3D::Tetra4::dNdXiSized =  Eigen::Matrix&lt; double, nDim, nNodes &gt;</definition>
+        <definition>using Marmot::FiniteElement::Spatial3D::Tetra4::dNdXiSized = Eigen::Matrix&lt; double, nDim, nNodes &gt;</definition>
         <argsstring></argsstring>
         <name>dNdXiSized</name>
         <qualifiedname>Marmot::FiniteElement::Spatial3D::Tetra4::dNdXiSized</qualifiedname>

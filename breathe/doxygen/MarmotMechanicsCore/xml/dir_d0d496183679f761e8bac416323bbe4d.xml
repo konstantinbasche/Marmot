@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="dir_d0d496183679f761e8bac416323bbe4d" kind="dir">
     <compoundname>/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot</compoundname>
     <innerfile refid="_adaptive_substepper_8h">AdaptiveSubstepper.h</innerfile>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="namespace_marmot_1_1_finite_element_1_1_quadrature_1_1_spatial1_d" kind="namespace" language="C++">
     <compoundname>Marmot::FiniteElement::Quadrature::Spatial1D</compoundname>
     <sectiondef kind="var">
@@ -24,9 +24,9 @@
         <argsstring></argsstring>
         <name>gaussPointList1</name>
         <qualifiedname>Marmot::FiniteElement::Quadrature::Spatial1D::gaussPointList1</qualifiedname>
-        <initializer>= {
-                { ( Eigen::VectorXd ( 1 ) &lt;&lt; 0 ).finished(),               2.0 }
-            }</initializer>
+        <initializer>                                   = {
+    { ( Eigen::VectorXd ( 1 ) &lt;&lt; 0 ).finished(),               2.0 }
+}</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -41,10 +41,10 @@
         <argsstring></argsstring>
         <name>gaussPointList2</name>
         <qualifiedname>Marmot::FiniteElement::Quadrature::Spatial1D::gaussPointList2</qualifiedname>
-        <initializer>= {
-                { ( Eigen::VectorXd ( 1 ) &lt;&lt; -gp2 ).finished(),           1.0 },
-                { ( Eigen::VectorXd ( 1 ) &lt;&lt; +gp2 ).finished(),           1.0 }
-            }</initializer>
+        <initializer>                                   = {
+    { ( Eigen::VectorXd ( 1 ) &lt;&lt; -gp2 ).finished(),           1.0 },
+    { ( Eigen::VectorXd ( 1 ) &lt;&lt; +gp2 ).finished(),           1.0 }
+}</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -59,11 +59,11 @@
         <argsstring></argsstring>
         <name>gaussPointList3</name>
         <qualifiedname>Marmot::FiniteElement::Quadrature::Spatial1D::gaussPointList3</qualifiedname>
-        <initializer>= {
-                { ( Eigen::VectorXd ( 1 ) &lt;&lt; -gp3 ).finished(),            5./9 },
-                { ( Eigen::VectorXd ( 1 ) &lt;&lt; 0.   ).finished(),            8./9 },
-                { ( Eigen::VectorXd ( 1 ) &lt;&lt; +gp3 ).finished(),            5./9 }
-            }</initializer>
+        <initializer>                                   = {
+    { ( Eigen::VectorXd ( 1 ) &lt;&lt; -gp3 ).finished(),            5./9 },
+    { ( Eigen::VectorXd ( 1 ) &lt;&lt; 0.   ).finished(),            8./9 },
+    { ( Eigen::VectorXd ( 1 ) &lt;&lt; +gp3 ).finished(),            5./9 }
+}</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>

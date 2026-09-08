@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="namespace_marmot_1_1_fastor_standard_tensors" kind="namespace" language="C++">
     <compoundname>Marmot::FastorStandardTensors</compoundname>
     <innernamespace refid="namespace_marmot_1_1_fastor_standard_tensors_1_1_spatial3_d">Marmot::FastorStandardTensors::Spatial3D</innernamespace>
     <sectiondef kind="typedef">
       <memberdef kind="typedef" id="_marmot_fastor_tensor_basics_8h_1af7db5f44a943a4a967b78b83ce4e9e42" prot="public" static="no">
         <type>Fastor::Tensor&lt; double, 3 &gt;</type>
-        <definition>using Marmot::FastorStandardTensors::Tensor3d =  Fastor::Tensor&lt; double, 3 &gt;</definition>
+        <definition>using Marmot::FastorStandardTensors::Tensor3d = Fastor::Tensor&lt; double, 3 &gt;</definition>
         <argsstring></argsstring>
         <name>Tensor3d</name>
         <qualifiedname>Marmot::FastorStandardTensors::Tensor3d</qualifiedname>
@@ -20,7 +20,7 @@
       </memberdef>
       <memberdef kind="typedef" id="_marmot_fastor_tensor_basics_8h_1a7ce3d36f5f3b545d636d13bee501d420" prot="public" static="no">
         <type>Fastor::Tensor&lt; double, 3, 3 &gt;</type>
-        <definition>using Marmot::FastorStandardTensors::Tensor33d =  Fastor::Tensor&lt; double, 3, 3 &gt;</definition>
+        <definition>using Marmot::FastorStandardTensors::Tensor33d = Fastor::Tensor&lt; double, 3, 3 &gt;</definition>
         <argsstring></argsstring>
         <name>Tensor33d</name>
         <qualifiedname>Marmot::FastorStandardTensors::Tensor33d</qualifiedname>
@@ -34,7 +34,7 @@
       </memberdef>
       <memberdef kind="typedef" id="_marmot_fastor_tensor_basics_8h_1ab304038cf8a25542db9b842136caa964" prot="public" static="no">
         <type>Fastor::Tensor&lt; double, 3, 3, 3 &gt;</type>
-        <definition>using Marmot::FastorStandardTensors::Tensor333d =  Fastor::Tensor&lt; double, 3, 3, 3 &gt;</definition>
+        <definition>using Marmot::FastorStandardTensors::Tensor333d = Fastor::Tensor&lt; double, 3, 3, 3 &gt;</definition>
         <argsstring></argsstring>
         <name>Tensor333d</name>
         <qualifiedname>Marmot::FastorStandardTensors::Tensor333d</qualifiedname>
@@ -48,7 +48,7 @@
       </memberdef>
       <memberdef kind="typedef" id="_marmot_fastor_tensor_basics_8h_1a65c78c55ef6ae2d308d54d2e8b214d67" prot="public" static="no">
         <type>Fastor::Tensor&lt; double, 3, 3, 3, 3 &gt;</type>
-        <definition>using Marmot::FastorStandardTensors::Tensor3333d =  Fastor::Tensor&lt; double, 3, 3, 3, 3 &gt;</definition>
+        <definition>using Marmot::FastorStandardTensors::Tensor3333d = Fastor::Tensor&lt; double, 3, 3, 3, 3 &gt;</definition>
         <argsstring></argsstring>
         <name>Tensor3333d</name>
         <qualifiedname>Marmot::FastorStandardTensors::Tensor3333d</qualifiedname>
@@ -67,7 +67,7 @@
           </param>
         </templateparamlist>
         <type>Fastor::Tensor&lt; T, 3 &gt;</type>
-        <definition>using Marmot::FastorStandardTensors::Tensor3t =  Fastor::Tensor&lt; T, 3 &gt;</definition>
+        <definition>using Marmot::FastorStandardTensors::Tensor3t = Fastor::Tensor&lt; T, 3 &gt;</definition>
         <argsstring></argsstring>
         <name>Tensor3t</name>
         <qualifiedname>Marmot::FastorStandardTensors::Tensor3t</qualifiedname>
@@ -86,7 +86,7 @@
           </param>
         </templateparamlist>
         <type>Fastor::Tensor&lt; T, 3, 3 &gt;</type>
-        <definition>using Marmot::FastorStandardTensors::Tensor33t =  Fastor::Tensor&lt; T, 3, 3 &gt;</definition>
+        <definition>using Marmot::FastorStandardTensors::Tensor33t = Fastor::Tensor&lt; T, 3, 3 &gt;</definition>
         <argsstring></argsstring>
         <name>Tensor33t</name>
         <qualifiedname>Marmot::FastorStandardTensors::Tensor33t</qualifiedname>
@@ -105,7 +105,7 @@
           </param>
         </templateparamlist>
         <type>Fastor::Tensor&lt; T, 3, 3, 3 &gt;</type>
-        <definition>using Marmot::FastorStandardTensors::Tensor333t =  Fastor::Tensor&lt; T, 3, 3, 3 &gt;</definition>
+        <definition>using Marmot::FastorStandardTensors::Tensor333t = Fastor::Tensor&lt; T, 3, 3, 3 &gt;</definition>
         <argsstring></argsstring>
         <name>Tensor333t</name>
         <qualifiedname>Marmot::FastorStandardTensors::Tensor333t</qualifiedname>
@@ -124,7 +124,7 @@
           </param>
         </templateparamlist>
         <type>Fastor::Tensor&lt; T, 3, 3, 3, 3 &gt;</type>
-        <definition>using Marmot::FastorStandardTensors::Tensor3333t =  Fastor::Tensor&lt; T, 3, 3, 3, 3 &gt;</definition>
+        <definition>using Marmot::FastorStandardTensors::Tensor3333t = Fastor::Tensor&lt; T, 3, 3, 3, 3 &gt;</definition>
         <argsstring></argsstring>
         <name>Tensor3333t</name>
         <qualifiedname>Marmot::FastorStandardTensors::Tensor3333t</qualifiedname>
@@ -138,7 +138,7 @@
       </memberdef>
       <memberdef kind="typedef" id="_marmot_fastor_tensor_basics_8h_1a52690671de57169e33fc74301755a302" prot="public" static="no">
         <type>Fastor::TensorMap&lt; double, 3 &gt;</type>
-        <definition>using Marmot::FastorStandardTensors::TensorMap3d =  Fastor::TensorMap&lt; double, 3 &gt;</definition>
+        <definition>using Marmot::FastorStandardTensors::TensorMap3d = Fastor::TensorMap&lt; double, 3 &gt;</definition>
         <argsstring></argsstring>
         <name>TensorMap3d</name>
         <qualifiedname>Marmot::FastorStandardTensors::TensorMap3d</qualifiedname>
@@ -152,7 +152,7 @@
       </memberdef>
       <memberdef kind="typedef" id="_marmot_fastor_tensor_basics_8h_1acb0e551cebc79ad4b5f02087db075e72" prot="public" static="no">
         <type>Fastor::TensorMap&lt; double, 3, 3 &gt;</type>
-        <definition>using Marmot::FastorStandardTensors::TensorMap33d =  Fastor::TensorMap&lt; double, 3, 3 &gt;</definition>
+        <definition>using Marmot::FastorStandardTensors::TensorMap33d = Fastor::TensorMap&lt; double, 3, 3 &gt;</definition>
         <argsstring></argsstring>
         <name>TensorMap33d</name>
         <qualifiedname>Marmot::FastorStandardTensors::TensorMap33d</qualifiedname>
@@ -166,7 +166,7 @@
       </memberdef>
       <memberdef kind="typedef" id="_marmot_fastor_tensor_basics_8h_1a072e9bb72e41973bad54b04e85198839" prot="public" static="no">
         <type>Fastor::TensorMap&lt; double, 3, 3, 3 &gt;</type>
-        <definition>using Marmot::FastorStandardTensors::TensorMap333d =  Fastor::TensorMap&lt; double, 3, 3, 3 &gt;</definition>
+        <definition>using Marmot::FastorStandardTensors::TensorMap333d = Fastor::TensorMap&lt; double, 3, 3, 3 &gt;</definition>
         <argsstring></argsstring>
         <name>TensorMap333d</name>
         <qualifiedname>Marmot::FastorStandardTensors::TensorMap333d</qualifiedname>
@@ -180,7 +180,7 @@
       </memberdef>
       <memberdef kind="typedef" id="_marmot_fastor_tensor_basics_8h_1a59700181c81ecbf8d351da7a0e03a745" prot="public" static="no">
         <type>Fastor::TensorMap&lt; double, 3, 3, 3, 3 &gt;</type>
-        <definition>using Marmot::FastorStandardTensors::TensorMap3333d =  Fastor::TensorMap&lt; double, 3, 3, 3, 3 &gt;</definition>
+        <definition>using Marmot::FastorStandardTensors::TensorMap3333d = Fastor::TensorMap&lt; double, 3, 3, 3, 3 &gt;</definition>
         <argsstring></argsstring>
         <name>TensorMap3333d</name>
         <qualifiedname>Marmot::FastorStandardTensors::TensorMap3333d</qualifiedname>

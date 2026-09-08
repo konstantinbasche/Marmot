@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.13.2" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial_3_010_01_4" kind="struct" language="C++" prot="public">
     <compoundname>Marmot::Materials::KelvinChain::Factorial&lt; 0 &gt;</compoundname>
     <includes refid="_marmot_kelvin_chain_8h" local="no">MarmotKelvinChain.h</includes>
@@ -8,8 +8,8 @@
     <sectiondef kind="public-type">
       <memberdef kind="enum" id="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial_3_010_01_4_1ad645bab2ad5a6d39ef2f396a5d9d5100" prot="public" static="no" strong="no">
         <type></type>
-        <name></name>
-        <qualifiedname>Marmot::Materials::KelvinChain::Factorial&lt; 0 &gt;</qualifiedname>
+        <name>@232106076202050135165365157137372226362203205005</name>
+        <qualifiedname>Marmot::Materials::KelvinChain::Factorial&lt; 0 &gt;::@232106076202050135165365157137372226362203205005</qualifiedname>
         <enumvalue id="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial_3_010_01_4_1ad645bab2ad5a6d39ef2f396a5d9d5100a4c2721e671e7e2b17a557a3036bc6173" prot="public">
           <name>value</name>
           <initializer>= 1</initializer>
@@ -28,8 +28,8 @@
       </memberdef>
       <memberdef kind="enum" id="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial_1a08f48c5caddb0efd16b1e71aa2ef102e" prot="public" static="no" strong="no">
         <type></type>
-        <name></name>
-        <qualifiedname>Marmot::Materials::KelvinChain::Factorial&lt; 0 &gt;</qualifiedname>
+        <name>@365310044346026174114257325310323277266201377025</name>
+        <qualifiedname>Marmot::Materials::KelvinChain::Factorial&lt; 0 &gt;::@365310044346026174114257325310323277266201377025</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -48,7 +48,6 @@
     <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotKelvinChain.h" line="94" column="5" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotKelvinChain.h" bodystart="94" bodyend="96"/>
     <listofallmembers>
       <member refid="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial_3_010_01_4_1ad645bab2ad5a6d39ef2f396a5d9d5100a4c2721e671e7e2b17a557a3036bc6173" prot="public" virt="non-virtual"><scope>Marmot::Materials::KelvinChain::Factorial&lt; 0 &gt;</scope><name>value</name></member>
-      <member refid="struct_marmot_1_1_materials_1_1_kelvin_chain_1_1_factorial_1a08f48c5caddb0efd16b1e71aa2ef102eadcbcebce91098bce3d6da9bec5e41773" prot="public" virt="non-virtual"><scope>Marmot::Materials::KelvinChain::Factorial&lt; 0 &gt;</scope><name>value</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>
