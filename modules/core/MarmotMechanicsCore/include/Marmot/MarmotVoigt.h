@@ -882,9 +882,6 @@ namespace Marmot {
       template < typename T >
       Eigen::Matrix< T, 6, 1 > dTheta_dStress( T theta, const Eigen::Matrix< T, 6, 1 >& stress )
       {
-        // if ( Math::makeReal( theta ) <= 1e-15 || Math::makeReal( theta ) >= Constants::Pi / 3. - 1e-15 )
-        //   return Eigen::Matrix< T, 6, 1 >::Zero();
-
         const T dThetadJ2 = dTheta_dJ2( stress );
         const T dThetadJ3 = dTheta_dJ3( stress );
 
@@ -1205,17 +1202,12 @@ namespace Marmot {
       const HaighWestergaardCoordinates hw    = ContinuumMechanics::HaighWestergaard::haighWestergaard( stress );
       T                                 theta = hw.theta;
 
-      // if ( Math::makeReal( theta ) <= 1e-14 || Math::makeReal( theta ) >= Pi / 3. - 1e-14 )
-      //   return T( -1e16 );
-
       double threshold = 1e-10;
       if ( Math::makeReal( theta ) <= threshold )
         theta = T( threshold );
       else if ( Math::makeReal( theta ) >= Pi / 3. - threshold )
         theta = T( Pi / 3. - threshold );
 
-      // const T cos2_3theta = cos( 3. * theta ) * cos( 3. * theta );
-      // const T dThetadJ2   = 3 * sqrt3 / 4 * J3_ / ( pow( J2_, 2.5 ) * sqrt( 1.0 - cos2_3theta ) );
       const T dThetadJ2 = 3 * sqrt3 / 4 * J3_ / ( pow( J2_, 2.5 ) * sin( 3. * theta ) );
       return dThetadJ2;
     }
@@ -1224,7 +1216,6 @@ namespace Marmot {
     T dTheta_dJ3( const Eigen::Matrix< T, 6, 1 >& stress )
     {
       const T J2_ = Invariants::J2( stress );
-      // const double J3_ = J3(stress);
 
       if ( Math::makeReal( J2_ ) < 1e-12 ) {
         // Hydrostatic axis regularization
@@ -1235,17 +1226,11 @@ namespace Marmot {
       const HaighWestergaardCoordinates hw    = ContinuumMechanics::HaighWestergaard::haighWestergaard( stress );
       T                                 theta = hw.theta;
 
-      // if ( Math::makeReal( theta ) <= 1e-14 || Math::makeReal( theta ) >= Pi / 3. - 1e-14 )
-      //   return T( -1e16 );
-
       double threshold = 1e-10;
       if ( Math::makeReal( theta ) <= threshold )
         theta = T( threshold );
       else if ( Math::makeReal( theta ) >= Pi / 3. - threshold )
         theta = T( Pi / 3. - threshold );
-
-      // const T cos2_3theta = cos( 3. * theta ) * cos( 3. * theta );
-      // const T dThetadJ3   = -sqrt3 / 2. * 1. / ( pow( J2_, 1.5 ) * sqrt( 1.0 - cos2_3theta ) );
 
       const T dThetadJ3 = -sqrt3 / 2. * 1. / ( pow( J2_, 1.5 ) * sin( 3. * theta ) );
       return dThetadJ3;
