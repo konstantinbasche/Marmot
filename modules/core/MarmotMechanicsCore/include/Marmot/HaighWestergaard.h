@@ -30,7 +30,6 @@
 #pragma once
 #include "Marmot/MarmotMath.h"
 #include "Marmot/MarmotTypedefs.h"
-#include "Marmot/MarmotVoigt.h"
 
 namespace Marmot {
   namespace ContinuumMechanics::HaighWestergaard {
@@ -63,6 +62,26 @@ namespace Marmot {
      * @param stress Stress tensor \f$\sig\f$ given in \ref voigtnotation "Voigt notation".
      */
     template < typename T = double >
+    HaighWestergaardCoordinates< T > haighWestergaard( const Eigen::Matrix< T, 6, 1 >& stress );
+
+    /**
+     * Computes the strain coordinates in the Haigh-Westergaard space.
+     *
+     * \note The computation is equal to @ref haighWestergaard by replacing the stress invariants with the strain
+     * invariants.
+     *
+     * @param strain Strain tensor \f$\eps\f$ given in \ref voignotation "Voigt notation".
+     */
+    HaighWestergaardCoordinates< double > haighWestergaardFromStrain( const Marmot::Vector6d& strain );
+
+  } // namespace ContinuumMechanics::HaighWestergaard
+} // namespace Marmot
+
+#include "Marmot/MarmotVoigt.h"
+
+namespace Marmot {
+  namespace ContinuumMechanics::HaighWestergaard {
+    template < typename T >
     HaighWestergaardCoordinates< T > haighWestergaard( const Eigen::Matrix< T, 6, 1 >& stress )
     {
       using namespace Constants;
@@ -89,15 +108,5 @@ namespace Marmot {
 
       return hw;
     }
-    /**
-     * Computes the strain coordinates in the Haigh-Westergaard space.
-     *
-     * \note The computation is equal to @ref haighWestergaard by replacing the stress invariants with the strain
-     * invariants.
-     *
-     * @param strain Strain tensor \f$\eps\f$ given in \ref voignotation "Voigt notation".
-     */
-    HaighWestergaardCoordinates< double > haighWestergaardFromStrain( const Marmot::Vector6d& strain );
-
   } // namespace ContinuumMechanics::HaighWestergaard
 } // namespace Marmot

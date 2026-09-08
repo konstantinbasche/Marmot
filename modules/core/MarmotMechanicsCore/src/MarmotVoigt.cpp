@@ -392,55 +392,6 @@ namespace Marmot {
         return 1. / 3 * I;
       }
 
-      Vector6d dTheta_dStress( double theta, const Vector6d& stress )
-      {
-        if ( theta <= 1e-15 || theta >= Pi / 3 - 1e-15 )
-          return Vector6d::Zero();
-
-        // const double J2_ = J2(stress);
-        // const double J3_ = J3(stress);
-
-        const double dThetadJ2 = dTheta_dJ2( stress );
-        const double dThetadJ3 = dTheta_dJ3( stress );
-
-        if ( Math::isNaN( dThetadJ2 ) || Math::isNaN( dThetadJ3 ) )
-          return Vector6d::Zero();
-
-        return dThetadJ2 * dJ2_dStress( stress ) + dThetadJ3 * dJ3_dStress( stress );
-      }
-
-      double dTheta_dJ2( const Vector6d& stress )
-      {
-        const HaighWestergaardCoordinates hw    = haighWestergaard( stress );
-        const double&                     theta = hw.theta;
-
-        if ( theta <= 1e-14 || theta >= Pi / 3 - 1e-14 )
-          return 1e16;
-
-        const double J2_ = J2( stress );
-        const double J3_ = J3( stress );
-
-        const double cos2_3theta = std::cos( 3 * theta ) * std::cos( 3 * theta );
-        const double dThetadJ2   = 3 * sqrt3 / 4 * J3_ / ( std::pow( J2_, 2.5 ) * std::sqrt( 1.0 - cos2_3theta ) );
-        return dThetadJ2;
-      }
-
-      double dTheta_dJ3( const Vector6d& stress )
-      {
-        const HaighWestergaardCoordinates hw    = haighWestergaard( stress );
-        const double&                     theta = hw.theta;
-
-        if ( theta <= 1e-14 || theta >= Pi / 3 - 1e-14 )
-          return -1e16;
-
-        const double J2_ = J2( stress );
-        // const double J3_ = J3(stress);
-
-        const double cos2_3theta = std::cos( 3 * theta ) * std::cos( 3 * theta );
-        const double dThetadJ3   = -sqrt3 / 2. * 1. / ( std::pow( J2_, 1.5 ) * std::sqrt( 1.0 - cos2_3theta ) );
-        return dThetadJ3;
-      }
-
       double dThetaStrain_dJ2Strain( const Vector6d& strain )
       {
         const HaighWestergaardCoordinates hw    = haighWestergaardFromStrain( strain );
@@ -463,18 +414,6 @@ namespace Marmot {
         else
           return -std::sqrt( 3. ) / 2. * 1. /
                  ( std::pow( J2Strain( strain ), 3. / 2 ) * std::sqrt( 1. - std::pow( std::cos( 3. * theta ), 2. ) ) );
-      }
-
-      Vector6d dJ2_dStress( const Vector6d& stress )
-      {
-        return P.array() * ( IDev * stress ).array();
-      }
-
-      Vector6d dJ3_dStress( const Vector6d& stress )
-      {
-        Vector6d s = IDev * stress;
-        return ( P.array() * stressToVoigt< double >( voigtToStress( s ) * voigtToStress( s ) ).array() ).matrix() -
-               2. / 3. * J2( stress ) * I;
       }
 
       Vector6d dJ2Strain_dStrain( const Vector6d& strain )
