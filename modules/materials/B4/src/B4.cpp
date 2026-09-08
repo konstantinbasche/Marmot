@@ -1,13 +1,9 @@
 #include "Marmot/B4.h"
 #include "Marmot/B4Shrinkage.h"
 #include "Marmot/MarmotElasticity.h"
+#include "Marmot/MarmotJournal.h"
 #include "Marmot/MarmotMaterialHypoElastic.h"
 #include "Marmot/MarmotTypedefs.h"
-#include "Marmot/MarmotUtility.h"
-#include "Marmot/MarmotVoigt.h"
-#include "autodiff/forward/real.hpp"
-#include <iostream>
-#include <map>
 #include <string>
 
 using namespace Marmot;
@@ -49,6 +45,9 @@ namespace Marmot::Materials {
       solidificationParameters          ( { q1, q2, q3, q4, n, m } )
   // clang-format on
   {
+    stateLayout.add( "basicCreepStateVars", nKelvinBasic * 6 );
+    stateLayout.add( "dryingCreepStateVars", nKelvinDrying * 6 );
+    stateLayout.finalize();
     solidificationKelvinProperties.retardationTimes = KelvinChain::generateRetardationTimes( nKelvinBasic,
                                                                                              minTauBasic,
                                                                                              10. );
@@ -64,30 +63,38 @@ namespace Marmot::Materials {
       .E0 = SolidificationTheory::computeZerothElasticModul( minTauBasic, n, basicCreepComplianceApproximationOrder );
   }
 
-  void B4::computeStress( double*       stress,
-                          double*       dStressDDStrain,
-                          const double* dStrain,
-                          const double* time,
-                          const double  dT,
-                          double&       pNewDT )
+  void B4::computeStress( state3D&                state,
+                          Marmot::Matrix6d&       dStressDDStrain,
+                          const Marmot::Vector6d& dStrain,
+                          const timeInfo&         timeInfo ) const
 
   {
-    mVector6d nomStress( stress );
-    Vector6d  dE( dStrain );
-    mMatrix6d C( dStressDDStrain );
+    mVector6d             nomStress( state.stress.data() );
+    Map< const Vector6d > dE( dStrain.data() );
+    mMatrix6d             C( dStressDDStrain.data() );
+
+    const double& dT   = timeInfo.dT;
+    const double& time = timeInfo.time;
 
     if ( ( dE.array() == 0 ).all() && dT == 0 ) {
       C = ContinuumMechanics::Elasticity::Isotropic::stiffnessTensor( 1e6 / q1, nu );
       return;
     }
 
-    Eigen::Ref< KelvinChain::mapStateVarMatrix > basicCreepStateVars(
-      ( stateVarManager->kelvinStateVars ).leftCols( nKelvinBasic ) );
-    Eigen::Ref< KelvinChain::mapStateVarMatrix > dryingCreepStateVars(
-      ( stateVarManager->kelvinStateVars ).rightCols( nKelvinDrying ) );
+    // map state variables of basic creep Kelvin chain
+    auto basicCreepStateVars = stateLayout.getAs< Eigen::Map< Eigen::MatrixXd > >( state.stateVars,
+                                                                                   "basicCreepStateVars",
+                                                                                   6,
+                                                                                   nKelvinBasic );
+
+    // map state variables of drying creep Kelvin chain
+    auto dryingCreepStateVars = stateLayout.getAs< Eigen::Map< Eigen::MatrixXd > >( state.stateVars,
+                                                                                    "dryingCreepStateVars",
+                                                                                    6,
+                                                                                    nKelvinDrying );
 
     const double dTimeDays  = dT * timeToDays;
-    const double tStartDays = ( time[1] - dT - castTime ) * timeToDays;
+    const double tStartDays = ( time - dT - castTime ) * timeToDays;
 
     Matrix6d CelUnitInv = ContinuumMechanics::Elasticity::Isotropic::complianceTensor( 1.0, nu );
 
@@ -165,23 +172,11 @@ namespace Marmot::Materials {
     return;
   }
 
-  void B4::assignStateVars( double* stateVars_, int nStateVars )
+  double B4::getDensity( const double* stateVars ) const
   {
-    if ( nStateVars < getNumberOfRequiredStateVars() )
-      throw std::invalid_argument( MakeString() << __PRETTY_FUNCTION__ << ": Not sufficient stateVars!" );
-
-    this->stateVarManager = std::make_unique< B4StateVarManager >( stateVars_, nKelvinBasic + nKelvinDrying );
-
-    MarmotMaterial::assignStateVars( stateVars_, nStateVars );
+    if ( nMaterialProperties >= 23 )
+      return materialProperties[22];
+    throw std::runtime_error( std::string( MakeString() << __PRETTY_FUNCTION__ << ": Density not specified for B4." ) );
   }
 
-  StateView B4::getStateView( const std::string& stateName )
-  {
-    return stateVarManager->getStateView( stateName );
-  }
-
-  int B4::getNumberOfRequiredStateVars()
-  {
-    return B4StateVarManager::layout.nRequiredStateVars + ( nKelvinBasic + nKelvinDrying ) * 6;
-  }
 } // namespace Marmot::Materials

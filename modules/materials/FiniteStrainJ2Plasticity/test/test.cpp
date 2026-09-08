@@ -1,6 +1,7 @@
 #include "Marmot/FiniteStrainJ2Plasticity.h"
 #include "Marmot/MarmotFastorTensorBasics.h"
 #include "Marmot/MarmotMaterialFiniteStrain.h"
+#include "Marmot/MarmotMaterialPointSolverFiniteStrain.h"
 #include "Marmot/MarmotTesting.h"
 #include <string>
 
@@ -62,13 +63,13 @@ void testSetup( const std::string& testName,
     // Snapshot initial state for objectivity test
     std::array< double, 10 > stateVarsInitial = stateVars_;
 
-    mat.assignStateVars( stateVars_.data(), 10 );
+    mat.initializeYourself( stateVars_.data(), 10 );
 
     // Create deformation, time increment, response and tangent objects required for stress computation
     FiniteStrainJ2Plasticity::Deformation< 3 > def;
     FiniteStrainJ2Plasticity::TimeIncrement    timeInc = { 0, 0.1 };
 
-    FiniteStrainJ2Plasticity::ConstitutiveResponse< 3 > response;
+    FiniteStrainJ2Plasticity::ConstitutiveResponse< 3 > response( Tensor33d( 0.0 ), 0.0, 0.0, stateVars_.data() );
     FiniteStrainJ2Plasticity::AlgorithmicModuli< 3 >    tangent;
 
     // Prescribe a deformation gradient tensor F for the considered load case
@@ -138,7 +139,7 @@ void testSetup( const std::string& testName,
       for ( int phi_deg = 0; phi_deg <= 180; phi_deg += 30 ) {
         // Restore same initial state for each rotation
         stateVars_ = stateVarsInitial;
-        mat.assignStateVars( stateVars_.data(), 10 );
+        mat.initializeYourself( stateVars_.data(), 10 );
 
         double phi = Marmot::Math::degToRad( phi_deg );
 
@@ -192,7 +193,6 @@ void testSetup( const std::string& testName,
         def.F = F_rotated;
         std::memcpy( stateVars_.data(), Fp_rotated.data(), 9 * sizeof( double ) );
         stateVars_[9] = alphaP_unrotated;
-        mat.assignStateVars( stateVars_.data(), 10 );
 
         mat.computeStress( response, tangent, def, timeInc );
 
@@ -488,12 +488,123 @@ void testRotation()
   }
 }
 
+void testWithMPSolver()
+{
+  using namespace Marmot::Solvers;
+  auto        materialProperties = std::vector< double >{ 175000, 80800, 260, 580, 9, 70, 3 };
+  auto        solveropts         = MarmotMaterialPointSolverFiniteStrain::SolverOptions();
+  std::string matName            = "FINITESTRAINJ2PLASTICITY";
+  auto        solver             = MarmotMaterialPointSolverFiniteStrain( matName,
+                                                       materialProperties.data(),
+                                                       materialProperties.size(),
+                                                       solveropts );
+
+  // create a step with controlled shear strain increment
+  MarmotMaterialPointSolverFiniteStrain::Step step;
+  step.gradUIncrementTarget         = Tensor33d( 0.0 );
+  step.gradUIncrementTarget( 0, 1 ) = 0.01;
+  step.stressIncrementTarget        = Tensor33d( 0.0 );
+
+  // set only shear gradU component to be controlled
+  // both gradU12 and gradU21 are controlled
+  step.isGradUComponentControlled         = Tensor33t< bool >( false );
+  step.isGradUComponentControlled( 0, 1 ) = true;
+  step.isGradUComponentControlled( 1, 0 ) = true;
+
+  // set only shear stress component to be controlled
+  // both tau12 and tau21 are not controlled
+  step.isStressComponentControlled         = Tensor33t< bool >( true );
+  step.isStressComponentControlled( 0, 1 ) = false;
+  step.isStressComponentControlled( 1, 0 ) = false;
+  step.timeStart                           = 0.0;
+  step.timeEnd                             = 1;
+  step.dTStart                             = .1;
+  step.dTMax                               = 1;
+  step.dTMin                               = 0.1;
+
+  // add step to solver
+  solver.addStep( step );
+
+  // solve the material point problem
+  solver.solve();
+
+  // get the final stress state
+  auto history     = solver.getHistory();
+  auto finalStress = history.back().stress;
+
+  Tensor33d stressTarget( 0.0 );
+  stressTarget( 0, 1 ) = 1.57863970e2;
+  stressTarget( 1, 0 ) = 1.57863970e2;
+
+  throwExceptionOnFailure( checkIfEqual( finalStress, stressTarget, 1e-8 ),
+                           "I-5: Material Point Solver simple shear test failed for FiniteStrainJ2Plasticity material "
+                           "in " +
+                             std::string( __PRETTY_FUNCTION__ ) );
+}
+
+void testWithMPSolverSubstepped()
+{
+  using namespace Marmot::Solvers;
+  auto        materialProperties = std::vector< double >{ 2, 175000, 80800, 260, 580, 9, 70, 3 };
+  auto        solveropts         = MarmotMaterialPointSolverFiniteStrain::SolverOptions();
+  std::string matName            = "FINITESTRAINJ2PLASTICITY_SUBSTEPPED";
+  auto        solver             = MarmotMaterialPointSolverFiniteStrain( matName,
+                                                       materialProperties.data(),
+                                                       materialProperties.size(),
+                                                       solveropts );
+
+  // create a step with controlled shear strain increment
+  MarmotMaterialPointSolverFiniteStrain::Step step;
+  step.gradUIncrementTarget         = Tensor33d( 0.0 );
+  step.gradUIncrementTarget( 0, 1 ) = 0.01;
+  step.stressIncrementTarget        = Tensor33d( 0.0 );
+
+  // set only shear gradU component to be controlled
+  // both gradU12 and gradU21 are controlled
+  step.isGradUComponentControlled         = Tensor33t< bool >( false );
+  step.isGradUComponentControlled( 0, 1 ) = true;
+  step.isGradUComponentControlled( 1, 0 ) = true;
+
+  // set only shear stress component to be controlled
+  // both tau12 and tau21 are not controlled
+  step.isStressComponentControlled         = Tensor33t< bool >( true );
+  step.isStressComponentControlled( 0, 1 ) = false;
+  step.isStressComponentControlled( 1, 0 ) = false;
+  step.timeStart                           = 0.0;
+  step.timeEnd                             = 1;
+  step.dTStart                             = .1;
+  step.dTMax                               = 1;
+  step.dTMin                               = 0.1;
+
+  // add step to solver
+  solver.addStep( step );
+
+  // solve the material point problem
+  solver.solve();
+
+  // get the final stress state
+  auto history     = solver.getHistory();
+  auto finalStress = history.back().stress;
+
+  Tensor33d stressTarget( 0.0 );
+  stressTarget( 0, 1 ) = 1.57863968e2;
+  stressTarget( 1, 0 ) = 1.57863968e2;
+
+  throwExceptionOnFailure( checkIfEqual( finalStress, stressTarget, 1e-8 ),
+                           "I-5: Material Point Solver simple shear test failed for "
+                           "FiniteStrainJ2Plasticity_Substepped material "
+                           "in " +
+                             std::string( __PRETTY_FUNCTION__ ) );
+}
+
 int main()
 {
   auto tests = std::vector< std::function< void() > >{ testUndeformedResponse,
                                                        testDeformationResponse,
                                                        testAlgorithmicTangent,
-                                                       testRotation };
+                                                       testRotation,
+                                                       testWithMPSolver,
+                                                       testWithMPSolverSubstepped };
 
   executeTestsAndCollectExceptions( tests );
 

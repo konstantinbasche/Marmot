@@ -5,7 +5,6 @@ on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]
 
 jobs:
   build:
@@ -57,4 +56,4 @@ jobs:
           cd build
           cmake ..
           sudo make install
-          ctest
+          ctest --output-on-failure

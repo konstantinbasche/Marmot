@@ -1,6 +1,7 @@
 #include "Marmot/FiniteStrainJ2Plasticity.h"
 #include "Marmot/MarmotDeformationMeasures.h"
 #include "Marmot/MarmotEnergyDensityFunctions.h"
+#include "Marmot/MarmotExceptions.h"
 #include "Marmot/MarmotFastorTensorBasics.h"
 #include "Marmot/MarmotMaterialFiniteStrain.h"
 #include "Marmot/MarmotNumericalDifferentiation.h"
@@ -28,12 +29,15 @@ namespace Marmot::Materials {
       implementationType( materialProperties[6] ),
       density( nMaterialProperties > 7 ? materialProperties[7] : 0.0 ) // TODO: make mandatory material parameter
   {
+    stateLayout.add( "Fp", 9 );                                        // plastic deformation gradient
+    stateLayout.add( "alphaP", 1 );                                    // strain-like hardening variable
+    stateLayout.finalize();
   }
 
   void FiniteStrainJ2Plasticity::computeStress( ConstitutiveResponse< 3 >& response,
                                                 AlgorithmicModuli< 3 >&    tangents,
                                                 const Deformation< 3 >&    deformation,
-                                                const TimeIncrement&       timeIncrement )
+                                                const TimeIncrement&       timeIncrement ) const
   {
     switch ( implementationType ) {
 
@@ -52,19 +56,19 @@ namespace Marmot::Materials {
   void FiniteStrainJ2Plasticity::computeStressWithScalarReturnMapping( ConstitutiveResponse< 3 >& response,
                                                                        AlgorithmicModuli< 3 >&    tangents,
                                                                        const Deformation< 3 >&    deformation,
-                                                                       const TimeIncrement&       timeIncrement )
+                                                                       const TimeIncrement&       timeIncrement ) const
   {
     throw std::invalid_argument( "not implemented yet" );
   }
   void FiniteStrainJ2Plasticity::computeStressWithFullReturnMapping( ConstitutiveResponse< 3 >& response,
                                                                      AlgorithmicModuli< 3 >&    tangents,
                                                                      const Deformation< 3 >&    deformation,
-                                                                     const TimeIncrement&       timeIncrement )
+                                                                     const TimeIncrement&       timeIncrement ) const
   {
 
-    auto&           Fp = stateVars->Fp;
+    TensorMap33d    Fp = stateLayout.getAs< TensorMap33d >( response.stateVars, "Fp" );
     const Tensor33d FpOld( Fp );
-    double&         alphaP    = stateVars->alphaP;
+    double&         alphaP    = stateLayout.getAs< double& >( response.stateVars, "alphaP" );
     const double    alphaPOld = alphaP;
 
     using namespace Marmot;
@@ -81,10 +85,10 @@ namespace Marmot::Materials {
     Tensor33d dFp;
     dFp.eye();
     Tensor33d Fe = FeTrial;
-    /* std::cout << "FeTrial: " << std::endl << FeTrial << std::endl; */
+
     if ( isYielding( FeTrial, betaP ) ) {
 
-      size_t counter = 0;
+      int counter = 0;
 
       using mV9d = Eigen::Map< Eigen::Matrix< double, 9, 1 > >;
       VectorXd X( 11 );
@@ -100,14 +104,13 @@ namespace Marmot::Materials {
       while ( R.norm() > 1e-12 || dX.norm() > 1e-12 ) {
 
         if ( counter > 10 )
-          throw std::runtime_error( "inner newton not converged" );
+          throw StressUpdateFailed( "inner newton not converged" );
 
         dX = -dR_dX.colPivHouseholderQr().solve( R );
         X += dX;
         std::tie( R, dR_dX ) = computeResidualVectorAndTangent( X, FeTrial, alphaPOld );
         counter += 1;
       }
-      /* std::cout << "inner newton iters: " << counter << std::endl; */
 
       // update plastic deformation increment
       Fe              = X.segment( 0, 9 ).data();
@@ -133,8 +136,9 @@ namespace Marmot::Materials {
       std::tie( response.tau,
                 dTau_dPK2,
                 dTau_dFe_partial )  = StressMeasures::FirstOrderDerived::KirchhoffStressFromPK2( PK2, Fe );
-      response.rho                  = 1.0;
       response.elasticEnergyDensity = psi_;
+      auto [betaP_new, _]           = computeBetaP( alphaP );
+      response.dissipation += 0.5 * ( betaP_new - betaP ) * ( alphaP - alphaPOld );
 
       // compute tangent operator
       using mM9d = Eigen::Map< Eigen::Matrix< double, 9, 9 > >;
@@ -152,8 +156,6 @@ namespace Marmot::Materials {
       Tensor3333d dPK2_dFe = einsum< ijKL, KLMN >( 2. * d2Psi_dCedCe, dCe_dFe );
       Tensor3333d dPK2_dF  = einsum< ijKL, KLMN >( dPK2_dFe, dFe_dF );
 
-      /* tangents.dTau_dF = einsum< IJKL, KLMN >( dTau_dPK2, dPK2_dF ) +
-       * dTau_dF_partial; */
       tangents.dTau_dF = einsum< IJKL, KLMN >( dTau_dPK2, dPK2_dF ) + einsum< ijKL, KLMN >( dTau_dFe_partial, dFe_dF );
     }
     else {
@@ -174,16 +176,14 @@ namespace Marmot::Materials {
       std::tie( response.tau,
                 dTau_dPK2,
                 dTau_dFe_partial )  = StressMeasures::FirstOrderDerived::KirchhoffStressFromPK2( PK2, Fe );
-      response.rho                  = 1.0;
       response.elasticEnergyDensity = psi_;
+      response.dissipation += 0.0;
 
       // compute tangent operator
       Tensor3333d dPK2_dFe = einsum< ijKL, KLMN >( 2. * d2Psi_dCedCe, dCe_dFe );
       Tensor3333d dFe_dF   = einsum< IK, JL, to_IJKL >( Spatial3D::I, transpose( Fastor::inverse( FpOld ) ) );
       Tensor3333d dPK2_dF  = einsum< ijKL, KLMN >( dPK2_dFe, dFe_dF );
 
-      /* tangents.dTau_dF = einsum< IJKL, KLMN >( dTau_dPK2, dPK2_dF ) +
-       * dTau_dF_partial; */
       tangents.dTau_dF = einsum< IJKL, KLMN >( dTau_dPK2, dPK2_dF ) + einsum< ijKL, KLMN >( dTau_dFe_partial, dFe_dF );
     }
   }
@@ -191,12 +191,12 @@ namespace Marmot::Materials {
   void FiniteStrainJ2Plasticity::computeStressFDAF( ConstitutiveResponse< 3 >& response,
                                                     AlgorithmicModuli< 3 >&    tangents,
                                                     const Deformation< 3 >&    deformation,
-                                                    const TimeIncrement&       timeIncrement )
+                                                    const TimeIncrement&       timeIncrement ) const
   {
 
-    auto&           Fp = stateVars->Fp;
+    TensorMap33d    Fp = stateLayout.getAs< TensorMap33d >( response.stateVars, "Fp" );
     const Tensor33d FpOld( Fp );
-    double&         alphaP    = stateVars->alphaP;
+    double&         alphaP    = stateLayout.getAs< double& >( response.stateVars, "alphaP" );
     const double    alphaPOld = alphaP;
 
     using namespace Marmot;
@@ -240,7 +240,7 @@ namespace Marmot::Materials {
         while ( R.norm() > 1e-12 || dX.norm() > 1e-12 ) {
 
           if ( counter > 10 )
-            throw std::runtime_error( "inner newton not converged" );
+            throw StressUpdateFailed( "inner newton not converged" );
 
           dX = -dR_dX.colPivHouseholderQr().solve( R );
           X += dX;
@@ -257,7 +257,7 @@ namespace Marmot::Materials {
         }
       }
       catch ( std::exception& e ) {
-        throw std::runtime_error( "return mapping failed: " + std::string( e.what() ) );
+        throw StressUpdateFailed( "return mapping failed: " + std::string( e.what() ) );
       }
       /* std::cout << "inner newton iters: " << counter << std::endl; */
 
@@ -290,8 +290,9 @@ namespace Marmot::Materials {
       std::tie( response.tau,
                 dTau_dPK2,
                 dTau_dFe_partial )  = StressMeasures::FirstOrderDerived::KirchhoffStressFromPK2( PK2, Fe );
-      response.rho                  = 1.0;
       response.elasticEnergyDensity = psi_;
+      auto [betaP_new, _]           = computeBetaP( alphaP );
+      response.dissipation += 0.5 * ( betaP_new - betaP ) * ( alphaP - alphaPOld );
 
       // compute tangent operator
       using mM9d = Eigen::Map< Eigen::Matrix< double, 9, 9 > >;
@@ -337,7 +338,6 @@ namespace Marmot::Materials {
       std::tie( response.tau,
                 dTau_dPK2,
                 dTau_dFe_partial )  = StressMeasures::FirstOrderDerived::KirchhoffStressFromPK2( PK2, Fe );
-      response.rho                  = 1.0;
       response.elasticEnergyDensity = psi_;
 
       // compute tangent operator
@@ -353,12 +353,12 @@ namespace Marmot::Materials {
   void FiniteStrainJ2Plasticity::computeStressFDAC( ConstitutiveResponse< 3 >& response,
                                                     AlgorithmicModuli< 3 >&    tangents,
                                                     const Deformation< 3 >&    deformation,
-                                                    const TimeIncrement&       timeIncrement )
+                                                    const TimeIncrement&       timeIncrement ) const
   {
 
-    auto&           Fp = stateVars->Fp;
+    TensorMap33d    Fp = stateLayout.getAs< TensorMap33d >( response.stateVars, "Fp" );
     const Tensor33d FpOld( Fp );
-    double&         alphaP    = stateVars->alphaP;
+    double&         alphaP    = stateLayout.getAs< double& >( response.stateVars, "alphaP" );
     const double    alphaPOld = alphaP;
 
     using namespace Marmot;
@@ -402,7 +402,7 @@ namespace Marmot::Materials {
         while ( R.norm() > 1e-12 || dX.norm() > 1e-12 ) {
 
           if ( counter > 10 )
-            throw std::runtime_error( "inner newton not converged" );
+            throw StressUpdateFailed( "inner newton not converged" );
 
           dX = -dR_dX.colPivHouseholderQr().solve( R );
           X += dX;
@@ -419,7 +419,7 @@ namespace Marmot::Materials {
         }
       }
       catch ( std::exception& e ) {
-        throw std::runtime_error( "return mapping failed: " + std::string( e.what() ) );
+        throw StressUpdateFailed( "return mapping failed: " + std::string( e.what() ) );
       }
       /* std::cout << "inner newton iters: " << counter << std::endl; */
 
@@ -452,8 +452,9 @@ namespace Marmot::Materials {
       std::tie( response.tau,
                 dTau_dPK2,
                 dTau_dFe_partial )  = StressMeasures::FirstOrderDerived::KirchhoffStressFromPK2( PK2, Fe );
-      response.rho                  = 1.0;
       response.elasticEnergyDensity = psi_;
+      auto [betaP_new, _]           = computeBetaP( alphaP );
+      response.dissipation += 0.5 * ( betaP_new - betaP ) * ( alphaP - alphaPOld );
 
       // compute tangent operator
       using mM9d = Eigen::Map< Eigen::Matrix< double, 9, 9 > >;
@@ -499,8 +500,9 @@ namespace Marmot::Materials {
       std::tie( response.tau,
                 dTau_dPK2,
                 dTau_dFe_partial )  = StressMeasures::FirstOrderDerived::KirchhoffStressFromPK2( PK2, Fe );
-      response.rho                  = 1.0;
       response.elasticEnergyDensity = psi_;
+      auto [betaP_new, _]           = computeBetaP( alphaP );
+      response.dissipation += 0.5 * ( betaP_new - betaP ) * ( alphaP - alphaPOld );
 
       // compute tangent operator
       Tensor3333d dPK2_dFe = einsum< ijKL, KLMN >( 2. * d2Psi_dCedCe, dCe_dFe );
@@ -516,12 +518,12 @@ namespace Marmot::Materials {
   void FiniteStrainJ2Plasticity::computeStressCSDA( ConstitutiveResponse< 3 >& response,
                                                     AlgorithmicModuli< 3 >&    tangents,
                                                     const Deformation< 3 >&    deformation,
-                                                    const TimeIncrement&       timeIncrement )
+                                                    const TimeIncrement&       timeIncrement ) const
   {
 
-    auto&           Fp = stateVars->Fp;
+    TensorMap33d    Fp = stateLayout.getAs< TensorMap33d >( response.stateVars, "Fp" );
     const Tensor33d FpOld( Fp );
-    double&         alphaP    = stateVars->alphaP;
+    double&         alphaP    = stateLayout.getAs< double& >( response.stateVars, "alphaP" );
     const double    alphaPOld = alphaP;
 
     using namespace Marmot;
@@ -566,7 +568,7 @@ namespace Marmot::Materials {
         while ( R.norm() > 1e-12 || dX.norm() > 1e-12 ) {
 
           if ( counter > 10 )
-            throw std::runtime_error( "inner newton not converged" );
+            throw StressUpdateFailed( "inner newton not converged" );
 
           dX = -dR_dX.colPivHouseholderQr().solve( R );
           X += dX;
@@ -581,7 +583,7 @@ namespace Marmot::Materials {
         }
       }
       catch ( std::exception& e ) {
-        throw std::runtime_error( "return mapping failed: " + std::string( e.what() ) );
+        throw StressUpdateFailed( "return mapping failed: " + std::string( e.what() ) );
       }
       /* std::cout << "inner newton iters: " << counter << std::endl; */
 
@@ -614,8 +616,9 @@ namespace Marmot::Materials {
       std::tie( response.tau,
                 dTau_dPK2,
                 dTau_dFe_partial )  = StressMeasures::FirstOrderDerived::KirchhoffStressFromPK2( PK2, Fe );
-      response.rho                  = 1.0;
       response.elasticEnergyDensity = psi_;
+      auto [betaP_new, _]           = computeBetaP( alphaP );
+      response.dissipation += 0.5 * ( betaP_new - betaP ) * ( alphaP - alphaPOld );
 
       // compute tangent operator
       using mM9d = Eigen::Map< Eigen::Matrix< double, 9, 9 > >;
@@ -661,7 +664,6 @@ namespace Marmot::Materials {
       std::tie( response.tau,
                 dTau_dPK2,
                 dTau_dFe_partial )  = StressMeasures::FirstOrderDerived::KirchhoffStressFromPK2( PK2, Fe );
-      response.rho                  = 1.0;
       response.elasticEnergyDensity = psi_;
 
       // compute tangent operator
@@ -675,23 +677,14 @@ namespace Marmot::Materials {
     }
   }
 
-  StateView FiniteStrainJ2Plasticity::getStateView( const std::string& stateName )
+  void FiniteStrainJ2Plasticity::initializeYourself( double* stateVars, int nStateVars )
   {
-    return stateVars->getStateView( stateName );
-  }
+    // set all state variables to zero
+    for ( int i = 0; i < nStateVars; ++i ) {
+      stateVars[i] = 0.0;
+    }
 
-  void FiniteStrainJ2Plasticity::assignStateVars( double* stateVars_, int nStateVars )
-  {
-    if ( nStateVars < getNumberOfRequiredStateVars() )
-      throw std::invalid_argument( MakeString() << __PRETTY_FUNCTION__
-                                                << ": Not sufficient "
-                                                   "stateVars!" );
-
-    this->stateVars = std::make_unique< FiniteStrainJ2PlasticityStateVarManager >( stateVars_ );
-  }
-
-  void FiniteStrainJ2Plasticity::initializeYourself()
-  {
-    stateVars->Fp.eye();
+    TensorMap33d Fp = stateLayout.getAs< TensorMap33d >( stateVars, "Fp" );
+    memcpy( Fp.data(), Spatial3D::I.data(), 9 * sizeof( double ) );
   }
 } // namespace Marmot::Materials

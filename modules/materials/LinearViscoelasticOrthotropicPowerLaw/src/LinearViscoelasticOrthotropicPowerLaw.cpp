@@ -14,6 +14,16 @@ using namespace Eigen;
 
 namespace Marmot::Materials {
 
+  double LinearViscoelasticOrthotropicPowerLaw::getDensity( const double* stateVars ) const
+  {
+    if ( nMaterialProperties < 24 ) {
+      throw std::runtime_error( MakeString()
+                                << __PRETTY_FUNCTION__ << ": Density not provided in material properties array!" );
+    }
+    else {
+      return materialProperties[23];
+    }
+  }
   LinearViscoelasticOrthotropicPowerLaw::LinearViscoelasticOrthotropicPowerLaw( const double* materialProperties,
                                                                                 int           nMaterialProperties,
                                                                                 int           materialLabel )
@@ -43,6 +53,9 @@ namespace Marmot::Materials {
       direction2                        ( { materialProperties[20], materialProperties[21], materialProperties[22] } )
   // clang-format on
   {
+    stateLayout.add( "kelvinStateVars", 6 * nKelvin );
+    stateLayout.finalize();
+
     retardationTimes = KelvinChain::generateRetardationTimes( nKelvin, minTau, spacing );
 
     auto computeZerothKelvinChainCompliance = [&]( const int order, double tau ) {
@@ -104,17 +117,17 @@ namespace Marmot::Materials {
       transformStiffnessToGlobalSystem( CelUnit, localCoordinateSystem );
   }
 
-  void LinearViscoelasticOrthotropicPowerLaw::computeStress( double*       stress,
-                                                             double*       dStressDDStrain,
-                                                             const double* dStrain,
-                                                             const double* timeOld,
-                                                             const double  dT,
-                                                             double&       pNewDT )
+  void LinearViscoelasticOrthotropicPowerLaw::computeStress( state3D&        state,
+                                                             Matrix6d&       dStressDDStrain,
+                                                             const Vector6d& dStrain,
+                                                             const timeInfo& timeInfo ) const
 
   {
-    mVector6d nomStress( stress );
-    Vector6d  dE( dStrain );
-    mMatrix6d C( dStressDDStrain );
+    mVector6d             nomStress( state.stress.data() );
+    Map< const Vector6d > dE( dStrain.data() );
+    mMatrix6d             C( dStressDDStrain.data() );
+
+    const double& dT = timeInfo.dT;
 
     using namespace Marmot::ContinuumMechanics::VoigtNotation;
     Vector6d dELocal = Transformations::transformStrainToLocalSystem( dE, localCoordinateSystem );
@@ -124,7 +137,10 @@ namespace Marmot::Materials {
       return;
     }
 
-    Eigen::Ref< KelvinChain::mapStateVarMatrix > creepStateVars( stateVarManager->kelvinStateVars );
+    auto creepStateVars = stateLayout.getAs< Eigen::Map< Eigen::MatrixXd > >( state.stateVars,
+                                                                              "kelvinStateVars",
+                                                                              6,
+                                                                              nKelvin );
 
     const double dTimeDays = dT * timeToDays;
 
@@ -162,26 +178,5 @@ namespace Marmot::Materials {
                                        creepStateVars,
                                        deltaStressLocal,
                                        CelUnitInv );
-  }
-
-  void LinearViscoelasticOrthotropicPowerLaw::assignStateVars( double* stateVars_, int nStateVars )
-  {
-    if ( nStateVars < getNumberOfRequiredStateVars() )
-      throw std::invalid_argument( MakeString() << __PRETTY_FUNCTION__ << ": Not sufficient stateVars!" );
-
-    this->stateVarManager = std::make_unique< LinearViscoelasticOrthotropicPowerLawStateVarManager >( stateVars_,
-                                                                                                      nKelvin );
-
-    MarmotMaterial::assignStateVars( stateVars_, nStateVars );
-  }
-
-  StateView LinearViscoelasticOrthotropicPowerLaw::getStateView( const std::string& stateName )
-  {
-    return stateVarManager->getStateView( stateName );
-  }
-
-  int LinearViscoelasticOrthotropicPowerLaw::getNumberOfRequiredStateVars()
-  {
-    return LinearViscoelasticOrthotropicPowerLawStateVarManager::layout.nRequiredStateVars + nKelvin * 6;
   }
 } // namespace Marmot::Materials

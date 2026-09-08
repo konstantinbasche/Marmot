@@ -1,6 +1,7 @@
 #include "Marmot/CompressibleNeoHooke.h"
 #include "Marmot/MarmotFastorTensorBasics.h"
 #include "Marmot/MarmotMaterialFiniteStrain.h"
+#include "Marmot/MarmotMaterialPointSolverFiniteStrain.h"
 #include "Marmot/MarmotMath.h"
 #include "Marmot/MarmotTesting.h"
 
@@ -20,18 +21,18 @@ void testSetup( const std::string& testName,
 
   // idx 0 - Bulk modulus K, idx 1 - Shear modulus G
   std::array< double, 2 > materialProperties_ = { 3500, 1500 };
-  const double            nMaterialProperties = 2;
+  const int               nMaterialProperties = 2;
   const int               elLabel             = 1;
 
   // Create material instance
-  CompressibleNeoHooke mat = CompressibleNeoHooke( &materialProperties_[0], nMaterialProperties, elLabel );
+  const CompressibleNeoHooke mat = CompressibleNeoHooke( &materialProperties_[0], nMaterialProperties, elLabel );
 
   // Create deformation, time increment, response and tangent objects required for stress computation
-  CompressibleNeoHooke::Deformation< 3 > def;
+  CompressibleNeoHooke::Deformation< 3 > def     = { Tensor33d( 0.0 ) };
   CompressibleNeoHooke::TimeIncrement    timeInc = { 0, 0.1 };
 
-  CompressibleNeoHooke::ConstitutiveResponse< 3 > response;
-  CompressibleNeoHooke::AlgorithmicModuli< 3 >    tangent;
+  CompressibleNeoHooke::ConstitutiveResponse< 3 > response( Tensor33d( 0.0 ), 0.0, 0.0, nullptr );
+  CompressibleNeoHooke::AlgorithmicModuli< 3 >    tangent = { Tensor3333d( 0.0 ) };
 
   // Prescribe a deformation gradient tensor F for the considered load case
   def.F = inputF;
@@ -287,13 +288,66 @@ void testRotation()
   }
 }
 
+void testWithMPSolver()
+{
+  using namespace Marmot::Solvers;
+  auto        materialProperties = std::vector< double >{ 3500, 1500 };
+  auto        solveropts         = MarmotMaterialPointSolverFiniteStrain::SolverOptions();
+  std::string matName            = "COMPRESSIBLENEOHOOKE";
+  auto        solver             = MarmotMaterialPointSolverFiniteStrain( matName,
+                                                       materialProperties.data(),
+                                                       materialProperties.size(),
+                                                       solveropts );
+
+  // create a step with controlled shear strain increment
+  MarmotMaterialPointSolverFiniteStrain::Step step;
+  step.gradUIncrementTarget         = Tensor33d( 0.0 );
+  step.gradUIncrementTarget( 0, 1 ) = 0.0001;
+  step.stressIncrementTarget        = Tensor33d( 0.0 );
+
+  // set only shear gradU component to be controlled
+  // both gradU12 and gradU21 are controlled
+  step.isGradUComponentControlled         = Tensor33t< bool >( false );
+  step.isGradUComponentControlled( 0, 1 ) = true;
+  step.isGradUComponentControlled( 1, 0 ) = true;
+
+  // set only shear stress component to be controlled
+  // both tau12 and tau21 are not controlled
+  step.isStressComponentControlled         = Tensor33t< bool >( true );
+  step.isStressComponentControlled( 0, 1 ) = false;
+  step.isStressComponentControlled( 1, 0 ) = false;
+  step.timeStart                           = 0.0;
+  step.timeEnd                             = 1;
+  step.dTStart                             = .1;
+  step.dTMax                               = 1;
+  step.dTMin                               = 0.1;
+
+  // add step to solver
+  solver.addStep( step );
+
+  // solve the material point problem
+  solver.solve();
+
+  // get the final stress state
+  auto history     = solver.getHistory();
+  auto finalStress = history.back().stress;
+
+  Tensor33d stressTarget( 0.0 );
+  stressTarget( 0, 1 ) = .15;
+  stressTarget( 1, 0 ) = .15;
+
+  throwExceptionOnFailure( checkIfEqual( finalStress, stressTarget, 1e-8 ),
+                           "I-5: Material Point Solver simple shear test failed for CompressibleNeoHooke material in " +
+                             std::string( __PRETTY_FUNCTION__ ) );
+}
 int main()
 {
 
   auto tests = std::vector< std::function< void() > >{ testUndeformedResponse,
                                                        testDeformationResponse,
                                                        testAlgorithmicTangent,
-                                                       testRotation };
+                                                       testRotation,
+                                                       testWithMPSolver };
 
   executeTestsAndCollectExceptions( tests );
 

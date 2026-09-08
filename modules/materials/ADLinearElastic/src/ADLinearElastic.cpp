@@ -1,11 +1,6 @@
 #include "Marmot/ADLinearElastic.h"
 #include "Marmot/MarmotElasticity.h"
-#include "Marmot/MarmotJournal.h"
-#include "Marmot/MarmotMath.h"
 #include "Marmot/MarmotTypedefs.h"
-#include "Marmot/MarmotUtility.h"
-#include "Marmot/MarmotVoigt.h"
-#include "autodiff/forward/dual.hpp"
 #include "autodiff/forward/dual/eigen.hpp"
 
 namespace Marmot::Materials {
@@ -19,26 +14,27 @@ namespace Marmot::Materials {
     : MarmotMaterialHypoElasticAD::MarmotMaterialHypoElasticAD( materialProperties,
                                                                 nMaterialProperties,
                                                                 materialNumber ),
-      E( materialProperties[0] ),
-      nu( materialProperties[1] )
+      C( Isotropic::stiffnessTensor( materialProperties[0], materialProperties[1] ) )
   {
-    assert( nMaterialProperties == 2 );
+    stateLayout.finalize();
   }
-  void ADLinearElastic::computeStressAD( autodiff::dual*       stress,
-                                         const autodiff::dual* dStrain,
-                                         const double*         timeOld,
-                                         const double          dT,
-                                         double&               pNewDT )
+
+  double ADLinearElastic::getDensity( const double* stateVars ) const
   {
-    using Vector6dual       = Eigen::Matrix< dual, 6, 1 >;
-    using mVector6dual      = Eigen::Map< Vector6dual >;
-    using mVector6dualConst = Eigen::Map< const Vector6dual >;
+    if ( nMaterialProperties >= 3 )
+      return materialProperties[2];
+    throw std::runtime_error(
+      std::string( MakeString() << __PRETTY_FUNCTION__ << ": Density not specified for ADLinearElastic." ) );
+  }
 
-    mVector6dual            s( stress );
-    const mVector6dualConst dE( dStrain );
+  void ADLinearElastic::computeStressAD( state3DAD&                 state,
+                                         const Marmot::Vector6dual& dStrain,
+                                         const timeInfo&            timeInfo ) const
+  {
 
-    const MatrixXdual C( ContinuumMechanics::Elasticity::Isotropic::stiffnessTensor( E, nu ) );
-
-    s = s + C * dE;
+    const Vector6dual dStress = C * dStrain;
+    state.stress += dStress;
+    state.elasticEnergyDensity += 0.5 * Math::makeReal( dStrain.dot( dStress ) );
+    state.dissipation = 0.0;
   }
 } // namespace Marmot::Materials

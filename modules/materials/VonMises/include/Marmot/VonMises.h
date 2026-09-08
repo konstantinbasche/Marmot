@@ -11,8 +11,6 @@
  *
  * festigkeitslehre@uibk.ac.at
  *
- * Matthias Neuner matthias.neuner@uibk.ac.at
- *
  * This file is part of the MAteRialMOdellingToolbox (marmot).
  *
  * This library is free software; you can redistribute it and/or
@@ -26,8 +24,7 @@
  */
 #pragma once
 #include "Marmot/MarmotMaterialHypoElastic.h"
-#include "Marmot/MarmotStateVarVectorManager.h"
-#include "Marmot/MarmotTypedefs.h"
+#include "Marmot/MarmotStateHelpers.h"
 
 namespace Marmot::Materials {
 
@@ -35,43 +32,18 @@ namespace Marmot::Materials {
   class VonMisesModel : public MarmotMaterialHypoElastic {
 
   public:
-    using MarmotMaterialHypoElastic::MarmotMaterialHypoElastic;
+    VonMisesModel( const double* materialProperties, const int nMaterialProperties, const int materialLabel );
 
-    void computeStress( double* stress,
-                        double* dStress_dStrain,
+    void computeStress( state3D&                state,
+                        Marmot::Matrix6d&       dStressDDStrain,
+                        const Marmot::Vector6d& dStrain,
+                        const timeInfo&         timeInfo ) const override;
 
-                        const double* dStrain,
-                        const double* timeOld,
-                        const double  dT,
-                        double&       pNewDT ) override;
+    void computeStressExplicit( state3D&                state,
+                                const Marmot::Vector6d& dStrain,
+                                const timeInfo&         timeInfo ) const override;
 
-    /**
-     * @brief Get material density.
-     * @return Density value.
-     * @throw std::runtime_error if density is not defined.
-     */
-    double getDensity() override;
-
-    class VonMisesModelStateVarManager : public MarmotStateVarVectorManager {
-
-    public:
-      inline const static auto layout = makeLayout( {
-        { .name = "kappa", .length = 1 },
-      } );
-
-      /// @brief Hardening parameter.
-      double& kappa;
-
-      VonMisesModelStateVarManager( double* theStateVarVector )
-        : MarmotStateVarVectorManager( theStateVarVector, layout ), kappa( find( "kappa" ) ){};
-    };
-    std::unique_ptr< VonMisesModelStateVarManager > managedStateVars;
-
-    int getNumberOfRequiredStateVars() override { return VonMisesModelStateVarManager::layout.nRequiredStateVars; }
-
-    void assignStateVars( double* stateVars, int nStateVars ) override;
-
-    StateView getStateView( const std::string& result ) override;
+    double getDensity( const double* stateVars ) const override;
   };
 
 } // namespace Marmot::Materials

@@ -1,6 +1,5 @@
 #include "Marmot/LinearElastic.h"
 #include "Marmot/MarmotElasticity.h"
-#include "Marmot/MarmotJournal.h"
 #include "Marmot/MarmotMath.h"
 #include "Marmot/MarmotTypedefs.h"
 #include "Marmot/MarmotUtility.h"
@@ -15,7 +14,7 @@ namespace Marmot::Materials {
   LinearElastic::LinearElastic( const double* materialProperties, int nMaterialProperties, int materialNumber )
     : MarmotMaterialHypoElastic::MarmotMaterialHypoElastic( materialProperties, nMaterialProperties, materialNumber ),
       // clang-format off
-          anisotropicType( nMaterialProperties == 2 || nMaterialProperties == 11 || nMaterialProperties == 15 ? static_cast< Type >( nMaterialProperties ) : static_cast< Type >( nMaterialProperties - 1 ) ),
+          anisotropicType( nMaterialProperties >= 15 ? Type::Orthotropic : (nMaterialProperties >= 11 ? Type::TransverseIsotropic : Type::Isotropic) ),
           E1(   materialProperties[0] ),
           E2(   anisotropicType == Type::Isotropic ? E1 : materialProperties[1] ),
           E3(   anisotropicType == Type::Orthotropic ? materialProperties[2] : E2 ),
@@ -34,15 +33,6 @@ namespace Marmot::Materials {
                                                                materialProperties[7] ) ),
           G13(  anisotropicType == Type::Orthotropic ? materialProperties[8] : G12 )
   // clang-format on
-  {
-  }
-
-  void LinearElastic::computeStress( double*       stress,
-                                     double*       dStressDDStrain,
-                                     const double* dStrain,
-                                     const double* timeOld,
-                                     const double  dT,
-                                     double&       pNewDT )
   {
     // set global stiffness tensor
     if ( anisotropicType == Type::Isotropic ) {
@@ -75,26 +65,34 @@ namespace Marmot::Materials {
         break;
       };
     }
+  }
+
+  void LinearElastic::computeStress( state3D&        state,
+                                     Matrix6d&       dStressDDStrain,
+                                     const Vector6d& dStrain,
+                                     const timeInfo& timeInfo ) const
+  {
 
     // map stress, strain increment and stiffness tensor
-    mVector6d             S( stress );
-    Map< const Vector6d > dE( dStrain );
-    mMatrix6d             mC( dStressDDStrain );
-    mC = globalStiffnessTensor;
+    dStressDDStrain = globalStiffnessTensor;
 
     // Zero strain increment check
-    if ( ( dE.array() == 0 ).all() )
+    if ( ( dStrain.array() == 0 ).all() )
       return;
 
     // Compute stress increment
-    S += mC * dE;
+    state.stress += dStressDDStrain * dStrain;
   }
 
-  double LinearElastic::getDensity()
+  double LinearElastic::getDensity( const double* stateVars ) const
   {
-    if ( nMaterialProperties == 3 || nMaterialProperties == 12 || nMaterialProperties == 16 )
-      return materialProperties[nMaterialProperties - 1];
-    else
-      throw std::runtime_error( "Density not specified for this material" );
+    int base_props = static_cast< int >( anisotropicType );
+    if ( nMaterialProperties >= base_props + 1 )
+      return materialProperties[base_props];
+    else {
+      throw std::runtime_error(
+        std::string( MakeString() << __PRETTY_FUNCTION__ << ": Density not specified for this material." ) );
+    }
   }
+
 } // namespace Marmot::Materials

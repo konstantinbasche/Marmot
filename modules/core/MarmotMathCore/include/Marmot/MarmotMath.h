@@ -11,10 +11,6 @@
  *
  * festigkeitslehre@uibk.ac.at
  *
- * Matthias Neuner matthias.neuner@uibk.ac.at
- * Magdalena Schreter magdalena.schreter@uibk.ac.at
- * Alexander Dummer alexander.dummer@uibk.ac.at
- *
  * This file is part of the MAteRialMOdellingToolbox (marmot).
  *
  * This library is free software; you can redistribute it and/or
@@ -30,10 +26,9 @@
 #pragma once
 #include "Marmot/MarmotConstants.h"
 #include "Marmot/MarmotTypedefs.h"
-#include "autodiff/forward/dual.hpp"
-#include "autodiff/forward/real.hpp"
 #include <algorithm>
 #include <autodiff/forward/dual/dual.hpp>
+#include <autodiff/forward/real/real.hpp>
 #include <complex>
 
 namespace Marmot {
@@ -65,12 +60,12 @@ namespace Marmot {
      */
     double linearInterpolation( double x, double x0, double x1, double y0, double y1 );
 
-    /** @brief Computes the exponential of value \ref x with numerical limits check
+    /** @brief Computes the exponential of value @p x with numerical limits check
      *  @param x Exponent to which e is raised
      *  @return exponential of x
      *
      * If x is larger than the maximum limit of double precision floating point numbers,
-     * the maximum limit is returned. If \ref x is smaller than the minimum limit, the minimum limit is returned.
+     * the maximum limit is returned. If @p x is smaller than the minimum limit, the minimum limit is returned.
      */
     double exp( double x );
 
@@ -206,7 +201,7 @@ namespace Marmot {
 
     /** @brief Converts autodiff::dual numbers to double precision floating point numbers
      *  @tparam T Underlying type of the autodiff::dual number
-     *  @param G Gradient type of the autodiff::dual number
+     *  @tparam G Gradient type of the autodiff::dual number
      *  @param number Input autodiff::dual number
      *  @return Converted value as double
      *
@@ -338,7 +333,16 @@ namespace Marmot {
         fS.col( i ) = 1. / ( 2. * h ) * ( fRate( rightX, fRateArgs... ) - fRate( leftX, fRateArgs... ) );
       }
 
-      return yN + ( Iy - dt * fS ).colPivHouseholderQr().solve( Iy ) * dt * fRate( yN, fRateArgs... );
+      const auto A = Iy - dt * fS;
+      const auto r = fRate( yN, fRateArgs... );
+
+      if constexpr ( ySize == 1 ) {
+        Eigen::Matrix< double, 1, 1 > out;
+        out( 0 ) = yN( 0 ) + dt * r( 0 ) / A( 0, 0 );
+        return out;
+      }
+
+      return yN + A.colPivHouseholderQr().solve( dt * r );
     }
 
     /**
@@ -374,10 +378,8 @@ namespace Marmot {
      * @brief Explicit Euler integration based on Richardson extrapolation with error estimation and time step
      * estimation
      * @tparam ySize Size of the state vector
-     * @tparam yType Type of the current value
+     * @tparam functionType Type of the rate function
      * @tparam Args Additional argument types for the rate function
-     * @param functionType Type of the rate function
-     * @param Args Additional argument types for the rate function
      * @param yN Current value
      * @param dt Current time step size
      * @param TOL Desired tolerance for the error estimation
@@ -393,7 +395,7 @@ namespace Marmot {
      * the current time step size, and \f$ f(\boldsymbol{y}) \f$ is the rate of change.
      *
      * The function also estimates the error of the time step and adjusts the time step size for the next iteration
-     * based on the desired tolerance \ref TOL. The new time step size is computed as: \f[ \Delta t_{\text{new}} =
+     * based on the desired tolerance @p TOL. The new time step size is computed as: \f[ \Delta t_{\text{new}} =
      * \Delta t \cdot \min\left(2, \max\left(0.2, 0.9 \sqrt{\frac{TOL}{EST}}\right)\right) \f] where \f$ EST \f$ is the
      * estimated error.
      *

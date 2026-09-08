@@ -1,5 +1,5 @@
+#include "Marmot/MarmotJournal.h"
 #include "Marmot/MarmotMath.h"
-#include "Marmot/MarmotTensor.h"
 #include "Marmot/MarmotTesting.h"
 
 using namespace Marmot::Math;

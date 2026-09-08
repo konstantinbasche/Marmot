@@ -1,6 +1,9 @@
 #include "Marmot/MarmotMaterialPointSolverHypoElastic.h"
-#include "Marmot/Marmot.h"
+#include "Marmot/MarmotExceptions.h"
+#include "Marmot/MarmotMaterialHypoElasticFactory.h"
 #include <fstream>
+
+using namespace Marmot::Solvers;
 
 MarmotMaterialPointSolverHypoElastic::MarmotMaterialPointSolverHypoElastic( std::string&         materialName,
                                                                             double*              materialProperties,
@@ -9,20 +12,17 @@ MarmotMaterialPointSolverHypoElastic::MarmotMaterialPointSolverHypoElastic( std:
   : options( options )
 {
   using namespace MarmotLibrary;
-  // get material code from name
-  auto materialCode = MarmotMaterialFactory::getMaterialCodeFromName( materialName );
 
   // create material instance
-  material = dynamic_cast< MarmotMaterialHypoElastic* >(
-    MarmotMaterialFactory::createMaterial( materialCode, materialProperties, nMaterialProperties, 1 ) );
+  material = std::unique_ptr< MarmotMaterialHypoElastic >( dynamic_cast< MarmotMaterialHypoElastic* >(
+    MarmotMaterialHypoElasticFactory::createMaterial( materialName, materialProperties, nMaterialProperties, 1 ) ) );
+
   // get number of state variables
   nStateVars = material->getNumberOfRequiredStateVars();
   // initialize state variables
   stateVars         = Eigen::VectorXd::Zero( nStateVars );
   _initialStateVars = Eigen::VectorXd::Zero( nStateVars );
   stateVarsTemp     = Eigen::VectorXd::Zero( nStateVars );
-
-  material->assignStateVars( stateVarsTemp.data(), nStateVars );
 }
 
 void MarmotMaterialPointSolverHypoElastic::addStep( const Step& step )
@@ -89,17 +89,17 @@ void MarmotMaterialPointSolverHypoElastic::solveStep( const Step& step )
       stateVars = stateVarsTemp;
       counter++;
     }
-    catch ( std::runtime_error& e ) {
+    catch ( const Marmot::StressUpdateFailed& e ) {
       // if failed, reduce time step and retry
       std::cout << "    Increment failed: " << e.what() << ", reducing time step to " << dT / 2.0 << std::endl;
       if ( dT <= step.dTMin )
-        throw std::runtime_error( "Minimum time step reached, cannot proceed." );
+        throw Marmot::SolverTimestepExhausted( "Minimum time step reached, cannot proceed." );
       dT = std::max( dT / 2.0, step.dTMin );
     }
   }
 
   if ( std::abs( time - step.timeEnd ) > 1e-12 )
-    throw std::runtime_error( "Maximum number of increments reached, cannot proceed." );
+    throw Marmot::SolverIncrementsExhausted( "Maximum number of increments reached, cannot proceed." );
 }
 
 void MarmotMaterialPointSolverHypoElastic::solveIncrement( const Increment& increment )
@@ -124,7 +124,6 @@ void MarmotMaterialPointSolverHypoElastic::solveIncrement( const Increment& incr
   dStressDStrain.setZero();
 
   int    counter = 0;
-  double pNewDT  = 1.0;
   double resNorm = 1e12;
   double corNorm = 0.0;
 
@@ -138,14 +137,18 @@ void MarmotMaterialPointSolverHypoElastic::solveIncrement( const Increment& incr
     // set stress to previous converged value
     stressTemp = stress;
 
-    // set Abaqus style time array TODO: get rid of this
-    double time[2] = { -1, increment.timeOld + increment.dT };
+    // set up state and time info for material
+    MarmotMaterialHypoElastic::state3D state( stressTemp, 0.0, 0.0, stateVarsTemp.data() );
+
+    MarmotMaterialHypoElastic::timeInfo timeInfo;
+    timeInfo.time = increment.timeOld + increment.dT;
+    timeInfo.dT   = increment.dT;
 
     // compute stress and tangent
-    material->computeStress( stressTemp.data(), dStressDStrain.data(), dStrain.data(), &time[0], increment.dT, pNewDT );
+    material->computeStress( state, dStressDStrain, dStrain, timeInfo );
 
-    if ( pNewDT < 1.0 )
-      throw std::runtime_error( "Material model requested time step reduction." );
+    // get updated stress
+    stressTemp = state.stress;
 
     // initialize residual with stress increment
     Marmot::Vector6d residual = computeResidual( stressTemp - stress, target, increment );
@@ -174,7 +177,7 @@ void MarmotMaterialPointSolverHypoElastic::solveIncrement( const Increment& incr
     counter++;
   }
   if ( counter >= options.maxIterations )
-    throw std::runtime_error( "Maximum number of iterations reached, no convergence." );
+    throw Marmot::SolverConvergenceFailed( "Maximum number of iterations reached, no convergence." );
 
   std::cout << "    Converged after " << counter << " iterations." << std::endl;
 

@@ -11,7 +11,6 @@
  *
  * festigkeitslehre@uibk.ac.at
  *
- *
  * This file is part of the MAteRialMOdellingToolbox (marmot).
  *
  * This library is free software; you can redistribute it and/or
@@ -27,11 +26,6 @@
 #pragma once
 #include "Marmot/MarmotMaterialHypoElasticAD.h"
 #include "Marmot/MarmotTypedefs.h"
-#include "autodiff/forward/dual.hpp"
-#include <Eigen/src/Core/Map.h>
-#include <iostream>
-#include <string>
-#include <vector>
 
 using namespace Marmot;
 
@@ -45,23 +39,16 @@ namespace Marmot::Materials {
   public:
     using MarmotMaterialHypoElasticAD::MarmotMaterialHypoElasticAD;
 
-    /// @brief Young's modulus for isotropic materials
-    const double& E;
-
-    /// @brief Poisson's ratio for isotropic materials
-    const double& nu;
+    /// @brief Elasticity tensor for isotropic materials
+    const autodiff::MatrixXdual C;
 
     ADLinearElastic( const double* materialProperties, int nMaterialProperties, int materialNumber );
 
+    double getDensity( const double* stateVars ) const override;
+
   protected:
-    void computeStressAD( autodiff::dual*       stress,
-                          const autodiff::dual* dStrain,
-                          const double*         timeOld,
-                          const double          dT,
-                          double&               pNewDT );
-
-    StateView getStateView( const std::string& result ) { return { nullptr, 0 }; };
-
-    int getNumberOfRequiredStateVars() { return 0; }
+    void computeStressAD( state3DAD&                 state,
+                          const Marmot::Vector6dual& dStrain,
+                          const timeInfo&            timeInfo ) const override;
   };
 } // namespace Marmot::Materials

@@ -2,19 +2,23 @@
 #include "Marmot/MarmotElasticity.h"
 #include "Marmot/MarmotMaterialHypoElastic.h"
 #include "Marmot/MarmotTypedefs.h"
-#include "Marmot/MarmotUtility.h"
 #include "Marmot/MarmotViscoelasticity.h"
-#include "Marmot/MarmotVoigt.h"
-#include "autodiff/forward/real.hpp"
-#include <iostream>
-#include <map>
-#include <string>
 
 using namespace Marmot;
 using namespace Eigen;
 
 namespace Marmot::Materials {
 
+  double LinearViscoelasticPowerLaw::getDensity( const double* stateVars ) const
+  {
+    if ( nMaterialProperties < 8 ) {
+      throw std::runtime_error( MakeString()
+                                << __PRETTY_FUNCTION__ << ": Density not provided in material properties array!" );
+    }
+    else {
+      return materialProperties[7];
+    }
+  }
   LinearViscoelasticPowerLaw::LinearViscoelasticPowerLaw( const double* materialProperties,
                                                           int           nMaterialProperties,
                                                           int           materialLabel )
@@ -31,6 +35,9 @@ namespace Marmot::Materials {
       timeToDays                        ( materialProperties[6] )
   // clang-format on
   {
+    stateLayout.add( "kelvinStateVars", 6 * nKelvin );
+    stateLayout.finalize();
+
     // assume sqrt( 10 ) spacing between retardation times
     retardationTimes = KelvinChain::generateRetardationTimes( nKelvin, minTau, sqrt( 10. ) );
 
@@ -45,24 +52,24 @@ namespace Marmot::Materials {
     zerothKelvinChainCompliance = m * ( 1. - n ) * pow( 2., n ) * pow( minTau / sqrt( sqrt( 10. ) ), n );
   }
 
-  void LinearViscoelasticPowerLaw::computeStress( double*       stress,
-                                                  double*       dStressDDStrain,
-                                                  const double* dStrain,
-                                                  const double* timeOld,
-                                                  const double  dT,
-                                                  double&       pNewDT )
+  void LinearViscoelasticPowerLaw::computeStress( state3D&        state,
+                                                  Matrix6d&       dStressDDStrain,
+                                                  const Vector6d& dStrain,
+                                                  const timeInfo& timeInfo ) const
 
   {
-    mVector6d nomStress( stress );
-    Vector6d  dE( dStrain );
-    mMatrix6d C( dStressDDStrain );
+    mVector6d             nomStress( state.stress.data() );
+    Map< const Vector6d > dE( dStrain.data() );
+    mMatrix6d             C( dStressDDStrain.data() );
+
+    const double& dT = timeInfo.dT;
 
     if ( ( dE.array() == 0 ).all() && dT == 0 ) {
       C = ContinuumMechanics::Elasticity::Isotropic::stiffnessTensor( E, nu );
       return;
     }
 
-    Eigen::Ref< KelvinChain::mapStateVarMatrix > creepStateVars( stateVarManager->kelvinStateVars );
+    Eigen::Map< KelvinChain::StateVarMatrix > creepStateVars( state.stateVars, 6, nKelvin );
 
     const double dTimeDays = dT * timeToDays;
 
@@ -94,25 +101,5 @@ namespace Marmot::Materials {
                                        CelUnitInv );
 
     return;
-  }
-
-  void LinearViscoelasticPowerLaw::assignStateVars( double* stateVars_, int nStateVars )
-  {
-    if ( nStateVars < getNumberOfRequiredStateVars() )
-      throw std::invalid_argument( MakeString() << __PRETTY_FUNCTION__ << ": Not sufficient stateVars!" );
-
-    this->stateVarManager = std::make_unique< LinearViscoelasticPowerLawStateVarManager >( stateVars_, nKelvin );
-
-    MarmotMaterial::assignStateVars( stateVars_, nStateVars );
-  }
-
-  StateView LinearViscoelasticPowerLaw::getStateView( const std::string& stateName )
-  {
-    return stateVarManager->getStateView( stateName );
-  }
-
-  int LinearViscoelasticPowerLaw::getNumberOfRequiredStateVars()
-  {
-    return LinearViscoelasticPowerLawStateVarManager::layout.nRequiredStateVars + nKelvin * 6;
   }
 } // namespace Marmot::Materials

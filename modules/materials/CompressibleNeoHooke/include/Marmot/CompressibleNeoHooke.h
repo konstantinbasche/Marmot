@@ -11,8 +11,6 @@
  *
  * festigkeitslehre@uibk.ac.at
  *
- * Alexander Dummer alexander.dummer@uibk.ac.at
- *
  * This file is part of the MAteRialMOdellingToolbox (marmot).
  *
  * This library is free software; you can redistribute it and/or
@@ -26,8 +24,8 @@
  */
 
 #pragma once
+#include "Marmot/MarmotJournal.h"
 #include "Marmot/MarmotMaterialFiniteStrain.h"
-#include <string>
 
 namespace Marmot::Materials {
 
@@ -55,10 +53,7 @@ namespace Marmot::Materials {
      * @param nMaterialProperties Length of @c materialProperties.
      * @param materialLabel Material label.
      */
-
     CompressibleNeoHooke( const double* materialProperties, int nMaterialProperties, int materialLabel );
-
-    static constexpr int nStateVarsRequired = 0; /**< Number of required state variables (none here). */
 
     /**
      * @brief Compute the Kirchhoff stress and the algorithmic tangent for the current step.
@@ -77,33 +72,23 @@ namespace Marmot::Materials {
      *
      * Template parameter @c <3> indicates 3D.
      */
-
     void computeStress( ConstitutiveResponse< 3 >&,
                         AlgorithmicModuli< 3 >&,
                         const Deformation< 3 >&,
-                        const TimeIncrement& );
-    /** @brief Number of required state variables.
-     *  @return Always 0 for this model.
-     */
-    int getNumberOfRequiredStateVars() { return this->nStateVarsRequired; }
-
-    /** @brief Bind external state storage (unused for this model; required for the interface).
-     *  @param stateVars Pointer to a contiguous array provided by the caller for internal state.
-     *  @param nStateVars Number of entries in that array.
-     */
-    void assignStateVars( double* stateVars, int nStateVars )
-    {
-      this->stateVars  = stateVars;
-      this->nStateVars = nStateVars;
-    };
+                        const TimeIncrement& ) const override;
 
     /**
-     * @brief Access a named state quantity (no states here).
-     * @param result Name of the state to view.
-     * @return Always an empty StateView since no states are used.
+     * @brief Get material density.
+     * @return Density value.
      */
-
-    StateView getStateView( const std::string& result );
+    double getDensity( const double* stateVars ) const override
+    {
+      if ( this->nMaterialProperties < 3 ) {
+        throw std::runtime_error(
+          std::string( MakeString() << __PRETTY_FUNCTION__ << ": No density given! nMaterialProperties < 3." ) );
+      }
+      return this->materialProperties[2];
+    }
   };
 
 } // namespace Marmot::Materials

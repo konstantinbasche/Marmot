@@ -11,8 +11,6 @@
  *
  * festigkeitslehre@uibk.ac.at
  *
- * Alexander Dummer alexander.dummer@uibk.ac.at
- *
  * This file is part of the MAteRialMOdellingToolbox (marmot).
  *
  * This library is free software; you can redistribute it and/or
@@ -29,10 +27,8 @@
 #include "Marmot/MarmotKelvinChain.h"
 #include "Marmot/MarmotMaterialHypoElastic.h"
 #include "Marmot/MarmotSolidification.h"
-#include "Marmot/MarmotStateVarVectorManager.h"
-#include <iostream>
+#include "Marmot/MarmotStateHelpers.h"
 #include <string>
-#include <vector>
 
 namespace Marmot::Materials {
 
@@ -156,39 +152,17 @@ namespace Marmot::Materials {
     /**< #timeToDays represents the ratio of simulation time to days.
      * It is a reference variable to #materialProperties[21]. */
 
-    class B4StateVarManager : public MarmotStateVarVectorManager {
-
-    public:
-      inline const static auto layout = makeLayout( {
-        { .name = "kelvinStateVars", .length = 0 },
-      } );
-
-      KelvinChain::mapStateVarMatrix kelvinStateVars;
-
-      B4StateVarManager( double* theStateVarVector, int nKelvinUnits )
-        : MarmotStateVarVectorManager( theStateVarVector, layout ),
-          kelvinStateVars( &find( "kelvinStateVars" ), 6, nKelvinUnits ){};
-    };
-    std::unique_ptr< B4StateVarManager > stateVarManager;
-
   public:
     using MarmotMaterialHypoElastic::MarmotMaterialHypoElastic;
 
     B4( const double* materialProperties, int nMaterialProperties, int materialLabel );
 
-    void computeStress( double* stress,
-                        double* dStressDDStrain,
+    double getDensity( const double* stateVars ) const override;
 
-                        const double* dStrain,
-                        const double* timeOld,
-                        const double  dT,
-                        double&       pNewDT );
-
-    int getNumberOfRequiredStateVars();
-
-    void assignStateVars( double* stateVars_, int nStateVars );
-
-    StateView getStateView( const std::string& stateName );
+    void computeStress( state3D&                state,
+                        Marmot::Matrix6d&       dStressDDStrain,
+                        const Marmot::Vector6d& dStrain,
+                        const timeInfo&         timeInfo ) const override;
 
   private:
     /// \brief material parameters for Solidification Theory
@@ -210,7 +184,7 @@ namespace Marmot::Materials {
 
     /// \brief drying creep compliance function
     template < typename T_ >
-    T_ phi( T_ xi, double b, double xiZero )
+    T_ phi( T_ xi, double b, double xiZero ) const
     {
       T_ val = sqrt( exp( tanh( sqrt( xi - xiZero ) ) * b ) - exp( tanh( sqrt( -xiZero ) ) * b ) );
       return val;

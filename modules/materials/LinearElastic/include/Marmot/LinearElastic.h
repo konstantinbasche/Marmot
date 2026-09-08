@@ -11,7 +11,6 @@
  *
  * festigkeitslehre@uibk.ac.at
  *
- *
  * This file is part of the MAteRialMOdellingToolbox (marmot).
  *
  * This library is free software; you can redistribute it and/or
@@ -25,11 +24,10 @@
  */
 
 #pragma once
+#include "Marmot/MarmotJournal.h"
 #include "Marmot/MarmotMaterialHypoElastic.h"
 #include "Marmot/MarmotTypedefs.h"
-#include <iostream>
 #include <string>
-#include <vector>
 
 namespace Marmot::Materials {
   /**
@@ -43,6 +41,8 @@ namespace Marmot::Materials {
     using MarmotMaterialHypoElastic::MarmotMaterialHypoElastic;
 
     LinearElastic( const double* materialProperties, int nMaterialProperties, int materialNumber );
+
+    double getDensity( const double* stateVars ) const override;
 
   protected:
     /// @brief Type of isotropic and anisotropic behavior.
@@ -153,18 +153,9 @@ namespace Marmot::Materials {
 
     Matrix6d globalStiffnessTensor;
 
-    void computeStress( double* stress,
-                        double* dStressDDStrain,
-
-                        const double* dStrain,
-                        const double* timeOld,
-                        const double  dT,
-                        double&       pNewDT );
-
-    StateView getStateView( const std::string& result ) { return { nullptr, 0 }; };
-
-    int getNumberOfRequiredStateVars() { return 0; }
-
-    double getDensity();
+    void computeStress( state3D&                state,
+                        Marmot::Matrix6d&       dStressDDStrain,
+                        const Marmot::Vector6d& dStrain,
+                        const timeInfo&         timeInfo ) const override;
   };
 } // namespace Marmot::Materials
