@@ -64,6 +64,26 @@ Within this build directory, the tests can be executed by running
 ctest --output-on-failure
 ```
 
+### Python bindings
+
+`Marmot` optionally provides a Python interface to the material point solvers. It requires the
+Python development headers and fetches [nanobind](https://github.com/wjakob/nanobind) at configure
+time, and is therefore disabled by default. To build and install it as well, configure with
+
+```bash
+cmake -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DMARMOT_BUILD_PYTHON_BINDINGS=ON ..
+make install
+```
+
+The examples in `examples/python` can then be run directly, e.g.
+
+```bash
+python examples/python/LinearElastic/example_strain_controlled.py
+```
+
+Each example compares its results against a stored reference solution. Pass
+`--writeReferenceSolution` to regenerate that reference instead of checking against it.
+
 ## How to use Marmot with EdelweissFE
 The [EdelweissFE](https://github.com/EdelweissFE/EdelweissFE) finite element code is designed to work seamlessly with `Marmot`.
 After the installation of `Marmot`, EdelweissFE can be built with `Marmot` support by executing

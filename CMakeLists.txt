@@ -55,6 +55,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_BUILD_RPATH "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # set install directories
@@ -115,6 +116,9 @@ enable_testing()
 function(add_marmot_test test_name test_source)
   add_executable(${test_name} ${test_source})
   target_link_libraries(${test_name} PRIVATE ${PROJECT_NAME})
+  set_target_properties(${test_name} PROPERTIES
+      BUILD_RPATH "${CMAKE_BINARY_DIR}/lib"
+  )
   add_test(NAME ${test_name} COMMAND ${test_name} WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 endfunction()
 
@@ -247,6 +251,17 @@ foreach(MODULEPATH IN LISTS INSTALLED_MODULEPATHS)
         include("${MODULEPATH}/test.cmake")
     endif()
 endforeach()
+
+# ── Python bindings ───────────────────────────────────────────────────────────
+
+# Opt-in: building the bindings requires the Python development headers and
+# fetches nanobind, neither of which should be a hard dependency of the C++ library.
+option(MARMOT_BUILD_PYTHON_BINDINGS "Build the Marmot Python bindings" OFF)
+
+if(MARMOT_BUILD_PYTHON_BINDINGS)
+    message(STATUS "Building the Marmot Python bindings")
+    add_subdirectory(modules/python)
+endif()
 
 # ── Install ───────────────────────────────────────────────────────────────────
 
