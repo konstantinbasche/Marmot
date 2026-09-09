@@ -50,6 +50,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../interfaces.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_bindings.html">Python Bindings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../documentation.html">Code documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="finiteelementcore.html">MarmotFiniteElementCore</a></li>
@@ -441,10 +442,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#_CPPv418ContinuumMechanics"><code class="docutils literal notranslate"><span class="pre">ContinuumMechanics</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#_CPPv4N18ContinuumMechanics13VoigtNotationE"><code class="docutils literal notranslate"><span class="pre">ContinuumMechanics::VoigtNotation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#_CPPv45Eigen"><code class="docutils literal notranslate"><span class="pre">Eigen</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#_CPPv46Marmot"><code class="docutils literal notranslate"><span class="pre">Marmot</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6Marmot19discardTheIncrementERddRKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">discardTheIncrement()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv46Marmot"><code class="docutils literal notranslate"><span class="pre">Marmot</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#_CPPv4N6Marmot18ContinuumMechanicsE"><code class="docutils literal notranslate"><span class="pre">Marmot::ContinuumMechanics</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#_CPPv4N6Marmot18ContinuumMechanics24CommonConstitutiveModelsE"><code class="docutils literal notranslate"><span class="pre">Marmot::ContinuumMechanics::CommonConstitutiveModels</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#_CPPv4N6Marmot18ContinuumMechanics10ElasticityE"><code class="docutils literal notranslate"><span class="pre">Marmot::ContinuumMechanics::Elasticity</span></code></a></li>
@@ -547,6 +545,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6Marmot18ContinuumMechanics13VoigtNotation22voigtToStiffnessFastorERKN6Marmot8Matrix6dE"><code class="docutils literal notranslate"><span class="pre">voigtToStiffnessFastor()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4I_iEN6Marmot18ContinuumMechanics13VoigtNotation21stressMatrixFromVoigtEN5Eigen6MatrixId4nDim4nDimEERKN5Eigen6MatrixIdF12VOIGTFROMDIM4nDimEXL1EEEE"><code class="docutils literal notranslate"><span class="pre">stressMatrixFromVoigt()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4I_iEN6Marmot18ContinuumMechanics13VoigtNotation21voigtFromStrainMatrixEN5Eigen6MatrixIdF12VOIGTFROMDIM4nDimEXL1EEEERKN5Eigen6MatrixId4nDim4nDimEE"><code class="docutils literal notranslate"><span class="pre">voigtFromStrainMatrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6Marmot18ContinuumMechanics13VoigtNotation19IndicesToVoigtIndexE"><code class="docutils literal notranslate"><span class="pre">IndicesToVoigtIndex</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6Marmot18ContinuumMechanics13VoigtNotation1PE"><code class="docutils literal notranslate"><span class="pre">P</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6Marmot18ContinuumMechanics13VoigtNotation4PInvE"><code class="docutils literal notranslate"><span class="pre">PInv</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6Marmot18ContinuumMechanics13VoigtNotation1IE"><code class="docutils literal notranslate"><span class="pre">I</span></code></a></li>
@@ -3452,26 +3451,7 @@ This function adjusts the tangent matrix to account for the components that are 
 <dl class="cpp type">
 <dt class="sig sig-object cpp" id="_CPPv46Marmot">
 <span id="_CPPv36Marmot"></span><span id="_CPPv26Marmot"></span><span id="Marmot"></span><span class="target" id="namespace_marmot"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Marmot</span></span></span><br /></dt>
-<dd><div class="breathe-sectiondef docutils container">
-<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N6Marmot19discardTheIncrementERddRKNSt6stringE">
-<span id="_CPPv3N6Marmot19discardTheIncrementERddRKNSt6stringE"></span><span id="_CPPv2N6Marmot19discardTheIncrementERddRKNSt6stringE"></span><span id="Marmot::discardTheIncrement__doubleR.double.ssCR"></span><span class="target" id="_marmot_utility_8h_1a252d6a7dd503dee472f2d47ae9782b83"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">discardTheIncrement</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pNewDT</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mathcore.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6Marmot19discardTheIncrementERddRKNSt6stringE" title="Link to this definition"></a><br /></dt>
-<dd><p>Signals that the current increment should be discarded. </p>
-<p>Sets <code class="docutils literal notranslate"><span class="pre">pNewDT</span></code> to the requested <code class="docutils literal notranslate"><span class="pre">value</span></code> and prints a warning message. Intended to be called inside material routines when convergence cannot be achieved, instructing the host code to restart with a smaller step.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pNewDT</strong> – Output parameter: suggested new time-step size. </p></li>
-<li><p><strong>value</strong> – Suggested value for the new time-step size. </p></li>
-<li><p><strong>message</strong> – Human-readable reason for discarding the increment. </p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="cpp type">
 <dt class="sig sig-object cpp" id="_CPPv4N6Marmot18ContinuumMechanicsE">
@@ -3663,6 +3643,13 @@ This function adjusts the tangent matrix to account for the components that are 
 <dt class="sig sig-object cpp" id="_CPPv4N6Marmot18ContinuumMechanics10Elasticity11OrthotropicE">
 <span id="_CPPv3N6Marmot18ContinuumMechanics10Elasticity11OrthotropicE"></span><span id="_CPPv2N6Marmot18ContinuumMechanics10Elasticity11OrthotropicE"></span><span id="Marmot::ContinuumMechanics::Elasticity::Orthotropic"></span><span class="target" id="namespace_marmot_1_1_continuum_mechanics_1_1_elasticity_1_1_orthotropic"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Orthotropic</span></span></span><a class="headerlink" href="#_CPPv4N6Marmot18ContinuumMechanics10Elasticity11OrthotropicE" title="Link to this definition"></a><br /></dt>
 <dd><p>Functions for the description of orthotropic elastic behavior. </p>
+<p>Poisson’s ratio <span class="math notranslate nohighlight">\(\nu_{ij}\)</span> is defined as the negative ratio of the lateral strain in direction <span class="math notranslate nohighlight">\(x_j\)</span> to the axial strain in direction <span class="math notranslate nohighlight">\(x_i\)</span> for uniaxial stress applied in direction <span class="math notranslate nohighlight">\(x_i\)</span>,</p>
+<p><div class="math notranslate nohighlight">
+\[  \displaystyle \nu_{ij} = -\frac{\varepsilon_j}{\varepsilon_i}
+  \quad\text{for}\quad \sigma_i \neq 0,\ \sigma_k = 0\ (k \neq i),
+\]</div>
+</p>
+<p>so the corresponding compliance entry reads <span class="math notranslate nohighlight">\( \mathbb{C}^{-1}_{ji} = -\nu_{ij}/E_i \)</span>. Symmetry of the compliance tensor implies <span class="math notranslate nohighlight">\( \nu_{ij}/E_i = \nu_{ji}/E_j \)</span>, hence only <span class="math notranslate nohighlight">\(\nu_{12}\)</span>, <span class="math notranslate nohighlight">\(\nu_{13}\)</span> and <span class="math notranslate nohighlight">\(\nu_{23}\)</span> are independent. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
 <dl class="cpp function">
@@ -3671,9 +3658,9 @@ This function adjusts the tangent matrix to account for the components that are 
 <dd><p>Computes the orthotropic compliance tensor <span class="math notranslate nohighlight">\(\mathbb{C}^{-1}\)</span>, defined in the principal material directions <span class="math notranslate nohighlight">\(x_1\)</span>, <span class="math notranslate nohighlight">\(x_2\)</span>, and <span class="math notranslate nohighlight">\(x_3\)</span>. </p>
 <p><div class="math notranslate nohighlight">
 \[\begin{split}  \displaystyle \mathbb{ C }^{-1} = \begin{bmatrix}
-                 \frac{1}{E_1} &amp; \frac{-\nu_{12}}{E_2} &amp; \frac{-\nu_{13}}{E_3} &amp; 0 &amp; 0 &amp; 0 \\
-                 \frac{-\nu_{12}}{E_2} &amp; \frac{1}{E_2} &amp; \frac{-\nu_{23}}{E_3} &amp; 0 &amp; 0 &amp; 0 \\
-                 \frac{-\nu_{13}}{E_3} &amp; \frac{-\nu_{23}}{E_3} &amp; \frac{1}{E_3} &amp; 0 &amp; 0 &amp; 0 \\
+                 \frac{1}{E_1} &amp; \frac{-\nu_{12}}{E_1} &amp; \frac{-\nu_{13}}{E_1} &amp; 0 &amp; 0 &amp; 0 \\
+                 \frac{-\nu_{12}}{E_1} &amp; \frac{1}{E_2} &amp; \frac{-\nu_{23}}{E_2} &amp; 0 &amp; 0 &amp; 0 \\
+                 \frac{-\nu_{13}}{E_1} &amp; \frac{-\nu_{23}}{E_2} &amp; \frac{1}{E_3} &amp; 0 &amp; 0 &amp; 0 \\
                0 &amp; 0 &amp; 0 &amp; \frac{1}{G_{12}} &amp; 0 &amp; 0 \\
                0 &amp; 0 &amp; 0 &amp; 0 &amp; \frac{1}{G_{13}} &amp; 0 \\
                0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; \frac{1}{G_{23}}
@@ -3731,6 +3718,13 @@ This function adjusts the tangent matrix to account for the components that are 
 <dt class="sig sig-object cpp" id="_CPPv4N6Marmot18ContinuumMechanics10Elasticity19TransverseIsotropicE">
 <span id="_CPPv3N6Marmot18ContinuumMechanics10Elasticity19TransverseIsotropicE"></span><span id="_CPPv2N6Marmot18ContinuumMechanics10Elasticity19TransverseIsotropicE"></span><span id="Marmot::ContinuumMechanics::Elasticity::TransverseIsotropic"></span><span class="target" id="namespace_marmot_1_1_continuum_mechanics_1_1_elasticity_1_1_transverse_isotropic"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TransverseIsotropic</span></span></span><a class="headerlink" href="#_CPPv4N6Marmot18ContinuumMechanics10Elasticity19TransverseIsotropicE" title="Link to this definition"></a><br /></dt>
 <dd><p>Functions for the description of transversely isotropic elastic behavior. </p>
+<p>Poisson’s ratio <span class="math notranslate nohighlight">\(\nu_{ij}\)</span> is defined as the negative ratio of the lateral strain in direction <span class="math notranslate nohighlight">\(x_j\)</span> to the axial strain in direction <span class="math notranslate nohighlight">\(x_i\)</span> for uniaxial stress applied in direction <span class="math notranslate nohighlight">\(x_i\)</span>,</p>
+<p><div class="math notranslate nohighlight">
+\[  \displaystyle \nu_{ij} = -\frac{\varepsilon_j}{\varepsilon_i}
+  \quad\text{for}\quad \sigma_i \neq 0,\ \sigma_k = 0\ (k \neq i),
+\]</div>
+</p>
+<p>so the corresponding compliance entry reads <span class="math notranslate nohighlight">\( \mathbb{C}^{-1}_{ji} = -\nu_{ij}/E_i \)</span>. Symmetry of the compliance tensor implies <span class="math notranslate nohighlight">\( \nu_{ij}/E_i = \nu_{ji}/E_j \)</span>, hence only <span class="math notranslate nohighlight">\(\nu_{12}\)</span> and <span class="math notranslate nohighlight">\(\nu_{23}\)</span> are independent. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
 <dl class="cpp function">
@@ -4756,6 +4750,11 @@ This function adjusts the tangent matrix to account for the components that are 
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-variables">Variables</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N6Marmot18ContinuumMechanics13VoigtNotation19IndicesToVoigtIndexE">
+<span id="_CPPv3N6Marmot18ContinuumMechanics13VoigtNotation19IndicesToVoigtIndexE"></span><span id="_CPPv2N6Marmot18ContinuumMechanics13VoigtNotation19IndicesToVoigtIndexE"></span><span id="Marmot::ContinuumMechanics::VoigtNotation::IndicesToVoigtIndex__iAA"></span><span class="target" id="_marmot_voigt_8h_1a8fe7af0685581e33398e5fb39890698d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IndicesToVoigtIndex</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">4</span></span><span class="p"><span class="pre">}</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">}</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">4</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">5</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">}</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N6Marmot18ContinuumMechanics13VoigtNotation19IndicesToVoigtIndexE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N6Marmot18ContinuumMechanics13VoigtNotation1PE">
 <span id="_CPPv3N6Marmot18ContinuumMechanics13VoigtNotation1PE"></span><span id="_CPPv2N6Marmot18ContinuumMechanics13VoigtNotation1PE"></span><span id="Marmot::ContinuumMechanics::VoigtNotation::P__Marmot::Vector6dC"></span><span class="target" id="_marmot_voigt_8h_1a9ced2ccba0453d40c8258b5b8fcd6dc5"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="finiteelementcore.html#_CPPv46Marmot" title="Marmot"><span class="n"><span class="pre">Marmot</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="mathcore.html#_CPPv4N6Marmot8Vector6dE" title="Marmot::Vector6d"><span class="n"><span class="pre">Vector6d</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">P</span></span></span><a class="headerlink" href="#_CPPv4N6Marmot18ContinuumMechanics13VoigtNotation1PE" title="Link to this definition"></a><br /></dt>

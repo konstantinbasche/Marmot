@@ -45,6 +45,7 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="pages/installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pages/interfaces.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pages/python_bindings.html">Python Bindings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pages/features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pages/documentation.html">Code documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pages/publications.html">Publications</a></li>
@@ -649,6 +650,8 @@
 </li>
       <li><a href="pages/codedocumentation/mechanicscore.html#_CPPv4N6Marmot18ContinuumMechanics13VoigtNotation4IHydE">Marmot::ContinuumMechanics::VoigtNotation::IHyd (C++ member)</a>
 </li>
+      <li><a href="pages/codedocumentation/mechanicscore.html#_CPPv4N6Marmot18ContinuumMechanics13VoigtNotation19IndicesToVoigtIndexE">Marmot::ContinuumMechanics::VoigtNotation::IndicesToVoigtIndex (C++ member)</a>
+</li>
       <li><a href="pages/codedocumentation/mechanicscore.html#_CPPv4N6Marmot18ContinuumMechanics13VoigtNotation10InvariantsE">Marmot::ContinuumMechanics::VoigtNotation::Invariants (C++ type)</a>
 </li>
       <li><a href="pages/codedocumentation/mechanicscore.html#_CPPv4I0EN6Marmot18ContinuumMechanics13VoigtNotation10Invariants2I1E1TRKN5Eigen6MatrixI1TXL6EEXL1EEEE">Marmot::ContinuumMechanics::VoigtNotation::Invariants::I1 (C++ function)</a>
@@ -767,8 +770,6 @@
 </li>
       <li><a href="pages/codedocumentation/mathcore.html#_CPPv4N6Marmot13DimensionType1WE">Marmot::DimensionType::W (C++ enumerator)</a>
 </li>
-      <li><a href="pages/codedocumentation/mechanicscore.html#_CPPv4N6Marmot19discardTheIncrementERddRKNSt6stringE">Marmot::discardTheIncrement (C++ function)</a>
-</li>
       <li><a href="pages/codedocumentation/mathcore.html#_CPPv4N6Marmot12EigenTensorsE">Marmot::EigenTensors (C++ type)</a>
 </li>
       <li><a href="pages/codedocumentation/mathcore.html#_CPPv4N6Marmot12EigenTensors10Tensor122dE">Marmot::EigenTensors::Tensor122d (C++ type)</a>
@@ -803,21 +804,21 @@
 </li>
       <li><a href="pages/features/displacementfiniteelement.html#_CPPv4N6Marmot8Elements25DisplacementFiniteElement6BSizedE">Marmot::Elements::DisplacementFiniteElement::BSized (C++ type)</a>
 </li>
-      <li><a href="pages/features/displacementfiniteelement.html#_CPPv4N6Marmot8Elements25DisplacementFiniteElement16computeBodyForceEPdPdPKdPKdPKdd">Marmot::Elements::DisplacementFiniteElement::computeBodyForce (C++ function)</a>
+      <li><a href="pages/features/displacementfiniteelement.html#_CPPv4N6Marmot8Elements25DisplacementFiniteElement16computeBodyForceEPdPdPKdPKddd">Marmot::Elements::DisplacementFiniteElement::computeBodyForce (C++ function)</a>
 </li>
       <li><a href="pages/features/displacementfiniteelement.html#_CPPv4N6Marmot8Elements25DisplacementFiniteElement24computeConsistentInertiaEPd">Marmot::Elements::DisplacementFiniteElement::computeConsistentInertia (C++ function)</a>
 </li>
       <li><a href="pages/features/displacementfiniteelement.html#_CPPv4N6Marmot8Elements25DisplacementFiniteElement42computeCriticalTimeStepForExplicitDynamicsERdPKd">Marmot::Elements::DisplacementFiniteElement::computeCriticalTimeStepForExplicitDynamics (C++ function)</a>
 </li>
-      <li><a href="pages/features/displacementfiniteelement.html#_CPPv4N6Marmot8Elements25DisplacementFiniteElement22computeDistributedLoadEN13MarmotElement20DistributedLoadTypesEPdPdKiPKdPKdPKdd">Marmot::Elements::DisplacementFiniteElement::computeDistributedLoad (C++ function)</a>
+      <li><a href="pages/features/displacementfiniteelement.html#_CPPv4N6Marmot8Elements25DisplacementFiniteElement22computeDistributedLoadEN13MarmotElement20DistributedLoadTypesEPdPdKiPKdPKddd">Marmot::Elements::DisplacementFiniteElement::computeDistributedLoad (C++ function)</a>
 </li>
       <li><a href="pages/features/displacementfiniteelement.html#_CPPv4N6Marmot8Elements25DisplacementFiniteElement21computeInternalEnergyERd">Marmot::Elements::DisplacementFiniteElement::computeInternalEnergy (C++ function)</a>
 </li>
+      <li><a href="pages/features/displacementfiniteelement.html#_CPPv4N6Marmot8Elements25DisplacementFiniteElement14computeKernelsEPKdPKdPdPddd">Marmot::Elements::DisplacementFiniteElement::computeKernels (C++ function)</a>
+</li>
+      <li><a href="pages/features/displacementfiniteelement.html#_CPPv4N6Marmot8Elements25DisplacementFiniteElement22computeKernelsExplicitEPKdPKdPddd">Marmot::Elements::DisplacementFiniteElement::computeKernelsExplicit (C++ function)</a>
+</li>
       <li><a href="pages/features/displacementfiniteelement.html#_CPPv4N6Marmot8Elements25DisplacementFiniteElement20computeLumpedInertiaEPd">Marmot::Elements::DisplacementFiniteElement::computeLumpedInertia (C++ function)</a>
-</li>
-      <li><a href="pages/features/displacementfiniteelement.html#_CPPv4N6Marmot8Elements25DisplacementFiniteElement15computeYourselfEPKdPKdPdPdPKddRd">Marmot::Elements::DisplacementFiniteElement::computeYourself (C++ function)</a>
-</li>
-      <li><a href="pages/features/displacementfiniteelement.html#_CPPv4N6Marmot8Elements25DisplacementFiniteElement23computeYourselfExplicitEPKdPKdPdPKddRd">Marmot::Elements::DisplacementFiniteElement::computeYourselfExplicit (C++ function)</a>
 </li>
       <li><a href="pages/features/displacementfiniteelement.html#_CPPv4N6Marmot8Elements25DisplacementFiniteElement6CSizedE">Marmot::Elements::DisplacementFiniteElement::CSized (C++ type)</a>
 </li>
@@ -939,21 +940,21 @@
 </li>
       <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement3bsUE">Marmot::Elements::DisplacementFiniteStrainULElement::bsU (C++ member)</a>
 </li>
-      <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement16computeBodyForceEPdPdPKdPKdPKdd">Marmot::Elements::DisplacementFiniteStrainULElement::computeBodyForce (C++ function)</a>
+      <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement16computeBodyForceEPdPdPKdPKddd">Marmot::Elements::DisplacementFiniteStrainULElement::computeBodyForce (C++ function)</a>
 </li>
       <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement24computeConsistentInertiaEPd">Marmot::Elements::DisplacementFiniteStrainULElement::computeConsistentInertia (C++ function)</a>
 </li>
       <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement42computeCriticalTimeStepForExplicitDynamicsERdPKd">Marmot::Elements::DisplacementFiniteStrainULElement::computeCriticalTimeStepForExplicitDynamics (C++ function)</a>
 </li>
-      <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement22computeDistributedLoadEN13MarmotElement20DistributedLoadTypesEPdPdKiPKdPKdPKdd">Marmot::Elements::DisplacementFiniteStrainULElement::computeDistributedLoad (C++ function)</a>
+      <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement22computeDistributedLoadEN13MarmotElement20DistributedLoadTypesEPdPdKiPKdPKddd">Marmot::Elements::DisplacementFiniteStrainULElement::computeDistributedLoad (C++ function)</a>
 </li>
       <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement21computeInternalEnergyERd">Marmot::Elements::DisplacementFiniteStrainULElement::computeInternalEnergy (C++ function)</a>
 </li>
+      <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement14computeKernelsEPKdPKdPdPddd">Marmot::Elements::DisplacementFiniteStrainULElement::computeKernels (C++ function)</a>
+</li>
+      <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement22computeKernelsExplicitEPKdPKdPddd">Marmot::Elements::DisplacementFiniteStrainULElement::computeKernelsExplicit (C++ function)</a>
+</li>
       <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement20computeLumpedInertiaEPd">Marmot::Elements::DisplacementFiniteStrainULElement::computeLumpedInertia (C++ function)</a>
-</li>
-      <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement15computeYourselfEPKdPKdPdPdPKddRd">Marmot::Elements::DisplacementFiniteStrainULElement::computeYourself (C++ function)</a>
-</li>
-      <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement23computeYourselfExplicitEPKdPKdPdPKddRd">Marmot::Elements::DisplacementFiniteStrainULElement::computeYourselfExplicit (C++ function)</a>
 </li>
       <li><a href="pages/features/displacementfinitestrainelement.html#_CPPv4N6Marmot8Elements33DisplacementFiniteStrainULElement33DisplacementFiniteStrainULElementEiN6Marmot13FiniteElement10Quadrature16IntegrationTypesE11SectionType">Marmot::Elements::DisplacementFiniteStrainULElement::DisplacementFiniteStrainULElement (C++ function)</a>
 </li>
@@ -1091,21 +1092,21 @@
 </li>
       <li><a href="pages/features/generalgradientenhanceddisplacementfiniteelement.html#_CPPv4N6Marmot8Elements48GeneralGradientEnhancedDisplacementFiniteElement7BSizedKE">Marmot::Elements::GeneralGradientEnhancedDisplacementFiniteElement::BSizedK (C++ type)</a>
 </li>
-      <li><a href="pages/features/generalgradientenhanceddisplacementfiniteelement.html#_CPPv4N6Marmot8Elements48GeneralGradientEnhancedDisplacementFiniteElement16computeBodyForceEPdPdPKdPKdPKdd">Marmot::Elements::GeneralGradientEnhancedDisplacementFiniteElement::computeBodyForce (C++ function)</a>
+      <li><a href="pages/features/generalgradientenhanceddisplacementfiniteelement.html#_CPPv4N6Marmot8Elements48GeneralGradientEnhancedDisplacementFiniteElement16computeBodyForceEPdPdPKdPKddd">Marmot::Elements::GeneralGradientEnhancedDisplacementFiniteElement::computeBodyForce (C++ function)</a>
 </li>
       <li><a href="pages/features/generalgradientenhanceddisplacementfiniteelement.html#_CPPv4N6Marmot8Elements48GeneralGradientEnhancedDisplacementFiniteElement24computeConsistentInertiaEPd">Marmot::Elements::GeneralGradientEnhancedDisplacementFiniteElement::computeConsistentInertia (C++ function)</a>
 </li>
       <li><a href="pages/features/generalgradientenhanceddisplacementfiniteelement.html#_CPPv4N6Marmot8Elements48GeneralGradientEnhancedDisplacementFiniteElement42computeCriticalTimeStepForExplicitDynamicsERdPKd">Marmot::Elements::GeneralGradientEnhancedDisplacementFiniteElement::computeCriticalTimeStepForExplicitDynamics (C++ function)</a>
 </li>
-      <li><a href="pages/features/generalgradientenhanceddisplacementfiniteelement.html#_CPPv4N6Marmot8Elements48GeneralGradientEnhancedDisplacementFiniteElement22computeDistributedLoadEN13MarmotElement20DistributedLoadTypesEPdPdKiPKdPKdPKdd">Marmot::Elements::GeneralGradientEnhancedDisplacementFiniteElement::computeDistributedLoad (C++ function)</a>
+      <li><a href="pages/features/generalgradientenhanceddisplacementfiniteelement.html#_CPPv4N6Marmot8Elements48GeneralGradientEnhancedDisplacementFiniteElement22computeDistributedLoadEN13MarmotElement20DistributedLoadTypesEPdPdKiPKdPKddd">Marmot::Elements::GeneralGradientEnhancedDisplacementFiniteElement::computeDistributedLoad (C++ function)</a>
 </li>
       <li><a href="pages/features/generalgradientenhanceddisplacementfiniteelement.html#_CPPv4N6Marmot8Elements48GeneralGradientEnhancedDisplacementFiniteElement21computeInternalEnergyERd">Marmot::Elements::GeneralGradientEnhancedDisplacementFiniteElement::computeInternalEnergy (C++ function)</a>
 </li>
+      <li><a href="pages/features/generalgradientenhanceddisplacementfiniteelement.html#_CPPv4N6Marmot8Elements48GeneralGradientEnhancedDisplacementFiniteElement14computeKernelsEPKdPKdPdPddd">Marmot::Elements::GeneralGradientEnhancedDisplacementFiniteElement::computeKernels (C++ function)</a>
+</li>
+      <li><a href="pages/features/generalgradientenhanceddisplacementfiniteelement.html#_CPPv4N6Marmot8Elements48GeneralGradientEnhancedDisplacementFiniteElement22computeKernelsExplicitEPKdPKdPddd">Marmot::Elements::GeneralGradientEnhancedDisplacementFiniteElement::computeKernelsExplicit (C++ function)</a>
+</li>
       <li><a href="pages/features/generalgradientenhanceddisplacementfiniteelement.html#_CPPv4N6Marmot8Elements48GeneralGradientEnhancedDisplacementFiniteElement20computeLumpedInertiaEPd">Marmot::Elements::GeneralGradientEnhancedDisplacementFiniteElement::computeLumpedInertia (C++ function)</a>
-</li>
-      <li><a href="pages/features/generalgradientenhanceddisplacementfiniteelement.html#_CPPv4N6Marmot8Elements48GeneralGradientEnhancedDisplacementFiniteElement15computeYourselfEPKdPKdPdPdPKddRd">Marmot::Elements::GeneralGradientEnhancedDisplacementFiniteElement::computeYourself (C++ function)</a>
-</li>
-      <li><a href="pages/features/generalgradientenhanceddisplacementfiniteelement.html#_CPPv4N6Marmot8Elements48GeneralGradientEnhancedDisplacementFiniteElement23computeYourselfExplicitEPKdPKdPdPKddRd">Marmot::Elements::GeneralGradientEnhancedDisplacementFiniteElement::computeYourselfExplicit (C++ function)</a>
 </li>
       <li><a href="pages/features/generalgradientenhanceddisplacementfiniteelement.html#_CPPv4N6Marmot8Elements48GeneralGradientEnhancedDisplacementFiniteElement6CSizedE">Marmot::Elements::GeneralGradientEnhancedDisplacementFiniteElement::CSized (C++ type)</a>
 </li>
@@ -1811,6 +1812,14 @@
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N6Marmot13FiniteElement19makeNodeFieldLayoutERKNSt3mapINSt6stringENSt4pairIiiEEEE">Marmot::FiniteElement::makeNodeFieldLayout (C++ function)</a>
 </li>
+      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N6Marmot13FiniteElement11MassLumpingE">Marmot::FiniteElement::MassLumping (C++ type)</a>
+</li>
+      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N6Marmot13FiniteElement11MassLumping19manifoldBlendWeightERKN5Eigen8VectorXdERKN5Eigen8VectorXdE">Marmot::FiniteElement::MassLumping::manifoldBlendWeight (C++ function)</a>
+</li>
+      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N6Marmot13FiniteElement11MassLumping21manifoldMassFractionsERKN5Eigen8VectorXdERKN5Eigen8VectorXdEd">Marmot::FiniteElement::MassLumping::manifoldMassFractions (C++ function)</a>
+</li>
+      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N6Marmot13FiniteElement11MassLumping34timeStepFactorFromMassDistributionERKN5Eigen8VectorXdE">Marmot::FiniteElement::MassLumping::timeStepFactorFromMassDistribution (C++ function)</a>
+</li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4I_i_iEN6Marmot13FiniteElement2NBEN5Eigen6MatrixId4nDimXml4nDim6nNodesEEERKN5Eigen6MatrixIdXL1EE6nNodesEE">Marmot::FiniteElement::NB (C++ function)</a>, <a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N6Marmot13FiniteElement2NBERKN5Eigen8VectorXdEKi">[1]</a>
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N6Marmot13FiniteElement10QuadratureE">Marmot::FiniteElement::Quadrature (C++ type)</a>
@@ -2061,8 +2070,6 @@
 </li>
       <li><a href="pages/features/adcompressibleneohooke.html#_CPPv4NK6Marmot9Materials22ADCompressibleNeoHooke10getDensityEPKd">Marmot::Materials::ADCompressibleNeoHooke::getDensity (C++ function)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pages/features/adcompressibleneohooke.html#_CPPv4N6Marmot9Materials22ADCompressibleNeoHooke28MarmotMaterialFiniteStrainADEPKdii">Marmot::Materials::ADCompressibleNeoHooke::MarmotMaterialFiniteStrainAD (C++ function)</a>
 </li>
       <li><a href="pages/features/adlinearelastic.html#_CPPv4N6Marmot9Materials15ADLinearElasticE">Marmot::Materials::ADLinearElastic (C++ class)</a>
@@ -2087,6 +2094,8 @@
 </li>
       <li><a href="pages/features/advonmises.html#_CPPv4N6Marmot9Materials10ADVonMises1EE">Marmot::Materials::ADVonMises::E (C++ member)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pages/features/advonmises.html#_CPPv4I0ENK6Marmot9Materials10ADVonMises1fE1TK1TKd">Marmot::Materials::ADVonMises::f (C++ function)</a>
 </li>
       <li><a href="pages/features/advonmises.html#_CPPv4I0ENK6Marmot9Materials10ADVonMises2fyE1T1T">Marmot::Materials::ADVonMises::fy (C++ function)</a>
@@ -2348,6 +2357,52 @@
       <li><a href="pages/features/finitestrainorthotropicbiotviscoelasticity.html#_CPPv4N6Marmot9Materials42FiniteStrainOrthotropicBiotViscoelasticity4nu13E">Marmot::Materials::FiniteStrainOrthotropicBiotViscoelasticity::nu13 (C++ member)</a>
 </li>
       <li><a href="pages/features/finitestrainorthotropicbiotviscoelasticity.html#_CPPv4N6Marmot9Materials42FiniteStrainOrthotropicBiotViscoelasticity4nu23E">Marmot::Materials::FiniteStrainOrthotropicBiotViscoelasticity::nu23 (C++ member)</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot9Materials19HughesWingetTangentE">Marmot::Materials::HughesWingetTangent (C++ enum)</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot9Materials19HughesWingetTangent8AnalyticE">Marmot::Materials::HughesWingetTangent::Analytic (C++ enumerator)</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot9Materials19HughesWingetTangent5ExactE">Marmot::Materials::HughesWingetTangent::Exact (C++ enumerator)</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot9Materials19HughesWingetTangent9NumericalE">Marmot::Materials::HughesWingetTangent::Numerical (C++ enumerator)</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4I0_19HughesWingetTangentEN6Marmot9Materials19HughesWingetWrapperE">Marmot::Materials::HughesWingetWrapper (C++ class)</a>, <a href="pages/features/hugheswinget.html#_CPPv4I0_19HughesWingetTangentEN6Marmot9Materials19HughesWingetWrapperE">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper12baseMaterialE">Marmot::Materials::HughesWingetWrapper::baseMaterial (C++ member)</a>, <a href="pages/features/hugheswinget.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper12baseMaterialE">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper16baseMaterialSlotE">Marmot::Materials::HughesWingetWrapper::baseMaterialSlot (C++ member)</a>, <a href="pages/features/hugheswinget.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper16baseMaterialSlotE">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4NK6Marmot9Materials19HughesWingetWrapper23computeNumericalTangentERK20ConstitutiveResponseIXL3EEER17AlgorithmicModuliIXL3EEERK11DeformationIXL3EEERK13TimeIncrement">Marmot::Materials::HughesWingetWrapper::computeNumericalTangent (C++ function)</a>, <a href="pages/features/hugheswinget.html#_CPPv4NK6Marmot9Materials19HughesWingetWrapper23computeNumericalTangentERK20ConstitutiveResponseIXL3EEER17AlgorithmicModuliIXL3EEERK11DeformationIXL3EEERK13TimeIncrement">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4NK6Marmot9Materials19HughesWingetWrapper13computeStressER20ConstitutiveResponseIXL3EEER17AlgorithmicModuliIXL3EEERK11DeformationIXL3EEERK13TimeIncrement">Marmot::Materials::HughesWingetWrapper::computeStress (C++ function)</a>, <a href="pages/features/hugheswinget.html#_CPPv4NK6Marmot9Materials19HughesWingetWrapper13computeStressER20ConstitutiveResponseIXL3EEER17AlgorithmicModuliIXL3EEERK11DeformationIXL3EEERK13TimeIncrement">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4NK6Marmot9Materials19HughesWingetWrapper17computeStressCoreER20ConstitutiveResponseIXL3EEER17AlgorithmicModuliIXL3EEERK11DeformationIXL3EEERK13TimeIncrementb">Marmot::Materials::HughesWingetWrapper::computeStressCore (C++ function)</a>, <a href="pages/features/hugheswinget.html#_CPPv4NK6Marmot9Materials19HughesWingetWrapper17computeStressCoreER20ConstitutiveResponseIXL3EEER17AlgorithmicModuliIXL3EEERK11DeformationIXL3EEERK13TimeIncrementb">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4NK6Marmot9Materials19HughesWingetWrapper21computeStressExplicitER20ConstitutiveResponseIXL3EEERK11DeformationIXL3EEERK13TimeIncrement">Marmot::Materials::HughesWingetWrapper::computeStressExplicit (C++ function)</a>, <a href="pages/features/hugheswinget.html#_CPPv4NK6Marmot9Materials19HughesWingetWrapper21computeStressExplicitER20ConstitutiveResponseIXL3EEERK11DeformationIXL3EEERK13TimeIncrement">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4NK6Marmot9Materials19HughesWingetWrapper24computeStressSensitivityERKN6Marmot8Vector6dERKN6Marmot8Vector6dERKNSt6vectorIdEERKN6Marmot8Vector6dERKN25MarmotMaterialHypoElastic8timeInfoE">Marmot::Materials::HughesWingetWrapper::computeStressSensitivity (C++ function)</a>, <a href="pages/features/hugheswinget.html#_CPPv4NK6Marmot9Materials19HughesWingetWrapper24computeStressSensitivityERKN6Marmot8Vector6dERKN6Marmot8Vector6dERKNSt6vectorIdEERKN6Marmot8Vector6dERKN25MarmotMaterialHypoElastic8timeInfoE">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper23deformationGradientSlotE">Marmot::Materials::HughesWingetWrapper::deformationGradientSlot (C++ member)</a>, <a href="pages/features/hugheswinget.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper23deformationGradientSlotE">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper9fromEigenERKN5Eigen8Matrix3dE">Marmot::Materials::HughesWingetWrapper::fromEigen (C++ function)</a>, <a href="pages/features/hugheswinget.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper9fromEigenERKN5Eigen8Matrix3dE">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4NK6Marmot9Materials19HughesWingetWrapper10getDensityEPKd">Marmot::Materials::HughesWingetWrapper::getDensity (C++ function)</a>, <a href="pages/features/hugheswinget.html#_CPPv4NK6Marmot9Materials19HughesWingetWrapper10getDensityEPKd">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4NK6Marmot9Materials19HughesWingetWrapper12getStateViewERKNSt6stringEPd">Marmot::Materials::HughesWingetWrapper::getStateView (C++ function)</a>, <a href="pages/features/hugheswinget.html#_CPPv4NK6Marmot9Materials19HughesWingetWrapper12getStateViewERKNSt6stringEPd">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper19HughesWingetWrapperEPKdii">Marmot::Materials::HughesWingetWrapper::HughesWingetWrapper (C++ function)</a>, <a href="pages/features/hugheswinget.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper19HughesWingetWrapperEPKdii">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper21initializeStateLayoutEv">Marmot::Materials::HughesWingetWrapper::initializeStateLayout (C++ function)</a>, <a href="pages/features/hugheswinget.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper21initializeStateLayoutEv">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper18initializeYourselfEPdi">Marmot::Materials::HughesWingetWrapper::initializeYourself (C++ function)</a>, <a href="pages/features/hugheswinget.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper18initializeYourselfEPdi">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper30setCharacteristicElementLengthEd">Marmot::Materials::HughesWingetWrapper::setCharacteristicElementLength (C++ function)</a>, <a href="pages/features/hugheswinget.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper30setCharacteristicElementLengthEd">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper10stressSlotE">Marmot::Materials::HughesWingetWrapper::stressSlot (C++ member)</a>, <a href="pages/features/hugheswinget.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper10stressSlotE">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper7toEigenERKN6Marmot21FastorStandardTensors9Tensor33dE">Marmot::Materials::HughesWingetWrapper::toEigen (C++ function)</a>, <a href="pages/features/hugheswinget.html#_CPPv4N6Marmot9Materials19HughesWingetWrapper7toEigenERKN6Marmot21FastorStandardTensors9Tensor33dE">[1]</a>
+</li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N6Marmot9Materials19HughesWingetWrapperD0Ev">Marmot::Materials::HughesWingetWrapper::~HughesWingetWrapper (C++ function)</a>, <a href="pages/features/hugheswinget.html#_CPPv4N6Marmot9Materials19HughesWingetWrapperD0Ev">[1]</a>
 </li>
       <li><a href="pages/codedocumentation/mechanicscore.html#_CPPv4N6Marmot9Materials11KelvinChainE">Marmot::Materials::KelvinChain (C++ type)</a>
 </li>
@@ -3381,25 +3436,25 @@
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement21assignNodeCoordinatesEPKd">MarmotElement::assignNodeCoordinates (C++ function)</a>
 </li>
-      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement14assignPropertyERK17ElementProperties">MarmotElement::assignProperty (C++ function)</a>, <a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement14assignPropertyERK21MarmotMaterialSection">[1]</a>
+      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement14assignPropertyERK17ElementProperties">MarmotElement::assignProperty (C++ function)</a>, <a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement14assignPropertyERK21MarmotMaterialSection">[1]</a>, <a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement14assignPropertyERKNSt6stringEPKd">[2]</a>
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement15assignStateVarsEPdi">MarmotElement::assignStateVars (C++ function)</a>
 </li>
-      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement16computeBodyForceEPdPdPKdPKdPKdd">MarmotElement::computeBodyForce (C++ function)</a>
+      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement16computeBodyForceEPdPdPKdPKddd">MarmotElement::computeBodyForce (C++ function)</a>
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement24computeConsistentInertiaEPd">MarmotElement::computeConsistentInertia (C++ function)</a>
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement42computeCriticalTimeStepForExplicitDynamicsERdPKd">MarmotElement::computeCriticalTimeStepForExplicitDynamics (C++ function)</a>
 </li>
-      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKdPKdd">MarmotElement::computeDistributedLoad (C++ function)</a>
+      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKddd">MarmotElement::computeDistributedLoad (C++ function)</a>
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement21computeInternalEnergyERd">MarmotElement::computeInternalEnergy (C++ function)</a>
 </li>
+      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement14computeKernelsEPKdPKdPdPddd">MarmotElement::computeKernels (C++ function)</a>
+</li>
+      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement22computeKernelsExplicitEPKdPKdPddd">MarmotElement::computeKernelsExplicit (C++ function)</a>
+</li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement20computeLumpedInertiaEPd">MarmotElement::computeLumpedInertia (C++ function)</a>
-</li>
-      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement15computeYourselfEPKdPKdPdPdPKddRd">MarmotElement::computeYourself (C++ function)</a>
-</li>
-      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement23computeYourselfExplicitEPKdPKdPdPKddRd">MarmotElement::computeYourselfExplicit (C++ function)</a>
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement20DistributedLoadTypesE">MarmotElement::DistributedLoadTypes (C++ enum)</a>
 </li>
@@ -3428,6 +3483,8 @@
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement27getNumberOfQuadraturePointsEv">MarmotElement::getNumberOfQuadraturePoints (C++ function)</a>
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement28getNumberOfRequiredStateVarsEv">MarmotElement::getNumberOfRequiredStateVars (C++ function)</a>
+</li>
+      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4NK13MarmotElement16getPropertyNamesEv">MarmotElement::getPropertyNames (C++ function)</a>
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N13MarmotElement12getStateViewERKNSt6stringEi">MarmotElement::getStateView (C++ function)</a>
 </li>
@@ -3459,17 +3516,17 @@
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper21assignNodeCoordinatesEPKd">MarmotElementSpatialWrapper::assignNodeCoordinates (C++ function)</a>
 </li>
-      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper14assignPropertyERK17ElementProperties">MarmotElementSpatialWrapper::assignProperty (C++ function)</a>, <a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper14assignPropertyERK21MarmotMaterialSection">[1]</a>
+      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper14assignPropertyERK17ElementProperties">MarmotElementSpatialWrapper::assignProperty (C++ function)</a>, <a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper14assignPropertyERK21MarmotMaterialSection">[1]</a>, <a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper14assignPropertyERKNSt6stringEPKd">[2]</a>
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper15assignStateVarsEPdi">MarmotElementSpatialWrapper::assignStateVars (C++ function)</a>
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper12childElementE">MarmotElementSpatialWrapper::childElement (C++ member)</a>
 </li>
-      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper16computeBodyForceEPdPdPKdPKdPKdd">MarmotElementSpatialWrapper::computeBodyForce (C++ function)</a>
+      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper16computeBodyForceEPdPdPKdPKddd">MarmotElementSpatialWrapper::computeBodyForce (C++ function)</a>
 </li>
-      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKdPKdd">MarmotElementSpatialWrapper::computeDistributedLoad (C++ function)</a>
+      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKddd">MarmotElementSpatialWrapper::computeDistributedLoad (C++ function)</a>
 </li>
-      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper15computeYourselfEPKdPKdPdPdPKddRd">MarmotElementSpatialWrapper::computeYourself (C++ function)</a>
+      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper14computeKernelsEPKdPKdPdPddd">MarmotElementSpatialWrapper::computeKernels (C++ function)</a>
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper22getCoordinatesAtCenterEv">MarmotElementSpatialWrapper::getCoordinatesAtCenter (C++ function)</a>
 </li>
@@ -3490,6 +3547,8 @@
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper27getNumberOfQuadraturePointsEv">MarmotElementSpatialWrapper::getNumberOfQuadraturePoints (C++ function)</a>
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper28getNumberOfRequiredStateVarsEv">MarmotElementSpatialWrapper::getNumberOfRequiredStateVars (C++ function)</a>
+</li>
+      <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4NK27MarmotElementSpatialWrapper16getPropertyNamesEv">MarmotElementSpatialWrapper::getPropertyNames (C++ function)</a>
 </li>
       <li><a href="pages/codedocumentation/finiteelementcore.html#_CPPv4N27MarmotElementSpatialWrapper12getStateViewERKNSt6stringEi">MarmotElementSpatialWrapper::getStateView (C++ function)</a>
 </li>
@@ -3697,6 +3756,8 @@
 </li>
       <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N26MarmotMaterialFiniteStrain19nMaterialPropertiesE">MarmotMaterialFiniteStrain::nMaterialProperties (C++ member)</a>
 </li>
+      <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N26MarmotMaterialFiniteStrain30setCharacteristicElementLengthEd">MarmotMaterialFiniteStrain::setCharacteristicElementLength (C++ function)</a>
+</li>
       <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N26MarmotMaterialFiniteStrain11stateLayoutE">MarmotMaterialFiniteStrain::stateLayout (C++ member)</a>
 </li>
       <li><a href="pages/codedocumentation/finitestrainmechanicscore.html#_CPPv4N26MarmotMaterialFiniteStrain13TimeIncrementE">MarmotMaterialFiniteStrain::TimeIncrement (C++ struct)</a>
@@ -3802,6 +3863,8 @@
       <li><a href="pages/codedocumentation/gradientmechanicscore.html#_CPPv4N48MarmotMaterialGeneralGradientEnhancedHypoElastic8tangents10dStressddKE">MarmotMaterialGeneralGradientEnhancedHypoElastic::tangents::dStressddK (C++ member)</a>
 </li>
       <li><a href="pages/codedocumentation/gradientmechanicscore.html#_CPPv4N48MarmotMaterialGeneralGradientEnhancedHypoElastic8tangents15dStressddStrainE">MarmotMaterialGeneralGradientEnhancedHypoElastic::tangents::dStressddStrain (C++ member)</a>
+</li>
+      <li><a href="pages/codedocumentation/gradientmechanicscore.html#_CPPv4N48MarmotMaterialGeneralGradientEnhancedHypoElasticD0Ev">MarmotMaterialGeneralGradientEnhancedHypoElastic::~MarmotMaterialGeneralGradientEnhancedHypoElastic (C++ function)</a>
 </li>
       <li><a href="pages/codedocumentation/mechanicscore.html#_CPPv425MarmotMaterialHypoElastic">MarmotMaterialHypoElastic (C++ class)</a>
 </li>

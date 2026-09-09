@@ -40,7 +40,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/HaighWestergaard.h" line="90" column="33" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/HaighWestergaard.h" bodystart="90" bodyend="115" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/HaighWestergaard.h" declline="70" declcolumn="33"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/HaighWestergaard.h" line="90" column="33" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/HaighWestergaard.h" bodystart="90" bodyend="123" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/HaighWestergaard.h" declline="70" declcolumn="33"/>
       </memberdef>
       <memberdef kind="function" id="_haigh_westergaard_8h_1aba76e1eed469a8f4fd743397df312257" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="struct_marmot_1_1_continuum_mechanics_1_1_haigh_westergaard_1_1_haigh_westergaard_coordinates" kindref="compound">HaighWestergaardCoordinates</ref>&lt; double &gt;</type>

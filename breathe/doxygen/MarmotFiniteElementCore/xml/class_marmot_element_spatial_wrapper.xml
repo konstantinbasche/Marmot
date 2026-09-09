@@ -504,6 +504,71 @@
         </inbodydescription>
         <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="104" column="8"/>
       </memberdef>
+      <memberdef kind="function" id="class_marmot_element_spatial_wrapper_1a73a70f58be441a69934b9d12b5bde609" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void MarmotElementSpatialWrapper::assignProperty</definition>
+        <argsstring>(const std::string &amp;propertyName, const double *properties) override</argsstring>
+        <name>assignProperty</name>
+        <qualifiedname>MarmotElementSpatialWrapper::assignProperty</qualifiedname>
+        <reimplements refid="class_marmot_element_1ad956dab154fbc114a5adba6d4d2f5fa5">assignProperty</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>propertyName</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>properties</declname>
+        </param>
+        <briefdescription>
+<para>Assign a single property of the element by name.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">propertyName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the property. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">properties</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the array of property values. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Default implementation throws an exception, as an element not overriding this interface does not support any named properties.    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="107" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="class_marmot_element_spatial_wrapper_1a67a01d9cad5d5f9db2141ae1ff7d051b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; MarmotElementSpatialWrapper::getPropertyNames</definition>
+        <argsstring>() const override</argsstring>
+        <name>getPropertyNames</name>
+        <qualifiedname>MarmotElementSpatialWrapper::getPropertyNames</qualifiedname>
+        <reimplements refid="class_marmot_element_1a7446a64e17485904d26737815a963979">getPropertyNames</reimplements>
+        <briefdescription>
+<para>Get the names of all the valid properties of the element.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of strings containing the property names. </para>
+</simplesect>
+<simplesect kind="note"><para>Default implementation returns an empty vector, as an element not overriding this interface does not expose any named properties.    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="110" column="15"/>
+      </memberdef>
       <memberdef kind="function" id="class_marmot_element_spatial_wrapper_1acd6bc7e5c1f4e2ae91830c24398beee9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
         <definition>void MarmotElementSpatialWrapper::assignNodeCoordinates</definition>
@@ -532,7 +597,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="107" column="8"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="113" column="8"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_element_spatial_wrapper_1ae0206d68142bd2c2b56334e3f5e48609" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -548,15 +613,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="110" column="8"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="116" column="8"/>
       </memberdef>
-      <memberdef kind="function" id="class_marmot_element_spatial_wrapper_1a588759d3bc43cab8c90ef1577dfc4282" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="class_marmot_element_spatial_wrapper_1aaeb81d8a0fdb0686a0d1a69eb4768d3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
-        <definition>void MarmotElementSpatialWrapper::computeYourself</definition>
-        <argsstring>(const double *QTotal, const double *dQ, double *Pe, double *Ke, const double *time, double dT, double &amp;pNewdT)</argsstring>
-        <name>computeYourself</name>
-        <qualifiedname>MarmotElementSpatialWrapper::computeYourself</qualifiedname>
-        <reimplements refid="class_marmot_element_1abbef3863159574d0bc93aa9c327cb493">computeYourself</reimplements>
+        <definition>void MarmotElementSpatialWrapper::computeKernels</definition>
+        <argsstring>(const double *QTotal, const double *dQ, double *Pe, double *Ke, double time, double dT)</argsstring>
+        <name>computeKernels</name>
+        <qualifiedname>MarmotElementSpatialWrapper::computeKernels</qualifiedname>
+        <reimplements refid="class_marmot_element_1a46d422a1a796502a8bda4f115ae0fd6e">computeKernels</reimplements>
         <param>
           <type>const double *</type>
           <declname>QTotal</declname>
@@ -574,16 +639,12 @@
           <declname>Ke</declname>
         </param>
         <param>
-          <type>const double *</type>
+          <type>double</type>
           <declname>time</declname>
         </param>
         <param>
           <type>double</type>
           <declname>dT</declname>
-        </param>
-        <param>
-          <type>double &amp;</type>
-          <declname>pNewdT</declname>
         </param>
         <briefdescription>
 <para>Perform element computations with coordinate transformation. </para>
@@ -637,20 +698,12 @@
 <para>Time step size. </para>
 </parameterdescription>
 </parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername direction="out">pNewdT</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Suggested new time step size. </para>
-</parameterdescription>
-</parameteritem>
 </parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="122" column="8"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="127" column="8"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_element_spatial_wrapper_1a9d4962210e1a7dfcb2eb9813069ae7b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -692,15 +745,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="131" column="8"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="130" column="8"/>
       </memberdef>
-      <memberdef kind="function" id="class_marmot_element_spatial_wrapper_1a72aab0a107fc396d5c5f36b5b076f376" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="class_marmot_element_spatial_wrapper_1a4e9fdd4d500f9f77c38346cdc6e621cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
         <definition>void MarmotElementSpatialWrapper::computeDistributedLoad</definition>
-        <argsstring>(DistributedLoadTypes loadType, double *P, double *K, int elementFace, const double *load, const double *QTotal, const double *time, double dT)</argsstring>
+        <argsstring>(DistributedLoadTypes loadType, double *P, double *K, int elementFace, const double *load, const double *QTotal, double time, double dT)</argsstring>
         <name>computeDistributedLoad</name>
         <qualifiedname>MarmotElementSpatialWrapper::computeDistributedLoad</qualifiedname>
-        <reimplements refid="class_marmot_element_1ac68956668d34ac2ddac545ff2ce56004">computeDistributedLoad</reimplements>
+        <reimplements refid="class_marmot_element_1afb003de9900a67cc1b4020f89eb3f985">computeDistributedLoad</reimplements>
         <param>
           <type><ref refid="class_marmot_element_1a023cde1fc79ae1457663aa0093e758f5" kindref="member">DistributedLoadTypes</ref></type>
           <declname>loadType</declname>
@@ -726,7 +779,7 @@
           <declname>QTotal</declname>
         </param>
         <param>
-          <type>const double *</type>
+          <type>double</type>
           <declname>time</declname>
         </param>
         <param>
@@ -806,15 +859,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="144" column="8"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="143" column="8"/>
       </memberdef>
-      <memberdef kind="function" id="class_marmot_element_spatial_wrapper_1af1403c3a29504fb4ccc25475bb3b2699" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="class_marmot_element_spatial_wrapper_1a794addc988b52ae4dbb33c041deb0fa5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
         <definition>void MarmotElementSpatialWrapper::computeBodyForce</definition>
-        <argsstring>(double *P, double *K, const double *load, const double *QTotal, const double *time, double dT)</argsstring>
+        <argsstring>(double *P, double *K, const double *load, const double *QTotal, double time, double dT)</argsstring>
         <name>computeBodyForce</name>
         <qualifiedname>MarmotElementSpatialWrapper::computeBodyForce</qualifiedname>
-        <reimplements refid="class_marmot_element_1aa0ef25e441523e4d36b748e83a4270b5">computeBodyForce</reimplements>
+        <reimplements refid="class_marmot_element_1a4d87a96689701d0cc547c445373a1e8b">computeBodyForce</reimplements>
         <param>
           <type>double *</type>
           <declname>P</declname>
@@ -832,7 +885,7 @@
           <declname>QTotal</declname>
         </param>
         <param>
-          <type>const double *</type>
+          <type>double</type>
           <declname>time</declname>
         </param>
         <param>
@@ -896,7 +949,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="162" column="8"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="161" column="8"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_element_spatial_wrapper_1a4c6940f963c814d25b38c4c5b7752dfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>StateView</type>
@@ -940,7 +993,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="170" column="13"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="164" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_element_spatial_wrapper_1ab270b0bf2343259bf92621076b44510b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -959,7 +1012,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="173" column="15"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="167" column="15"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_element_spatial_wrapper_1a7ad0bea8a7f244dee187f2f07c25bdc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
@@ -978,7 +1031,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="176" column="15"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="170" column="15"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_element_spatial_wrapper_1ad00992564eb6ec71c49de2ef74a7137f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>int</type>
@@ -996,7 +1049,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="179" column="7"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="173" column="7"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1029,21 +1082,22 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="41" column="1" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" bodystart="41" bodyend="180"/>
+    <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" line="41" column="1" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotFiniteElementSpatialWrapper.h" bodystart="41" bodyend="174"/>
     <listofallmembers>
       <member refid="class_marmot_element_spatial_wrapper_1acd6bc7e5c1f4e2ae91830c24398beee9" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>assignNodeCoordinates</name></member>
       <member refid="class_marmot_element_spatial_wrapper_1a15f30481bbd8b2b7fbdb11a2def2834f" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>assignProperty</name></member>
       <member refid="class_marmot_element_spatial_wrapper_1ab702a28a129fcd3b07c83b29489338a6" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>assignProperty</name></member>
+      <member refid="class_marmot_element_spatial_wrapper_1a73a70f58be441a69934b9d12b5bde609" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>assignProperty</name></member>
       <member refid="class_marmot_element_spatial_wrapper_1a4e585a1c9f10737a126c9822a16230ea" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>assignStateVars</name></member>
       <member refid="class_marmot_element_spatial_wrapper_1acf8636233b390e97a5f49d9bb7e7e14e" prot="public" virt="non-virtual"><scope>MarmotElementSpatialWrapper</scope><name>childElement</name></member>
-      <member refid="class_marmot_element_spatial_wrapper_1af1403c3a29504fb4ccc25475bb3b2699" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>computeBodyForce</name></member>
+      <member refid="class_marmot_element_spatial_wrapper_1a794addc988b52ae4dbb33c041deb0fa5" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>computeBodyForce</name></member>
       <member refid="class_marmot_element_1a898fde1c6644d2f2b5b10d6f6e6dd5fb" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>computeConsistentInertia</name></member>
       <member refid="class_marmot_element_1a49b6f3e2262faaa3d27bbde3571fff12" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>computeCriticalTimeStepForExplicitDynamics</name></member>
-      <member refid="class_marmot_element_spatial_wrapper_1a72aab0a107fc396d5c5f36b5b076f376" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>computeDistributedLoad</name></member>
+      <member refid="class_marmot_element_spatial_wrapper_1a4e9fdd4d500f9f77c38346cdc6e621cf" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>computeDistributedLoad</name></member>
       <member refid="class_marmot_element_1aae5d5b062cad0fb51dc8c18ad2bd9c94" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>computeInternalEnergy</name></member>
+      <member refid="class_marmot_element_spatial_wrapper_1aaeb81d8a0fdb0686a0d1a69eb4768d3d" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>computeKernels</name></member>
+      <member refid="class_marmot_element_1a974b4bdb46d9d1e52fc1cceda894bad8" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>computeKernelsExplicit</name></member>
       <member refid="class_marmot_element_1aed752615a4b8434456de9baf1b5a9e24" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>computeLumpedInertia</name></member>
-      <member refid="class_marmot_element_spatial_wrapper_1a588759d3bc43cab8c90ef1577dfc4282" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>computeYourself</name></member>
-      <member refid="class_marmot_element_1aea8b2bf16a013b0b4617a644f4d981ae" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>computeYourselfExplicit</name></member>
       <member refid="class_marmot_element_1a023cde1fc79ae1457663aa0093e758f5" prot="public" virt="non-virtual"><scope>MarmotElementSpatialWrapper</scope><name>DistributedLoadTypes</name></member>
       <member refid="class_marmot_element_1a4a399e8339bb2f93d379841bb252461babd03e131da1d15661c83709bd73e4b29" prot="public" virt="non-virtual"><scope>MarmotElementSpatialWrapper</scope><name>GeostaticStress</name></member>
       <member refid="class_marmot_element_spatial_wrapper_1ab270b0bf2343259bf92621076b44510b" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>getCoordinatesAtCenter</name></member>
@@ -1056,6 +1110,7 @@
       <member refid="class_marmot_element_spatial_wrapper_1a94f58323e6cc581e4f191f416f1b6d12" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>getNSpatialDimensions</name></member>
       <member refid="class_marmot_element_spatial_wrapper_1ad00992564eb6ec71c49de2ef74a7137f" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>getNumberOfQuadraturePoints</name></member>
       <member refid="class_marmot_element_spatial_wrapper_1ab01bc18d414a8c3c926119e2c3c529e4" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>getNumberOfRequiredStateVars</name></member>
+      <member refid="class_marmot_element_spatial_wrapper_1a67a01d9cad5d5f9db2141ae1ff7d051b" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>getPropertyNames</name></member>
       <member refid="class_marmot_element_spatial_wrapper_1a4c6940f963c814d25b38c4c5b7752dfa" prot="public" virt="virtual"><scope>MarmotElementSpatialWrapper</scope><name>getStateView</name></member>
       <member refid="class_marmot_element_1a4a399e8339bb2f93d379841bb252461ba8c5136208241c70d742b36e622275aba" prot="public" virt="non-virtual"><scope>MarmotElementSpatialWrapper</scope><name>HasEigenDeformation</name></member>
       <member refid="class_marmot_element_1a4a399e8339bb2f93d379841bb252461bad98c67ed44a4c287a2f0cc24f9f4b308" prot="public" virt="non-virtual"><scope>MarmotElementSpatialWrapper</scope><name>HydrostaticStress</name></member>

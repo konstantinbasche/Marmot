@@ -141,6 +141,7 @@
     <value><![CDATA[/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotElementFactory.h]]></value>
     <value><![CDATA[/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotGeometryElement.h]]></value>
     <value><![CDATA[/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotEnhancedAssumedStrain.h]]></value>
+    <value><![CDATA[/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotMassLumping.h]]></value>
     <value><![CDATA[/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotDofLayoutTools.h]]></value>
   </option>
   <option  id='INPUT_ENCODING' default='yes' type='string'><value><![CDATA[UTF-8]]></value></option>

@@ -13,6 +13,7 @@
     <member refid="class_marmot_material_general_gradient_enhanced_hypo_elastic_1a62983a18a691619438086b9c2d35470c" kind="variable"><name>materialNumber</name></member>
     <member refid="class_marmot_material_general_gradient_enhanced_hypo_elastic_1a5c996337237851ae5024cb01e48a2ef3" kind="variable"><name>stateLayout</name></member>
     <member refid="class_marmot_material_general_gradient_enhanced_hypo_elastic_1a1897789e048d5af75c613f7e40127ed1" kind="function"><name>MarmotMaterialGeneralGradientEnhancedHypoElastic</name></member>
+    <member refid="class_marmot_material_general_gradient_enhanced_hypo_elastic_1ac9f0735721166d978d12b16e062b2e84" kind="function"><name>~MarmotMaterialGeneralGradientEnhancedHypoElastic</name></member>
     <member refid="class_marmot_material_general_gradient_enhanced_hypo_elastic_1a9860f796ad26818200a0cd86b24be056" kind="function"><name>computeStress</name></member>
     <member refid="class_marmot_material_general_gradient_enhanced_hypo_elastic_1afefe46fe7c052828dace64090184b879" kind="function"><name>computeStressExplicit</name></member>
     <member refid="class_marmot_material_general_gradient_enhanced_hypo_elastic_1a71dbdef7e55e3bd6ae6528835340cdd0" kind="function"><name>computePlaneStress</name></member>

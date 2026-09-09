@@ -52,9 +52,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#installation-steps">Installation steps</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#building-with-python-bindings">Building with Python Bindings</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="interfaces.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_bindings.html">Python Bindings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="documentation.html">Code documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
@@ -187,6 +189,7 @@ environment:</p>
 <span class="go"> cd build</span>
 <span class="go"> cmake \</span>
 <span class="go">     -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX \</span>
+<span class="go">     -DMARMOT_BUILD_PYTHON_BINDINGS=ON \</span>
 <span class="go">     ..</span>
 <span class="go"> make install</span>
 <span class="go"> ctest --output-on-failure</span>
@@ -194,6 +197,24 @@ environment:</p>
 </div>
 </div>
 </section>
+</section>
+<section id="building-with-python-bindings">
+<h2>Building with Python Bindings<a class="headerlink" href="#building-with-python-bindings" title="Link to this heading"></a></h2>
+<p>Marmot optionally provides a Python interface using <a class="reference external" href="https://github.com/wjakob/nanobind">nanobind</a>.
+To enable the Python module, configure CMake with <cite>-DMARMOT_BUILD_PYTHON_BINDINGS=ON</cite>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cmake -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DMARMOT_BUILD_PYTHON_BINDINGS=ON ..</span>
+<span class="go">make install</span>
+<span class="go">ctest --output-on-failure</span>
+</pre></div>
+</div>
+<p>After installation, the <code class="docutils literal notranslate"><span class="pre">marmot</span></code> package is available directly in Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">marmot</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">props</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">20000.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">])</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">marmot</span><span class="o">.</span><span class="n">solvers</span><span class="o">.</span><span class="n">HypoElasticSolver</span><span class="p">(</span><span class="s2">"LINEARELASTIC"</span><span class="p">,</span> <span class="n">props</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 

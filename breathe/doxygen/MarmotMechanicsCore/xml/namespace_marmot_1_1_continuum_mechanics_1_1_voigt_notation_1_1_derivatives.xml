@@ -13,14 +13,14 @@
 <para>Computes the derivative of the mean stress with respect to the stress vector. </para>
         </briefdescription>
         <detaileddescription>
-<para><formula id="194">\[  \frac{\partial \sigma_m}{\partial \boldsymbol{\sigma}}
-\]</formula> <simplesect kind="return"><para>6-component vector representing <formula id="195">$ \tfrac{\partial \sigma_m}{\partial \boldsymbol{\sigma}} $</formula> in Voigt notation. </para>
+<para><formula id="200">\[  \frac{\partial \sigma_m}{\partial \boldsymbol{\sigma}}
+\]</formula> <simplesect kind="return"><para>6-component vector representing <formula id="201">$ \tfrac{\partial \sigma_m}{\partial \boldsymbol{\sigma}} $</formula> in Voigt notation. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="789" column="16" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="789" declcolumn="16"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="791" column="16" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="791" declcolumn="16"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1a50b23becf6b6938f52e1a7728d42afb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -42,10 +42,10 @@
           <declname>stress</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative of the Haigh–Westergaard deviatoric radius <formula id="149">$ \rho $</formula> with respect to the stress vector. </para>
+<para>Computes the derivative of the Haigh–Westergaard deviatoric radius <formula id="155">$ \rho $</formula> with respect to the stress vector. </para>
         </briefdescription>
         <detaileddescription>
-<para><formula id="196">\[  \frac{\partial \rho}{\partial \boldsymbol{\sigma}}
+<para><formula id="202">\[  \frac{\partial \rho}{\partial \boldsymbol{\sigma}}
 \]</formula> <parameterlist kind="templateparam"><parameteritem>
 <parameternamelist>
 <parametername>T</parametername>
@@ -60,7 +60,7 @@
 <parametername>rho</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Precomputed Haigh–Westergaard coordinate <formula id="149">$ \rho $</formula>. </para>
+<para>Precomputed Haigh–Westergaard coordinate <formula id="155">$ \rho $</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -72,15 +72,15 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>6-component vector of partial derivatives <formula id="197">$ \tfrac{\partial \rho}{\partial \boldsymbol{\sigma}} $</formula> in Voigt notation. </para>
+<simplesect kind="return"><para>6-component vector of partial derivatives <formula id="203">$ \tfrac{\partial \rho}{\partial \boldsymbol{\sigma}} $</formula> in Voigt notation. </para>
 </simplesect>
-<simplesect kind="note"><para>Returns zero if <formula id="198">$ \rho \leq 10^{-16} $</formula> to avoid division by zero. </para>
+<simplesect kind="note"><para>Returns zero if <formula id="204">$ \rho \leq 10^{-16} $</formula> to avoid division by zero. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="806" column="21" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" bodystart="806" bodyend="814"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="808" column="21" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" bodystart="808" bodyend="816"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1a755b102dd8a1533e5a436cd5b28bb626" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -104,11 +104,11 @@
         <briefdescription>
         </briefdescription>
         <detaileddescription>
-<para>Computes the derivative <formula id="199">$ \frac{d\, \varepsilon_\rho}{d\, \boldsymbol{\varepsilon}}$</formula> of the haigh westergaard coordinate  <formula id="200">$\strain_\rho $</formula> with respect to the voigt notated strain vector <formula id="168">$ \boldsymbol{\varepsilon} $</formula> </para>
+<para>Computes the derivative <formula id="205">$ \frac{d\, \varepsilon_\rho}{d\, \boldsymbol{\varepsilon}}$</formula> of the haigh westergaard coordinate  <formula id="206">$\strain_\rho $</formula> with respect to the voigt notated strain vector <formula id="174">$ \boldsymbol{\varepsilon} $</formula> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="821" column="21" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" bodystart="821" bodyend="829"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="823" column="21" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" bodystart="823" bodyend="831"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1a74cf7a20cd4d2b3cb5302d77d62ef92c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -126,8 +126,8 @@
           <declname>stress</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative <formula id="201">$ \frac{\partial \theta}{\partial J_2}$</formula> of the lode angle  <formula id="202">$ \theta
-$</formula> with respect to the second deviatoric invariant <formula id="155">$ J_2 $</formula>. </para>
+<para>Computes the derivative <formula id="207">$ \frac{\partial \theta}{\partial J_2}$</formula> of the lode angle  <formula id="208">$ \theta
+$</formula> with respect to the second deviatoric invariant <formula id="161">$ J_2 $</formula>. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -139,13 +139,13 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Scalar derivative <formula id="203">$ \tfrac{\partial \theta}{\partial J_2} $</formula>. </para>
+<simplesect kind="return"><para>Scalar derivative <formula id="209">$ \tfrac{\partial \theta}{\partial J_2} $</formula>. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="1199" column="7" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" bodystart="1199" bodyend="1221" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="838" declcolumn="9"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="1201" column="7" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" bodystart="1201" bodyend="1223" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="840" declcolumn="9"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1a30dafc5bc79f37a7dc7f5437080db519" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -163,7 +163,7 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
           <declname>stress</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative <formula id="204">$ \frac{\partial \theta}{\partial J_3}$</formula> of the Lode angle <formula id="150">$ \theta $</formula> with respect to the third deviatoric invariant <formula id="187">$ J_3 $</formula>. </para>
+<para>Computes the derivative <formula id="210">$ \frac{\partial \theta}{\partial J_3}$</formula> of the Lode angle <formula id="156">$ \theta $</formula> with respect to the third deviatoric invariant <formula id="193">$ J_3 $</formula>. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -171,17 +171,17 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
 <parametername>stress</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Stress vector in Voigt notation ( <formula id="164">$ \boldsymbol{\sigma} $</formula>). </para>
+<para>Stress vector in Voigt notation ( <formula id="170">$ \boldsymbol{\sigma} $</formula>). </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Value of the derivative <formula id="205">$ \frac{\partial \theta}{\partial J_3} $</formula>. </para>
+<simplesect kind="return"><para>Value of the derivative <formula id="211">$ \frac{\partial \theta}{\partial J_3} $</formula>. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="1224" column="7" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" bodystart="1224" bodyend="1245" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="848" declcolumn="9"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="1226" column="7" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" bodystart="1226" bodyend="1247" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="850" declcolumn="9"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1a8f9ee1c7434f54eac96cba0d107df4c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -199,7 +199,7 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
           <declname>stress</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative <formula id="206">$ \frac{\partial J_2}{\partial \boldsymbol{\sigma}}$</formula> of the second deviatoric invariant <formula id="155">$ J_2 $</formula> with respect to the stress vector in Voigt notation. </para>
+<para>Computes the derivative <formula id="212">$ \frac{\partial J_2}{\partial \boldsymbol{\sigma}}$</formula> of the second deviatoric invariant <formula id="161">$ J_2 $</formula> with respect to the stress vector in Voigt notation. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -207,17 +207,17 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
 <parametername>stress</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Stress vector in Voigt notation ( <formula id="164">$ \boldsymbol{\sigma} $</formula>). </para>
+<para>Stress vector in Voigt notation ( <formula id="170">$ \boldsymbol{\sigma} $</formula>). </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Vector of partial derivatives <formula id="207">$ \frac{\partial J_2}{\partial \boldsymbol{\sigma}} $</formula> in Voigt notation. </para>
+<simplesect kind="return"><para>Vector of partial derivatives <formula id="213">$ \frac{\partial J_2}{\partial \boldsymbol{\sigma}} $</formula> in Voigt notation. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="859" column="21" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" bodystart="859" bodyend="862"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="861" column="21" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" bodystart="861" bodyend="864"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1a90bf386c297b0536df0e5015fe52eb22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -235,7 +235,7 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
           <declname>stress</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative <formula id="208">$ \frac{\partial J_3}{\partial \boldsymbol{\sigma}}$</formula> of the third deviatoric invariant <formula id="187">$ J_3 $</formula> with respect to the stress vector in Voigt notation. </para>
+<para>Computes the derivative <formula id="214">$ \frac{\partial J_3}{\partial \boldsymbol{\sigma}}$</formula> of the third deviatoric invariant <formula id="193">$ J_3 $</formula> with respect to the stress vector in Voigt notation. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -243,17 +243,17 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
 <parametername>stress</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Stress vector in Voigt notation ( <formula id="164">$ \boldsymbol{\sigma} $</formula>). </para>
+<para>Stress vector in Voigt notation ( <formula id="170">$ \boldsymbol{\sigma} $</formula>). </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Vector of partial derivatives <formula id="209">$ \frac{\partial J_3}{\partial \boldsymbol{\sigma}} $</formula> in Voigt notation. </para>
+<simplesect kind="return"><para>Vector of partial derivatives <formula id="215">$ \frac{\partial J_3}{\partial \boldsymbol{\sigma}} $</formula> in Voigt notation. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="873" column="21" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" bodystart="873" bodyend="878"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="875" column="21" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" bodystart="875" bodyend="880"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1a48dc30861d92403bd1e4c4782b678821" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -275,7 +275,7 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
           <declname>stress</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative of the lode angle <formula id="150">$ \theta $</formula> with respect to the stress vector. </para>
+<para>Computes the derivative of the lode angle <formula id="156">$ \theta $</formula> with respect to the stress vector. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -283,7 +283,7 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
 <parametername>theta</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Lode angle <formula id="150">$ \theta $</formula>. </para>
+<para>Lode angle <formula id="156">$ \theta $</formula>. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -295,15 +295,15 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>6-component vector of partial derivatives <formula id="210">$ \tfrac{\partial \theta}{\partial \boldsymbol{\sigma}} $</formula> in Voigt notation. </para>
+<simplesect kind="return"><para>6-component vector of partial derivatives <formula id="216">$ \tfrac{\partial \theta}{\partial \boldsymbol{\sigma}} $</formula> in Voigt notation. </para>
 </simplesect>
-<simplesect kind="note"><para>Returns zero if <formula id="211">$ \theta \leq 10^{-15} $</formula> or if <formula id="212">$ \theta \geq \frac{\pi}{3} - 10^{-15} $</formula>. </para>
+<simplesect kind="note"><para>Returns zero if <formula id="217">$ \theta \leq 10^{-15} $</formula> or if <formula id="218">$ \theta \geq \frac{\pi}{3} - 10^{-15} $</formula>. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="891" column="21" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" bodystart="891" bodyend="900"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="893" column="21" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" bodystart="893" bodyend="902"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1af1e45032518a82b57a4270f9a025053f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -316,7 +316,7 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
           <declname>strain</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative <formula id="213">$ \frac{\partial \theta^{(\varepsilon)}}{\partial J^{(\varepsilon)}_2}$</formula> of the Lode angle in strain space <formula id="214">$ \theta^{(\varepsilon)} $</formula> with respect to the second deviatoric invariant <formula id="184">$ J^{(\varepsilon)}_2 $</formula>. </para>
+<para>Computes the derivative <formula id="219">$ \frac{\partial \theta^{(\varepsilon)}}{\partial J^{(\varepsilon)}_2}$</formula> of the Lode angle in strain space <formula id="220">$ \theta^{(\varepsilon)} $</formula> with respect to the second deviatoric invariant <formula id="190">$ J^{(\varepsilon)}_2 $</formula>. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -324,17 +324,17 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
 <parametername>strain</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Strain vector in Voigt notation ( <formula id="168">$ \boldsymbol{\varepsilon} $</formula>). </para>
+<para>Strain vector in Voigt notation ( <formula id="174">$ \boldsymbol{\varepsilon} $</formula>). </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Value of the derivative <formula id="215">$ \frac{\partial \theta^{(\varepsilon)}}{\partial J^{(\varepsilon)}_2} $</formula>. </para>
+<simplesect kind="return"><para>Value of the derivative <formula id="221">$ \frac{\partial \theta^{(\varepsilon)}}{\partial J^{(\varepsilon)}_2} $</formula>. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="910" column="14" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="910" declcolumn="14"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="912" column="14" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="912" declcolumn="14"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1a707baebe1eaa4dd7cd1434bb174dbcc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -347,7 +347,7 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
           <declname>strain</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative <formula id="216">$ \frac{\partial \theta^{(\varepsilon)}}{\partial J^{(\varepsilon)}_3}$</formula> of the Lode angle in strain space <formula id="214">$ \theta^{(\varepsilon)} $</formula> with respect to the third deviatoric invariant <formula id="189">$ J^{(\varepsilon)}_3 $</formula>. </para>
+<para>Computes the derivative <formula id="222">$ \frac{\partial \theta^{(\varepsilon)}}{\partial J^{(\varepsilon)}_3}$</formula> of the Lode angle in strain space <formula id="220">$ \theta^{(\varepsilon)} $</formula> with respect to the third deviatoric invariant <formula id="195">$ J^{(\varepsilon)}_3 $</formula>. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -355,17 +355,17 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
 <parametername>strain</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Strain vector in Voigt notation ( <formula id="168">$ \boldsymbol{\varepsilon} $</formula>). </para>
+<para>Strain vector in Voigt notation ( <formula id="174">$ \boldsymbol{\varepsilon} $</formula>). </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Value of the derivative <formula id="217">$ \frac{\partial \theta^{(\varepsilon)}}{\partial J^{(\varepsilon)}_3} $</formula>. </para>
+<simplesect kind="return"><para>Value of the derivative <formula id="223">$ \frac{\partial \theta^{(\varepsilon)}}{\partial J^{(\varepsilon)}_3} $</formula>. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="920" column="14" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="920" declcolumn="14"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="922" column="14" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="922" declcolumn="14"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1abf2b3b18118cf171c59b1642ffae50f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Marmot::Vector6d</type>
@@ -378,7 +378,7 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
           <declname>strain</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative <formula id="218">$ \frac{\partial J^{(\varepsilon)}_2}{\partial \boldsymbol{\varepsilon}} $</formula> of the second deviatoric invariant <formula id="184">$ J^{(\varepsilon)}_2 $</formula> with respect to the strain vector in Voigt notation. </para>
+<para>Computes the derivative <formula id="224">$ \frac{\partial J^{(\varepsilon)}_2}{\partial \boldsymbol{\varepsilon}} $</formula> of the second deviatoric invariant <formula id="190">$ J^{(\varepsilon)}_2 $</formula> with respect to the strain vector in Voigt notation. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -386,18 +386,18 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
 <parametername>strain</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Strain vector in Voigt notation ( <formula id="168">$ \boldsymbol{\varepsilon} $</formula>). </para>
+<para>Strain vector in Voigt notation ( <formula id="174">$ \boldsymbol{\varepsilon} $</formula>). </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Vector of partial derivatives  <formula id="219">$ \frac{\partial J^{(\varepsilon)}_2}{\partial
+<simplesect kind="return"><para>Vector of partial derivatives  <formula id="225">$ \frac{\partial J^{(\varepsilon)}_2}{\partial
 \boldsymbol{\varepsilon}} $</formula> in Voigt notation. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="931" column="24" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="931" declcolumn="24"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="933" column="24" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="933" declcolumn="24"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1a22d949138e496c4639462980e24fe971" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Marmot::Vector6d</type>
@@ -410,7 +410,7 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
           <declname>strain</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative <formula id="220">$ \frac{\partial J^{(\varepsilon)}_3}{\partial \boldsymbol{\varepsilon}} $</formula> of the third deviatoric invariant <formula id="189">$ J^{(\varepsilon)}_3 $</formula> with respect to the strain vector in Voigt notation. </para>
+<para>Computes the derivative <formula id="226">$ \frac{\partial J^{(\varepsilon)}_3}{\partial \boldsymbol{\varepsilon}} $</formula> of the third deviatoric invariant <formula id="195">$ J^{(\varepsilon)}_3 $</formula> with respect to the strain vector in Voigt notation. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -418,18 +418,18 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
 <parametername>strain</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Strain vector in Voigt notation ( <formula id="168">$ \boldsymbol{\varepsilon} $</formula>). </para>
+<para>Strain vector in Voigt notation ( <formula id="174">$ \boldsymbol{\varepsilon} $</formula>). </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Vector of partial derivatives  <formula id="221">$ \frac{\partial J^{(\varepsilon)}_3}{\partial
+<simplesect kind="return"><para>Vector of partial derivatives  <formula id="227">$ \frac{\partial J^{(\varepsilon)}_3}{\partial
 \boldsymbol{\varepsilon}} $</formula> in Voigt notation. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="942" column="24" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="942" declcolumn="24"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="944" column="24" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="944" declcolumn="24"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1a75b9ecfa6f3df0bad02c94c072a7d015" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Marmot::Vector6d</type>
@@ -442,8 +442,8 @@ $</formula> with respect to the second deviatoric invariant <formula id="155">$ 
           <declname>strain</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative  <formula id="222">$ \frac{\partial \theta^{(\varepsilon)}}{\partial \boldsymbol{\varepsilon}}
-$</formula> of the Lode angle in strain space <formula id="214">$ \theta^{(\varepsilon)} $</formula> with respect to the strain vector in Voigt notation. </para>
+<para>Computes the derivative  <formula id="228">$ \frac{\partial \theta^{(\varepsilon)}}{\partial \boldsymbol{\varepsilon}}
+$</formula> of the Lode angle in strain space <formula id="220">$ \theta^{(\varepsilon)} $</formula> with respect to the strain vector in Voigt notation. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -451,18 +451,18 @@ $</formula> of the Lode angle in strain space <formula id="214">$ \theta^{(\vare
 <parametername>strain</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Strain vector in Voigt notation ( <formula id="168">$ \boldsymbol{\varepsilon} $</formula>). </para>
+<para>Strain vector in Voigt notation ( <formula id="174">$ \boldsymbol{\varepsilon} $</formula>). </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Vector of partial derivatives  <formula id="223">$ \frac{\partial \theta^{(\varepsilon)}}{\partial
+<simplesect kind="return"><para>Vector of partial derivatives  <formula id="229">$ \frac{\partial \theta^{(\varepsilon)}}{\partial
 \boldsymbol{\varepsilon}} $</formula> in Voigt notation. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="953" column="24" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="953" declcolumn="24"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="955" column="24" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="955" declcolumn="24"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1a1bd33dbb691a4836d39d458d7cc28acb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Marmot::Matrix36</type>
@@ -475,7 +475,7 @@ $</formula> of the Lode angle in strain space <formula id="214">$ \theta^{(\vare
           <declname>stress</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative <formula id="224">$ \frac{\partial \sigma_I}{\partial \boldsymbol{\sigma}} $</formula> of the principal stresses <formula id="225">$ \sigma_I $</formula> with respect to the stress vector in Voigt notation. </para>
+<para>Computes the derivative <formula id="230">$ \frac{\partial \sigma_I}{\partial \boldsymbol{\sigma}} $</formula> of the principal stresses <formula id="231">$ \sigma_I $</formula> with respect to the stress vector in Voigt notation. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -483,17 +483,17 @@ $</formula> of the Lode angle in strain space <formula id="214">$ \theta^{(\vare
 <parametername>stress</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Stress vector in Voigt notation ( <formula id="164">$ \boldsymbol{\sigma} $</formula>). </para>
+<para>Stress vector in Voigt notation ( <formula id="170">$ \boldsymbol{\sigma} $</formula>). </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Matrix of partial derivatives <formula id="224">$ \frac{\partial \sigma_I}{\partial \boldsymbol{\sigma}} $</formula>, where each row corresponds to the gradient of one principal stress with respect to <formula id="164">$ \boldsymbol{\sigma} $</formula>. </para>
+<simplesect kind="return"><para>Matrix of partial derivatives <formula id="230">$ \frac{\partial \sigma_I}{\partial \boldsymbol{\sigma}} $</formula>, where each row corresponds to the gradient of one principal stress with respect to <formula id="170">$ \boldsymbol{\sigma} $</formula>. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="966" column="24" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="966" declcolumn="24"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="968" column="24" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="968" declcolumn="24"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1a3f21653a90f5ec848eecef87dc68ca43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Eigen::Vector3d</type>
@@ -506,7 +506,7 @@ $</formula> of the Lode angle in strain space <formula id="214">$ \theta^{(\vare
           <declname>strain</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative <formula id="226">$ \frac{\partial \varepsilon^{vol}_{\ominus}}{\partial \varepsilon_I} $</formula> of the volumetric compressive strain <formula id="227">$ \varepsilon^{vol}_{\ominus} $</formula> with respect to the principal strains <formula id="228">$ \varepsilon_I $</formula>. </para>
+<para>Computes the derivative <formula id="232">$ \frac{\partial \varepsilon^{vol}_{\ominus}}{\partial \varepsilon_I} $</formula> of the volumetric compressive strain <formula id="233">$ \varepsilon^{vol}_{\ominus} $</formula> with respect to the principal strains <formula id="234">$ \varepsilon_I $</formula>. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -514,17 +514,17 @@ $</formula> of the Lode angle in strain space <formula id="214">$ \theta^{(\vare
 <parametername>strain</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Principal/total strain provided in Voigt notation ( <formula id="168">$ \boldsymbol{\varepsilon} $</formula>), 6 components. </para>
+<para>Principal/total strain provided in Voigt notation ( <formula id="174">$ \boldsymbol{\varepsilon} $</formula>), 6 components. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>A 3-component vector ( <formula id="229">$ \partial \varepsilon^{vol}_{\ominus} / \partial \varepsilon_I $</formula>), where each entry is the partial derivative of the corresponding volumetric-compressive component with respect to the principal strains <formula id="142">$ \varepsilon_1, \varepsilon_2, \varepsilon_3 $</formula>. </para>
+<simplesect kind="return"><para>A 3-component vector ( <formula id="235">$ \partial \varepsilon^{vol}_{\ominus} / \partial \varepsilon_I $</formula>), where each entry is the partial derivative of the corresponding volumetric-compressive component with respect to the principal strains <formula id="148">$ \varepsilon_1, \varepsilon_2, \varepsilon_3 $</formula>. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="981" column="23" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="981" declcolumn="23"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="983" column="23" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="983" declcolumn="23"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1a7e58d97abe0747e53f88d9f61b94a729" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Matrix6d</type>
@@ -541,18 +541,18 @@ $</formula> of the Lode angle in strain space <formula id="214">$ \theta^{(\vare
           <declname>Cep</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative  <formula id="230">$ \frac{\partial \boldsymbol{\varepsilon}^{p}}{\partial
-\boldsymbol{\varepsilon}} $</formula> of the Voigt-notated plastic strain vector <formula id="231">$ \boldsymbol{\varepsilon}^{p} $</formula> with respect to the Voigt-notated total strain vector <formula id="168">$ \boldsymbol{\varepsilon} $</formula>. </para>
+<para>Computes the derivative  <formula id="236">$ \frac{\partial \boldsymbol{\varepsilon}^{p}}{\partial
+\boldsymbol{\varepsilon}} $</formula> of the Voigt-notated plastic strain vector <formula id="237">$ \boldsymbol{\varepsilon}^{p} $</formula> with respect to the Voigt-notated total strain vector <formula id="174">$ \boldsymbol{\varepsilon} $</formula>. </para>
         </briefdescription>
         <detaileddescription>
-<para>The relation used is    <formula id="232">\[  \frac{\partial \boldsymbol{\varepsilon}^{p}}{\partial \boldsymbol{\varepsilon}}
+<para>The relation used is    <formula id="238">\[  \frac{\partial \boldsymbol{\varepsilon}^{p}}{\partial \boldsymbol{\varepsilon}}
   \;=\; \boldsymbol{I} \;-\; \mathbb{C}^{-1}\,\mathbb{C}^{(ep)}
-\]</formula> where <formula id="107">$ \mathbb{C}^{-1} $</formula> is the elastic compliance (6×6) and <formula id="233">$ \mathbb{C}^{(ep)} $</formula> the elastoplastic stiffness (6×6). <parameterlist kind="param"><parameteritem>
+\]</formula> where <formula id="114">$ \mathbb{C}^{-1} $</formula> is the elastic compliance (6×6) and <formula id="239">$ \mathbb{C}^{(ep)} $</formula> the elastoplastic stiffness (6×6). <parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>CelInv</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Elastic compliance tensor <formula id="107">$ \mathbb{C}^{-1} $</formula> (6×6 matrix). </para>
+<para>Elastic compliance tensor <formula id="114">$ \mathbb{C}^{-1} $</formula> (6×6 matrix). </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -560,17 +560,17 @@ $</formula> of the Lode angle in strain space <formula id="214">$ \theta^{(\vare
 <parametername>Cep</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Elastoplastic stiffness tensor <formula id="233">$ \mathbb{C}^{(ep)} $</formula> (6×6 matrix). </para>
+<para>Elastoplastic stiffness tensor <formula id="239">$ \mathbb{C}^{(ep)} $</formula> (6×6 matrix). </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>6×6 matrix <formula id="234">$ \partial \boldsymbol{\varepsilon}^{p} / \partial \boldsymbol{\varepsilon} $</formula> in Voigt form. </para>
+<simplesect kind="return"><para>6×6 matrix <formula id="240">$ \partial \boldsymbol{\varepsilon}^{p} / \partial \boldsymbol{\varepsilon} $</formula> in Voigt form. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="1000" column="16" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="1000" declcolumn="16"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="1002" column="16" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="1002" declcolumn="16"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1a2a2df9d5bd64a9a36ab1cc273b903cfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>RowVector6d</type>
@@ -587,8 +587,8 @@ $</formula> of the Lode angle in strain space <formula id="214">$ \theta^{(\vare
           <declname>Cep</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative  <formula id="235">$ \frac{\partial \Delta \varepsilon^{p,vol}}{\partial
-\boldsymbol{\varepsilon}} $</formula> of the volumetric plastic strain increment <formula id="236">$ \Delta \varepsilon^{p,vol} $</formula> with respect to the Voigt-notated total strain vector <formula id="168">$ \boldsymbol{\varepsilon} $</formula>. </para>
+<para>Computes the derivative  <formula id="241">$ \frac{\partial \Delta \varepsilon^{p,vol}}{\partial
+\boldsymbol{\varepsilon}} $</formula> of the volumetric plastic strain increment <formula id="242">$ \Delta \varepsilon^{p,vol} $</formula> with respect to the Voigt-notated total strain vector <formula id="174">$ \boldsymbol{\varepsilon} $</formula>. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -596,7 +596,7 @@ $</formula> of the Lode angle in strain space <formula id="214">$ \theta^{(\vare
 <parametername>CelInv</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Elastic compliance tensor <formula id="107">$ \mathbb{C}^{-1} $</formula> (6×6 matrix). </para>
+<para>Elastic compliance tensor <formula id="114">$ \mathbb{C}^{-1} $</formula> (6×6 matrix). </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -604,18 +604,18 @@ $</formula> of the Lode angle in strain space <formula id="214">$ \theta^{(\vare
 <parametername>Cep</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Elastoplastic stiffness tensor <formula id="233">$ \mathbb{C}^{(ep)} $</formula> (6×6 matrix). </para>
+<para>Elastoplastic stiffness tensor <formula id="239">$ \mathbb{C}^{(ep)} $</formula> (6×6 matrix). </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Row vector (1×6) containing  <formula id="237">$ \partial \Delta \varepsilon^{p,vol} / \partial \boldsymbol{\varepsilon}
+<simplesect kind="return"><para>Row vector (1×6) containing  <formula id="243">$ \partial \Delta \varepsilon^{p,vol} / \partial \boldsymbol{\varepsilon}
 $</formula> in Voigt notation. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="1012" column="19" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="1012" declcolumn="19"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="1014" column="19" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="1014" declcolumn="19"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1a2bd189bc6410a4ad365dc42e66e8601e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Marmot::Matrix36</type>
@@ -628,7 +628,7 @@ $</formula> in Voigt notation. </para>
           <declname>dEp</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative <formula id="238">$ \frac{\partial \varepsilon_I}{\partial \boldsymbol{\varepsilon}} $</formula> of the principal strains <formula id="228">$ \varepsilon_I $</formula> with respect to the Voigt-notated strain vector  <formula id="239">$\boldsymbol{\varepsilon} $</formula>. </para>
+<para>Computes the derivative <formula id="244">$ \frac{\partial \varepsilon_I}{\partial \boldsymbol{\varepsilon}} $</formula> of the principal strains <formula id="234">$ \varepsilon_I $</formula> with respect to the Voigt-notated strain vector  <formula id="245">$\boldsymbol{\varepsilon} $</formula>. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -640,13 +640,13 @@ $</formula> in Voigt notation. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>A 3×6 matrix where each row contains the partial derivatives of one principal strain <formula id="142">$ \varepsilon_1, \varepsilon_2, \varepsilon_3 $</formula> with respect to the 6 Voigt strain components. </para>
+<simplesect kind="return"><para>A 3×6 matrix where each row contains the partial derivatives of one principal strain <formula id="148">$ \varepsilon_1, \varepsilon_2, \varepsilon_3 $</formula> with respect to the 6 Voigt strain components. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="1023" column="24" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="1023" declcolumn="24"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="1025" column="24" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="1025" declcolumn="24"/>
       </memberdef>
       <memberdef kind="function" id="_marmot_voigt_8h_1ad21af03e3faa72f38e1e39e07cf5aa4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>RowVector6d</type>
@@ -667,8 +667,8 @@ $</formula> in Voigt notation. </para>
           <declname>Cep</declname>
         </param>
         <briefdescription>
-<para>Computes the derivative  <formula id="240">$ \frac{\partial \Delta \varepsilon^{p,vol}_{\ominus}}
-{\partial \boldsymbol{\varepsilon}} $</formula> of the volumetric plastic strain increment in compression <formula id="241">$ \Delta \varepsilon^{p,vol}_{\ominus} $</formula> with respect to the strain vector in Voigt notation <formula id="168">$ \boldsymbol{\varepsilon} $</formula>. </para>
+<para>Computes the derivative  <formula id="246">$ \frac{\partial \Delta \varepsilon^{p,vol}_{\ominus}}
+{\partial \boldsymbol{\varepsilon}} $</formula> of the volumetric plastic strain increment in compression <formula id="247">$ \Delta \varepsilon^{p,vol}_{\ominus} $</formula> with respect to the strain vector in Voigt notation <formula id="174">$ \boldsymbol{\varepsilon} $</formula>. </para>
         </briefdescription>
         <detaileddescription>
 <para><parameterlist kind="param"><parameteritem>
@@ -676,7 +676,7 @@ $</formula> in Voigt notation. </para>
 <parametername>dEp</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Incremental plastic strain vector in Voigt notation ( <formula id="242">$\Delta\boldsymbol{\varepsilon^{p}} $</formula>), 6 components. </para>
+<para>Incremental plastic strain vector in Voigt notation ( <formula id="248">$\Delta\boldsymbol{\varepsilon^{p}} $</formula>), 6 components. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -684,7 +684,7 @@ $</formula> in Voigt notation. </para>
 <parametername>CelInv</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Elastic compliance tensor <formula id="107">$ \mathbb{C}^{-1} $</formula> (6×6 matrix). </para>
+<para>Elastic compliance tensor <formula id="114">$ \mathbb{C}^{-1} $</formula> (6×6 matrix). </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -692,23 +692,23 @@ $</formula> in Voigt notation. </para>
 <parametername>Cep</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Elastoplastic stiffness tensor <formula id="233">$ \mathbb{C}^{(ep)} $</formula> (6×6 matrix). </para>
+<para>Elastoplastic stiffness tensor <formula id="239">$ \mathbb{C}^{(ep)} $</formula> (6×6 matrix). </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Row vector (1×6) containing <formula id="243">$ \partial \Delta \varepsilon^{p,vol}_{\ominus} / \partial \boldsymbol{\varepsilon} $</formula> in Voigt notation. </para>
+<simplesect kind="return"><para>Row vector (1×6) containing <formula id="249">$ \partial \Delta \varepsilon^{p,vol}_{\ominus} / \partial \boldsymbol{\varepsilon} $</formula> in Voigt notation. </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="1039" column="19" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="1039" declcolumn="19"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="1041" column="19" declfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" declline="1041" declcolumn="19"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="776" column="5"/>
+    <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotVoigt.h" line="778" column="5"/>
   </compounddef>
 </doxygen>

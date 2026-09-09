@@ -51,8 +51,7 @@
 <codeline lineno="28"><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">Marmot<sp/>{</highlight></codeline>
-<codeline lineno="46" refid="_marmot_utility_8h_1a252d6a7dd503dee472f2d47ae9782b83" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="_marmot_utility_8h_1a252d6a7dd503dee472f2d47ae9782b83" kindref="member">discardTheIncrement</ref>(<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>pNewDT,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message<sp/>);</highlight></codeline>
-<codeline lineno="47"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>Marmot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>Marmot</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotUtility.h"/>
   </compounddef>

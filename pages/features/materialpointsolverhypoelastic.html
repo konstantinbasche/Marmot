@@ -48,7 +48,9 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../interfaces.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_bindings.html">Python Bindings</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../features.html">Features</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="voigtnotation.html">Voigt Notation</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="solvers.html">Solvers</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Material Point Solver for Hypo-Elastic Materials</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
@@ -224,6 +226,33 @@ Time: 1.000000e+00
 </pre></div>
 </div>
 <p>The history can be exported as a CSV file (<code class="docutils literal notranslate"><span class="pre">mp_history.csv</span></code>) for visualization or analysis.</p>
+<section id="python-example">
+<h3>Python Example<a class="headerlink" href="#python-example" title="Link to this heading"></a></h3>
+<p>When built with <code class="docutils literal notranslate"><span class="pre">-DMARMOT_BUILD_PYTHON_BINDINGS=ON</span></code>, the solver can be driven directly from Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">marmot</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Define material and properties</span>
+<span class="n">properties</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">210e9</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">marmot</span><span class="o">.</span><span class="n">solvers</span><span class="o">.</span><span class="n">HypoElasticSolver</span><span class="p">(</span><span class="s2">"LINEARELASTIC"</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+
+<span class="c1"># Define loading step</span>
+<span class="n">step</span> <span class="o">=</span> <span class="n">marmot</span><span class="o">.</span><span class="n">solvers</span><span class="o">.</span><span class="n">HypoElasticSolver</span><span class="o">.</span><span class="n">Step</span><span class="p">()</span>
+<span class="n">step</span><span class="o">.</span><span class="n">timeStart</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">step</span><span class="o">.</span><span class="n">timeEnd</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">step</span><span class="o">.</span><span class="n">dTStart</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">step</span><span class="o">.</span><span class="n">strainIncrementTarget</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+<span class="n">step</span><span class="o">.</span><span class="n">isStrainComponentControlled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+<span class="n">step</span><span class="o">.</span><span class="n">isStressComponentControlled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">isStrainComponentControlled</span><span class="p">)</span>
+
+<span class="n">solver</span><span class="o">.</span><span class="n">addStep</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">solver</span><span class="o">.</span><span class="n">getHistory</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Time: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, Stress XX: </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">stress</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="guidelines-and-notes">
 <h2>Guidelines and Notes<a class="headerlink" href="#guidelines-and-notes" title="Link to this heading"></a></h2>

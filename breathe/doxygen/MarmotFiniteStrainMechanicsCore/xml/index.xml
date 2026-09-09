@@ -35,6 +35,26 @@
     <member refid="struct_marmot_1_1_solvers_1_1_marmot_material_point_solver_finite_strain_1_1_history_entry_1a55c20c2585d2c729fb2fa63f25240ee1" kind="function"><name>HistoryEntry</name></member>
     <member refid="struct_marmot_1_1_solvers_1_1_marmot_material_point_solver_finite_strain_1_1_history_entry_1a1f93cfc5a4af4f3dd76c8aea34031674" kind="function"><name>HistoryEntry</name></member>
   </compound>
+  <compound refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper" kind="class"><name>Marmot::Materials::HughesWingetWrapper</name>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a8bd1ea72f9222d8c6247e2ba80024144" kind="variable"><name>baseMaterial</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a7834e853be57f624c0f38967c85503e8" kind="variable"><name>deformationGradientSlot</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a9beeb9262492c82bfd2b53697cf64551" kind="variable"><name>stressSlot</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a04d8628a9fd2cc5d7654a3a952d6d98f" kind="variable"><name>baseMaterialSlot</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a5e42a8e1a1dd0be26d00901aa0825d96" kind="function"><name>HughesWingetWrapper</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a8d9516a7ca350e8321c7f5a3044f4bf7" kind="function"><name>~HughesWingetWrapper</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a0dd9a4032f02422fbde15ecf100b0ac1" kind="function"><name>initializeStateLayout</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a2b6d91f95a9a5df4f43c134bf8022748" kind="function"><name>setCharacteristicElementLength</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1aa79371cec944f2a0dcd7bc689c7fa9b4" kind="function"><name>getStateView</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a3f28011f30a855bde0a7e589cc496678" kind="function"><name>getDensity</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1ab57e2464e27eed7ad1ddae6441ee6e07" kind="function"><name>initializeYourself</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a1f5a38cac1c30b07ac8ee5c14d12cef8" kind="function"><name>computeStress</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a39a2f0828d634962474f5063169ca37d" kind="function"><name>computeStressExplicit</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1aca2cfb81c497211d3c2e9abfb0450e58" kind="function"><name>fromEigen</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a38509f959e5031359c15801975b9cc0c" kind="function"><name>toEigen</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a2b72f63ae0d02559e48a932d08252521" kind="function"><name>computeStressSensitivity</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a478178de3d2d038cb27c1bde0de03910" kind="function"><name>computeStressCore</name></member>
+    <member refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a1951406512092a967b11806d7a8d92ac" kind="function"><name>computeNumericalTangent</name></member>
+  </compound>
   <compound refid="struct_marmot_1_1_solvers_1_1_marmot_material_point_solver_finite_strain_1_1_increment" kind="struct"><name>Marmot::Solvers::MarmotMaterialPointSolverFiniteStrain::Increment</name>
     <member refid="struct_marmot_1_1_solvers_1_1_marmot_material_point_solver_finite_strain_1_1_increment_1a8e6e64567d21822c98cb9696edcd20e8" kind="variable"><name>gradUIncrement</name></member>
     <member refid="struct_marmot_1_1_solvers_1_1_marmot_material_point_solver_finite_strain_1_1_increment_1a2ae5c57d382f4e3b87d0550c5a8fe18d" kind="variable"><name>stressIncrement</name></member>
@@ -60,10 +80,11 @@
     <member refid="class_marmot_material_finite_strain_1a5a4a539cbba5a51c7a4f97f5efca07ee" kind="function"><name>computePlaneStress</name></member>
     <member refid="class_marmot_material_finite_strain_1af4452edf7ce6bcf738d4801a4968a7ed" kind="function"><name>computePlaneStressExplicit</name></member>
     <member refid="class_marmot_material_finite_strain_1ac96dc146dc87a26160e91c8f239f2882" kind="function"><name>findEigenDeformationForEigenStress</name></member>
-    <member refid="class_marmot_material_finite_strain_1a5c7e383c872566fee41f6f12d863ed4c" kind="function"><name>getStateView</name></member>
+    <member refid="class_marmot_material_finite_strain_1a9d542d1c64f901b7d17d9164ce5eac77" kind="function"><name>getStateView</name></member>
     <member refid="class_marmot_material_finite_strain_1aeab6c2985e19de95a2ed851225d97e0e" kind="function"><name>getNumberOfRequiredStateVars</name></member>
     <member refid="class_marmot_material_finite_strain_1a73823bcf3cc55df7ffc2847c91317b1a" kind="function"><name>initializeYourself</name></member>
     <member refid="class_marmot_material_finite_strain_1aac695d1b8c9d639387e633b0d0aa71fe" kind="function"><name>getMaximumWaveSpeed</name></member>
+    <member refid="class_marmot_material_finite_strain_1a55086720fb85bd24f1b99a4c19b82813" kind="function"><name>setCharacteristicElementLength</name></member>
     <member refid="class_marmot_material_finite_strain_1a813742e2a66f7dfd8fdebb7122b1b955" kind="function"><name>getDensity</name></member>
   </compound>
   <compound refid="class_marmot_material_finite_strain_a_d" kind="class"><name>MarmotMaterialFiniteStrainAD</name>
@@ -218,6 +239,10 @@
     <member refid="_marmot_stress_measures_8h_1af13ff0905773a2e71214f5c0deba67c4" kind="function"><name>KirchhoffStressFromPK2</name></member>
   </compound>
   <compound refid="namespace_marmot_1_1_materials" kind="namespace"><name>Marmot::Materials</name>
+    <member refid="_marmot_material_hughes_winget_8h_1aae3da5caf189b7df4924e17c1ac99260" kind="enum"><name>HughesWingetTangent</name></member>
+    <member refid="_marmot_material_hughes_winget_8h_1aae3da5caf189b7df4924e17c1ac99260a8503d71dcafbdc254c2bbea2599e5791" kind="enumvalue"><name>Analytic</name></member>
+    <member refid="_marmot_material_hughes_winget_8h_1aae3da5caf189b7df4924e17c1ac99260a1649aed298f99d587e2eb30c1db5946b" kind="enumvalue"><name>Exact</name></member>
+    <member refid="_marmot_material_hughes_winget_8h_1aae3da5caf189b7df4924e17c1ac99260a5225763efc97aebd39e5a303fceb57ac" kind="enumvalue"><name>Numerical</name></member>
   </compound>
   <compound refid="namespace_marmot_1_1_solvers" kind="namespace"><name>Marmot::Solvers</name>
   </compound>
@@ -238,6 +263,8 @@
   <compound refid="_marmot_material_finite_strain_factory_8h" kind="file"><name>MarmotMaterialFiniteStrainFactory.h</name>
   </compound>
   <compound refid="_marmot_material_finite_strain_substepped_8h" kind="file"><name>MarmotMaterialFiniteStrainSubstepped.h</name>
+  </compound>
+  <compound refid="_marmot_material_hughes_winget_8h" kind="file"><name>MarmotMaterialHughesWinget.h</name>
   </compound>
   <compound refid="_marmot_material_point_solver_finite_strain_8h" kind="file"><name>MarmotMaterialPointSolverFiniteStrain.h</name>
   </compound>

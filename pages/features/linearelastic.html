@@ -50,7 +50,9 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../interfaces.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_bindings.html">Python Bindings</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../features.html">Features</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="voigtnotation.html">Voigt Notation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="solvers.html">Solvers</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="materials.html">Material models</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="at2phasefield.html">AT2 Phase Field Fracture</a></li>
@@ -71,6 +73,7 @@
 <li class="toctree-l3"><a class="reference internal" href="linearviscoelasticorthotropicpowerlaw.html">Linear Viscoelastic Orthotropic Power Law model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="vonmises.html">Von Mises model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="advonmises.html">Von Mises model (Automatic Differentiation)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hugheswinget.html">Hughes-Winget wrapper</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="elements.html">Finite elements</a></li>
@@ -134,6 +137,13 @@ or orthotropic material behavior as follows:</p>
 <p>with</p>
 <div class="math notranslate nohighlight">
 \[\displaystyle G = \frac{E}{2\,(1 + \nu)}\]</div>
+<p>For the transversely isotropic and orthotropic cases below, Poisson’s ratio <span class="math notranslate nohighlight">\(\nu_{ij}\)</span>
+is defined as the negative ratio of the lateral strain in direction <span class="math notranslate nohighlight">\(x_j\)</span> to the axial
+strain in direction <span class="math notranslate nohighlight">\(x_i\)</span> when a uniaxial stress is applied in direction <span class="math notranslate nohighlight">\(x_i\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\nu_{ij} = -\frac{\varepsilon_j}{\varepsilon_i},\]</div>
+<p>so that the corresponding compliance entry reads <span class="math notranslate nohighlight">\(\CelInv_{ji} = -\nu_{ij} / E_i\)</span>.
+Symmetry of the compliance tensor implies <span class="math notranslate nohighlight">\(\nu_{ij} / E_i = \nu_{ji} / E_j\)</span>.</p>
 </section>
 <section id="transversely-isotropic-behavior">
 <h3>Transversely Isotropic Behavior<a class="headerlink" href="#transversely-isotropic-behavior" title="Link to this heading"></a></h3>
@@ -144,9 +154,9 @@ The two required vectors must be orthogonal to each other.</p>
 <p>Number of independent material parameters:      5</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\Cel^{-1} = \begin{bmatrix}
-                                      \frac{1}{E_1} &amp; \frac{-\nu_{12}}{E_2} &amp; \frac{-\nu_{12}}{E_2} &amp; 0 &amp; 0 &amp; 0 \\
-                                      \frac{-\nu_{12}}{E_2} &amp; \frac{1}{E_2} &amp; \frac{-\nu_{23}}{E_2} &amp; 0 &amp; 0 &amp; 0 \\
-                                      \frac{-\nu_{12}}{E_2} &amp; \frac{-\nu_{12}}{E_2} &amp; \frac{1}{E_2} &amp; 0 &amp; 0 &amp; 0 \\
+                                      \frac{1}{E_1} &amp; \frac{-\nu_{12}}{E_1} &amp; \frac{-\nu_{12}}{E_1} &amp; 0 &amp; 0 &amp; 0 \\
+                                      \frac{-\nu_{12}}{E_1} &amp; \frac{1}{E_2} &amp; \frac{-\nu_{23}}{E_2} &amp; 0 &amp; 0 &amp; 0 \\
+                                      \frac{-\nu_{12}}{E_1} &amp; \frac{-\nu_{23}}{E_2} &amp; \frac{1}{E_2} &amp; 0 &amp; 0 &amp; 0 \\
                                       0 &amp; 0 &amp; 0 &amp; \frac{1}{G_{12}} &amp; 0 &amp; 0 \\
                                       0 &amp; 0 &amp; 0 &amp; 0 &amp; \frac{1}{G_{12}} &amp; 0 \\
                                       0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; \frac{1}{G_{23}}
@@ -164,9 +174,9 @@ The two required vectors must be orthogonal to each other.</p>
 <p>Number of independent material parameters:      9</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\mathbb{ C }^{-1} = \begin{bmatrix}
-                                      \frac{1}{E_1} &amp; \frac{-\nu_{12}}{E_2} &amp; \frac{-\nu_{13}}{E_3} &amp; 0 &amp; 0 &amp; 0 \\
-                                      \frac{-\nu_{12}}{E_2} &amp; \frac{1}{E_2} &amp; \frac{-\nu_{23}}{E_3} &amp; 0 &amp; 0 &amp; 0 \\
-                                      \frac{-\nu_{13}}{E_3} &amp; \frac{-\nu_{23}}{E_3} &amp; \frac{1}{E_3} &amp; 0 &amp; 0 &amp; 0 \\
+                                      \frac{1}{E_1} &amp; \frac{-\nu_{12}}{E_1} &amp; \frac{-\nu_{13}}{E_1} &amp; 0 &amp; 0 &amp; 0 \\
+                                      \frac{-\nu_{12}}{E_1} &amp; \frac{1}{E_2} &amp; \frac{-\nu_{23}}{E_2} &amp; 0 &amp; 0 &amp; 0 \\
+                                      \frac{-\nu_{13}}{E_1} &amp; \frac{-\nu_{23}}{E_2} &amp; \frac{1}{E_3} &amp; 0 &amp; 0 &amp; 0 \\
                                       0 &amp; 0 &amp; 0 &amp; \frac{1}{G_{12}} &amp; 0 &amp; 0 \\
                                       0 &amp; 0 &amp; 0 &amp; 0 &amp; \frac{1}{G_{13}} &amp; 0 \\
                                       0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; \frac{1}{G_{23}}
@@ -328,7 +338,7 @@ The two required vectors must be orthogonal to each other.</p>
 <dt class="sig sig-object cpp" id="_CPPv4N6Marmot9Materials13LinearElastic4nu12E">
 <span id="_CPPv3N6Marmot9Materials13LinearElastic4nu12E"></span><span id="_CPPv2N6Marmot9Materials13LinearElastic4nu12E"></span><span id="Marmot::Materials::LinearElastic::nu12__doubleCR"></span><span class="target" id="classMarmot_1_1Materials_1_1LinearElastic_1a2d2fcda840fe1dc50ca3779036c1b00c"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">nu12</span></span></span><a class="headerlink" href="#_CPPv4N6Marmot9Materials13LinearElastic4nu12E" title="Link to this definition"></a><br /></dt>
 <dd><p>Poisson’s ratio between axes <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_2\)</span>. </p>
-<p><span class="math notranslate nohighlight">\(\nu_{12}\)</span> represents the Poisson’s ratio describing the strain in direction <span class="math notranslate nohighlight">\(x_1\)</span> caused by a load in direction <span class="math notranslate nohighlight">\(x_2\)</span> of the user-defined local coordinate system. Depending on the anisotropic type it is a reference variable to:<ul class="simple">
+<p><span class="math notranslate nohighlight">\(\nu_{12}\)</span> represents the Poisson’s ratio describing the strain in direction <span class="math notranslate nohighlight">\(x_2\)</span> caused by a load in direction <span class="math notranslate nohighlight">\(x_1\)</span> of the user-defined local coordinate system, i.e. <span class="math notranslate nohighlight">\(\nu_{12} = -\varepsilon_2/\varepsilon_1\)</span> for uniaxial stress in direction <span class="math notranslate nohighlight">\(x_1\)</span>. Depending on the anisotropic type it is a reference variable to:<ul class="simple">
 <li><p>Isotropic: materialProperties[1]</p></li>
 <li><p>TransverseIsotropic: materialProperties[2]</p></li>
 <li><p>Orthotropic: materialProperties[3] </p></li>
@@ -340,7 +350,7 @@ The two required vectors must be orthogonal to each other.</p>
 <dt class="sig sig-object cpp" id="_CPPv4N6Marmot9Materials13LinearElastic4nu23E">
 <span id="_CPPv3N6Marmot9Materials13LinearElastic4nu23E"></span><span id="_CPPv2N6Marmot9Materials13LinearElastic4nu23E"></span><span id="Marmot::Materials::LinearElastic::nu23__doubleCR"></span><span class="target" id="classMarmot_1_1Materials_1_1LinearElastic_1a6e295e1289026907c0e8934f8c523511"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">nu23</span></span></span><a class="headerlink" href="#_CPPv4N6Marmot9Materials13LinearElastic4nu23E" title="Link to this definition"></a><br /></dt>
 <dd><p>Poisson’s ratio between axes <span class="math notranslate nohighlight">\(x_2\)</span> and <span class="math notranslate nohighlight">\(x_3\)</span>. </p>
-<p><span class="math notranslate nohighlight">\(\nu_{23}\)</span> represents the Poisson’s ratio describing the strain in direction <span class="math notranslate nohighlight">\(x_2\)</span> caused by a load in direction <span class="math notranslate nohighlight">\(x_3\)</span> of the user-defined local coordinate system. Depending on the anisotropic type it is a reference variable to:<ul class="simple">
+<p><span class="math notranslate nohighlight">\(\nu_{23}\)</span> represents the Poisson’s ratio describing the strain in direction <span class="math notranslate nohighlight">\(x_3\)</span> caused by a load in direction <span class="math notranslate nohighlight">\(x_2\)</span> of the user-defined local coordinate system, i.e. <span class="math notranslate nohighlight">\(\nu_{23} = -\varepsilon_3/\varepsilon_2\)</span> for uniaxial stress in direction <span class="math notranslate nohighlight">\(x_2\)</span>. Depending on the anisotropic type it is a reference variable to:<ul class="simple">
 <li><p>TransverseIsotropic: materialProperties[3]</p></li>
 <li><p>Orthotropic: materialProperties[4] For isotropic behaviour it is set to <a class="reference internal" href="#classMarmot_1_1Materials_1_1LinearElastic_1a2d2fcda840fe1dc50ca3779036c1b00c"><span class="std std-ref">nu12</span></a> and does not need to be specified. </p></li>
 </ul>
@@ -351,7 +361,7 @@ The two required vectors must be orthogonal to each other.</p>
 <dt class="sig sig-object cpp" id="_CPPv4N6Marmot9Materials13LinearElastic4nu13E">
 <span id="_CPPv3N6Marmot9Materials13LinearElastic4nu13E"></span><span id="_CPPv2N6Marmot9Materials13LinearElastic4nu13E"></span><span id="Marmot::Materials::LinearElastic::nu13__doubleCR"></span><span class="target" id="classMarmot_1_1Materials_1_1LinearElastic_1af46634fe3a8acddf636945e5fb3f0c9e"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">nu13</span></span></span><a class="headerlink" href="#_CPPv4N6Marmot9Materials13LinearElastic4nu13E" title="Link to this definition"></a><br /></dt>
 <dd><p>Poisson’s ratio between axes <span class="math notranslate nohighlight">\(x_1\)</span> and <span class="math notranslate nohighlight">\(x_3\)</span>. </p>
-<p><span class="math notranslate nohighlight">\(\nu_{13}\)</span> represents the Poisson’s ratio describing the strain in direction <span class="math notranslate nohighlight">\(x_1\)</span> caused by a load in direction <span class="math notranslate nohighlight">\(x_3\)</span> of the user-defined local coordinate system.<ul class="simple">
+<p><span class="math notranslate nohighlight">\(\nu_{13}\)</span> represents the Poisson’s ratio describing the strain in direction <span class="math notranslate nohighlight">\(x_3\)</span> caused by a load in direction <span class="math notranslate nohighlight">\(x_1\)</span> of the user-defined local coordinate system, i.e. <span class="math notranslate nohighlight">\(\nu_{13} = -\varepsilon_3/\varepsilon_1\)</span> for uniaxial stress in direction <span class="math notranslate nohighlight">\(x_1\)</span>.<ul class="simple">
 <li><p>For orthotropic behaviour it must be specified (materialProperties[5]).</p></li>
 <li><p>For transverse-isotropic and isotropic behaviour it is set to <a class="reference internal" href="#classMarmot_1_1Materials_1_1LinearElastic_1a6e295e1289026907c0e8934f8c523511"><span class="std std-ref">nu23</span></a> and does not need to be specified. </p></li>
 </ul>

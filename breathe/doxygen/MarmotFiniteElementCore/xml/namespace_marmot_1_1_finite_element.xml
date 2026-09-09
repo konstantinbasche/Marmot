@@ -4,6 +4,7 @@
     <compoundname>Marmot::FiniteElement</compoundname>
     <innerclass refid="class_marmot_1_1_finite_element_1_1_boundary_element" prot="public">Marmot::FiniteElement::BoundaryElement</innerclass>
     <innernamespace refid="namespace_marmot_1_1_finite_element_1_1_e_a_s">Marmot::FiniteElement::EAS</innernamespace>
+    <innernamespace refid="namespace_marmot_1_1_finite_element_1_1_mass_lumping">Marmot::FiniteElement::MassLumping</innernamespace>
     <innernamespace refid="namespace_marmot_1_1_finite_element_1_1_quadrature">Marmot::FiniteElement::Quadrature</innernamespace>
     <innernamespace refid="namespace_marmot_1_1_finite_element_1_1_spatial1_d">Marmot::FiniteElement::Spatial1D</innernamespace>
     <innernamespace refid="namespace_marmot_1_1_finite_element_1_1_spatial2_d">Marmot::FiniteElement::Spatial2D</innernamespace>

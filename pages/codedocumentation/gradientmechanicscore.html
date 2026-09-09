@@ -50,6 +50,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../interfaces.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_bindings.html">Python Bindings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../documentation.html">Code documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="finiteelementcore.html">MarmotFiniteElementCore</a></li>
@@ -65,6 +66,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#_CPPv4I_iE48MarmotMaterialGeneralGradientEnhancedHypoElastic"><code class="docutils literal notranslate"><span class="pre">MarmotMaterialGeneralGradientEnhancedHypoElastic</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N48MarmotMaterialGeneralGradientEnhancedHypoElastic48MarmotMaterialGeneralGradientEnhancedHypoElasticEPKdii"><code class="docutils literal notranslate"><span class="pre">MarmotMaterialGeneralGradientEnhancedHypoElastic()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N48MarmotMaterialGeneralGradientEnhancedHypoElasticD0Ev"><code class="docutils literal notranslate"><span class="pre">~MarmotMaterialGeneralGradientEnhancedHypoElastic()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4NK48MarmotMaterialGeneralGradientEnhancedHypoElastic13computeStressER8responseR8tangentsRK9increment"><code class="docutils literal notranslate"><span class="pre">computeStress()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4NK48MarmotMaterialGeneralGradientEnhancedHypoElastic21computeStressExplicitER8responseRK9increment"><code class="docutils literal notranslate"><span class="pre">computeStressExplicit()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4NK48MarmotMaterialGeneralGradientEnhancedHypoElastic18computePlaneStressER8responseR8tangentsRK9increment"><code class="docutils literal notranslate"><span class="pre">computePlaneStress()</span></code></a></li>
@@ -241,6 +243,13 @@
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N48MarmotMaterialGeneralGradientEnhancedHypoElasticD0Ev">
+<span id="_CPPv3N48MarmotMaterialGeneralGradientEnhancedHypoElasticD0Ev"></span><span id="_CPPv2N48MarmotMaterialGeneralGradientEnhancedHypoElasticD0Ev"></span><span id="MarmotMaterialGeneralGradientEnhancedHypoElastic::~MarmotMaterialGeneralGradientEnhancedHypoElastic"></span><span class="target" id="class_marmot_material_general_gradient_enhanced_hypo_elastic_1ac9f0735721166d978d12b16e062b2e84"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~MarmotMaterialGeneralGradientEnhancedHypoElastic</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N48MarmotMaterialGeneralGradientEnhancedHypoElasticD0Ev" title="Link to this definition"></a><br /></dt>
+<dd><p>Virtual destructor. </p>
+<p>This class is abstract and instances are owned through base-class pointers (e.g. the std::unique_ptr held by the gradient-enhanced elements), so the destructor must be virtual — destroying a derived object through a base pointer with a non-virtual destructor is undefined behaviour. libstdc++ silently invokes the wrong destructor, while libc++/clang diagnoses it (-Wdelete-abstract-non-virtual-dtor) and emits a trap instruction, which aborted every simulation using such a material on macOS/arm64. </p>
 </dd></dl>
 
 <dl class="cpp function">

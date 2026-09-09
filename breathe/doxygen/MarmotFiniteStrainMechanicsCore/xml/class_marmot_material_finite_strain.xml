@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.18.0" xml:lang="en-US">
   <compounddef id="class_marmot_material_finite_strain" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>MarmotMaterialFiniteStrain</compoundname>
+    <derivedcompoundref refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper" prot="public" virt="non-virtual">Marmot::Materials::HughesWingetWrapper&lt; BaseMaterialType, tangentMode &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_marmot_1_1_materials_1_1_marmot_material_finite_strain_substepped" prot="public" virt="non-virtual">Marmot::Materials::MarmotMaterialFiniteStrainSubstepped&lt; BaseMaterialType &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_marmot_material_finite_strain_a_d" prot="public" virt="non-virtual">MarmotMaterialFiniteStrainAD</derivedcompoundref>
     <includes refid="_marmot_material_finite_strain_8h" local="no">MarmotMaterialFiniteStrain.h</includes>
@@ -148,6 +149,7 @@
         <argsstring>(ConstitutiveResponse&lt; 3 &gt; &amp;response, AlgorithmicModuli&lt; 3 &gt; &amp;tangents, const Deformation&lt; 3 &gt; &amp;deformation, const TimeIncrement &amp;timeIncrement) const =0</argsstring>
         <name>computeStress</name>
         <qualifiedname>MarmotMaterialFiniteStrain::computeStress</qualifiedname>
+        <reimplementedby refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a1f5a38cac1c30b07ac8ee5c14d12cef8">computeStress</reimplementedby>
         <reimplementedby refid="class_marmot_1_1_materials_1_1_marmot_material_finite_strain_substepped_1a71ee0360f837cbcd654ffa945fcfe31f">computeStress</reimplementedby>
         <reimplementedby refid="class_marmot_material_finite_strain_a_d_1a9790fdf5d31af4b389c57e48b48f89bc">computeStress</reimplementedby>
         <param>
@@ -203,7 +205,7 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-Computes the Kirchhoff <formula id="28">$\boldsymbol{\tau}$</formula> stress from the deformation gradient <formula id="6">$\boldsymbol{F}$</formula> and the time increment <formula id="29">$\Delta t$</formula>. It further updates the mass density <formula id="30">$\rho$</formula> and the elastic energy density. Additionally, computes the algorithmic tangent moduli <formula id="27">$\frac{\partial \boldsymbol{\tau}}{\partial \boldsymbol{F}}$</formula>. </para>
+Computes the Kirchhoff <formula id="42">$\boldsymbol{\tau}$</formula> stress from the deformation gradient <formula id="6">$\boldsymbol{F}$</formula> and the time increment <formula id="43">$\Delta t$</formula>. It further updates the mass density <formula id="44">$\rho$</formula> and the elastic energy density. Additionally, computes the algorithmic tangent moduli <formula id="41">$\frac{\partial \boldsymbol{\tau}}{\partial \boldsymbol{F}}$</formula>. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -215,6 +217,7 @@ Computes the Kirchhoff <formula id="28">$\boldsymbol{\tau}$</formula> stress fro
         <argsstring>(ConstitutiveResponse&lt; 3 &gt; &amp;response, const Deformation&lt; 3 &gt; &amp;deformation, const TimeIncrement &amp;timeIncrement) const</argsstring>
         <name>computeStressExplicit</name>
         <qualifiedname>MarmotMaterialFiniteStrain::computeStressExplicit</qualifiedname>
+        <reimplementedby refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a39a2f0828d634962474f5063169ca37d">computeStressExplicit</reimplementedby>
         <param>
           <type><ref refid="struct_marmot_material_finite_strain_1_1_constitutive_response" kindref="compound">ConstitutiveResponse</ref>&lt; 3 &gt; &amp;</type>
           <declname>response</declname>
@@ -699,12 +702,13 @@ This function iteratively finds the eigen deformation that corresponds to a give
         </inbodydescription>
         <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h" line="291" column="14"/>
       </memberdef>
-      <memberdef kind="function" id="class_marmot_material_finite_strain_1a5c7e383c872566fee41f6f12d863ed4c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="class_marmot_material_finite_strain_1a9d542d1c64f901b7d17d9164ce5eac77" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>StateView</type>
-        <definition>StateView MarmotMaterialFiniteStrain::getStateView</definition>
+        <definition>virtual StateView MarmotMaterialFiniteStrain::getStateView</definition>
         <argsstring>(const std::string &amp;stateName, double *stateVars) const</argsstring>
         <name>getStateView</name>
         <qualifiedname>MarmotMaterialFiniteStrain::getStateView</qualifiedname>
+        <reimplementedby refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1aa79371cec944f2a0dcd7bc689c7fa9b4">getStateView</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>stateName</declname>
@@ -740,7 +744,7 @@ This function iteratively finds the eigen deformation that corresponds to a give
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h" line="302" column="13" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h" bodystart="302" bodyend="305"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h" line="302" column="21" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h" bodystart="302" bodyend="305"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_material_finite_strain_1aeab6c2985e19de95a2ed851225d97e0e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>int</type>
@@ -766,6 +770,7 @@ This function iteratively finds the eigen deformation that corresponds to a give
         <argsstring>(double *stateVars, int nStateVars)</argsstring>
         <name>initializeYourself</name>
         <qualifiedname>MarmotMaterialFiniteStrain::initializeYourself</qualifiedname>
+        <reimplementedby refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1ab57e2464e27eed7ad1ddae6441ee6e07">initializeYourself</reimplementedby>
         <reimplementedby refid="class_marmot_1_1_materials_1_1_marmot_material_finite_strain_substepped_1a4e6ad8ed7f24a6c9d5e5761c96505868">initializeYourself</reimplementedby>
         <param>
           <type>double *</type>
@@ -847,12 +852,44 @@ The default implementation computes diagonal Voigt tangent entries by centered f
         </inbodydescription>
         <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h" line="334" column="18" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h" bodystart="334" bodyend="373"/>
       </memberdef>
+      <memberdef kind="function" id="class_marmot_material_finite_strain_1a55086720fb85bd24f1b99a4c19b82813" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void MarmotMaterialFiniteStrain::setCharacteristicElementLength</definition>
+        <argsstring>(double length)</argsstring>
+        <name>setCharacteristicElementLength</name>
+        <qualifiedname>MarmotMaterialFiniteStrain::setCharacteristicElementLength</qualifiedname>
+        <reimplementedby refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a2b6d91f95a9a5df4f43c134bf8022748">setCharacteristicElementLength</reimplementedby>
+        <param>
+          <type>double</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+<para>Set the characteristic element length at the considered evaluation point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Needed by materials whose softening behaviour is regularised via a mesh-adjusted softening modulus. The default implementation does nothing, so materials that do not depend on a length are unaffected.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Characteristic element length. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h" line="383" column="16" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h" bodystart="383" bodyend="383"/>
+      </memberdef>
       <memberdef kind="function" id="class_marmot_material_finite_strain_1a813742e2a66f7dfd8fdebb7122b1b955" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>double</type>
         <definition>virtual double MarmotMaterialFiniteStrain::getDensity</definition>
         <argsstring>(const double *stateVars) const =0</argsstring>
         <name>getDensity</name>
         <qualifiedname>MarmotMaterialFiniteStrain::getDensity</qualifiedname>
+        <reimplementedby refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper_1a3f28011f30a855bde0a7e589cc496678">getDensity</reimplementedby>
         <reimplementedby refid="class_marmot_1_1_materials_1_1_marmot_material_finite_strain_substepped_1a73bb326f6c4aa780c9784bb4a6456923">getDensity</reimplementedby>
         <param>
           <type>const double *</type>
@@ -877,7 +914,7 @@ The default implementation computes diagonal Voigt tangent entries by centered f
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h" line="380" column="18"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h" line="390" column="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -888,6 +925,12 @@ The default implementation computes diagonal Voigt tangent entries by centered f
     </detaileddescription>
     <inheritancegraph>
       <node id="2">
+        <label>Marmot::Materials::HughesWingetWrapper&lt; BaseMaterialType, tangentMode &gt;</label>
+        <link refid="class_marmot_1_1_materials_1_1_hughes_winget_wrapper"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
         <label>Marmot::Materials::MarmotMaterialFiniteStrainSubstepped&lt; BaseMaterialType &gt;</label>
         <link refid="class_marmot_1_1_materials_1_1_marmot_material_finite_strain_substepped"/>
         <childnode refid="1" relation="public-inheritance">
@@ -897,14 +940,14 @@ The default implementation computes diagonal Voigt tangent entries by centered f
         <label>MarmotMaterialFiniteStrain</label>
         <link refid="class_marmot_material_finite_strain"/>
       </node>
-      <node id="3">
+      <node id="4">
         <label>MarmotMaterialFiniteStrainAD</label>
         <link refid="class_marmot_material_finite_strain_a_d"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h" line="39" column="1" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h" bodystart="39" bodyend="381"/>
+    <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h" line="39" column="1" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h" bodystart="39" bodyend="391"/>
     <listofallmembers>
       <member refid="class_marmot_material_finite_strain_1a41df4452f395f5125fec2680480e2e19" prot="public" virt="virtual"><scope>MarmotMaterialFiniteStrain</scope><name>computePlaneStrain</name></member>
       <member refid="class_marmot_material_finite_strain_1a5beaba701eac2a493704fe015a09e447" prot="public" virt="virtual"><scope>MarmotMaterialFiniteStrain</scope><name>computePlaneStrain</name></member>
@@ -919,12 +962,13 @@ The default implementation computes diagonal Voigt tangent entries by centered f
       <member refid="class_marmot_material_finite_strain_1a813742e2a66f7dfd8fdebb7122b1b955" prot="public" virt="pure-virtual"><scope>MarmotMaterialFiniteStrain</scope><name>getDensity</name></member>
       <member refid="class_marmot_material_finite_strain_1aac695d1b8c9d639387e633b0d0aa71fe" prot="public" virt="virtual"><scope>MarmotMaterialFiniteStrain</scope><name>getMaximumWaveSpeed</name></member>
       <member refid="class_marmot_material_finite_strain_1aeab6c2985e19de95a2ed851225d97e0e" prot="public" virt="non-virtual"><scope>MarmotMaterialFiniteStrain</scope><name>getNumberOfRequiredStateVars</name></member>
-      <member refid="class_marmot_material_finite_strain_1a5c7e383c872566fee41f6f12d863ed4c" prot="public" virt="non-virtual"><scope>MarmotMaterialFiniteStrain</scope><name>getStateView</name></member>
+      <member refid="class_marmot_material_finite_strain_1a9d542d1c64f901b7d17d9164ce5eac77" prot="public" virt="virtual"><scope>MarmotMaterialFiniteStrain</scope><name>getStateView</name></member>
       <member refid="class_marmot_material_finite_strain_1a73823bcf3cc55df7ffc2847c91317b1a" prot="public" virt="virtual"><scope>MarmotMaterialFiniteStrain</scope><name>initializeYourself</name></member>
       <member refid="class_marmot_material_finite_strain_1afbc11d3b83d7555858475007d28ebe0c" prot="public" virt="non-virtual"><scope>MarmotMaterialFiniteStrain</scope><name>MarmotMaterialFiniteStrain</name></member>
       <member refid="class_marmot_material_finite_strain_1a6660b8aaa6e786198f43548d55ba01db" prot="public" virt="non-virtual"><scope>MarmotMaterialFiniteStrain</scope><name>materialNumber</name></member>
       <member refid="class_marmot_material_finite_strain_1adadfd1c68a90429237bf01f17c1492a4" prot="protected" virt="non-virtual"><scope>MarmotMaterialFiniteStrain</scope><name>materialProperties</name></member>
       <member refid="class_marmot_material_finite_strain_1af2c2b36c75e1109b723f50f9cf1e6db8" prot="protected" virt="non-virtual"><scope>MarmotMaterialFiniteStrain</scope><name>nMaterialProperties</name></member>
+      <member refid="class_marmot_material_finite_strain_1a55086720fb85bd24f1b99a4c19b82813" prot="public" virt="virtual"><scope>MarmotMaterialFiniteStrain</scope><name>setCharacteristicElementLength</name></member>
       <member refid="class_marmot_material_finite_strain_1a4323a79f3c76c032bb451131ef5a0700" prot="public" virt="non-virtual"><scope>MarmotMaterialFiniteStrain</scope><name>stateLayout</name></member>
       <member refid="class_marmot_material_finite_strain_1ae137c8535072fd84da855b7fc9efbf5c" prot="public" virt="virtual"><scope>MarmotMaterialFiniteStrain</scope><name>~MarmotMaterialFiniteStrain</name></member>
     </listofallmembers>

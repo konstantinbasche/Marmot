@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="102" column="22" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="102" bodyend="-1"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="115" column="22" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="115" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_marmot_material_general_gradient_enhanced_hypo_elastic_1_1tangents_1a59233ce22b9f7e9d759d176c7d2606c1" prot="public" static="no" mutable="no">
         <type>Eigen::Matrix&lt; double, 6, nNonlocalVariables &gt;</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="104" column="19" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="104" bodyend="-1"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="117" column="19" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="117" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_marmot_material_general_gradient_enhanced_hypo_elastic_1_1tangents_1a7f6694d4139d1bf35b82e3156abc598b" prot="public" static="no" mutable="no">
         <type>Eigen::Matrix&lt; double, nNonlocalVariables, 6 &gt;</type>
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="107" column="7" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="107" bodyend="-1"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="120" column="7" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="120" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_marmot_material_general_gradient_enhanced_hypo_elastic_1_1tangents_1a2d0d0744262a5fe478ba567468443a88" prot="public" static="no" mutable="no">
         <type>Eigen::Matrix&lt; double, nNonlocalVariables, nNonlocalVariables &gt;</type>
@@ -66,7 +66,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="111" column="7" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="111" bodyend="-1"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="124" column="7" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="124" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_marmot_material_general_gradient_enhanced_hypo_elastic_1_1tangents_1a0b8294d74b17c1f2fc7acd79db29240d" prot="public" static="no" mutable="no">
         <type>Eigen::Matrix&lt; double, nNonlocalVariables, nNonlocalVariables &gt;</type>
@@ -82,7 +82,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="114" column="7" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="114" bodyend="-1"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="127" column="7" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="127" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_marmot_material_general_gradient_enhanced_hypo_elastic_1_1tangents_1ab581f90b67e24c86ace5b613c394ce45" prot="public" static="no" mutable="no">
         <type>Eigen::Matrix&lt; double, nNonlocalVariables, nNonlocalVariables &gt;</type>
@@ -98,7 +98,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="117" column="7" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="117" bodyend="-1"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="130" column="7" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="130" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -106,7 +106,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="100" column="3" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="100" bodyend="118"/>
+    <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="113" column="3" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="113" bodyend="131"/>
     <listofallmembers>
       <member refid="struct_marmot_material_general_gradient_enhanced_hypo_elastic_1_1tangents_1ab581f90b67e24c86ace5b613c394ce45" prot="public" virt="non-virtual"><scope>MarmotMaterialGeneralGradientEnhancedHypoElastic::tangents</scope><name>d2cddK2</name></member>
       <member refid="struct_marmot_material_general_gradient_enhanced_hypo_elastic_1_1tangents_1a0b8294d74b17c1f2fc7acd79db29240d" prot="public" virt="non-virtual"><scope>MarmotMaterialGeneralGradientEnhancedHypoElastic::tangents</scope><name>dcddK</name></member>

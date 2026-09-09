@@ -10,6 +10,7 @@
     <innerfile refid="_marmot_finite_element_8h">MarmotFiniteElement.h</innerfile>
     <innerfile refid="_marmot_finite_element_spatial_wrapper_8h">MarmotFiniteElementSpatialWrapper.h</innerfile>
     <innerfile refid="_marmot_geometry_element_8h">MarmotGeometryElement.h</innerfile>
+    <innerfile refid="_marmot_mass_lumping_8h">MarmotMassLumping.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

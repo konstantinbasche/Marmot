@@ -10,6 +10,7 @@
     <includedby refid="_marmot_material_finite_strain_a_d_8h" local="yes">/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrainAD.h</includedby>
     <includedby refid="_marmot_material_finite_strain_factory_8h" local="yes">/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrainFactory.h</includedby>
     <includedby refid="_marmot_material_finite_strain_substepped_8h" local="yes">/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrainSubstepped.h</includedby>
+    <includedby refid="_marmot_material_hughes_winget_8h" local="yes">/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialHughesWinget.h</includedby>
     <includedby refid="_marmot_material_point_solver_finite_strain_8h" local="yes">/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialPointSolverFiniteStrain.h</includedby>
     <incdepgraph>
       <node id="1">
@@ -54,6 +55,8 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrainAD.h</label>
@@ -68,6 +71,10 @@
         <link refid="_marmot_material_finite_strain_substepped_8h_source"/>
       </node>
       <node id="5">
+        <label>/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialHughesWinget.h</label>
+        <link refid="_marmot_material_hughes_winget_8h_source"/>
+      </node>
+      <node id="6">
         <label>/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialPointSolverFiniteStrain.h</label>
         <link refid="_marmot_material_point_solver_finite_strain_8h_source"/>
       </node>
@@ -236,7 +243,7 @@
 <codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::tuple&lt;<sp/>double,<sp/>double,<sp/>double<sp/>&gt;&amp;<sp/>eigenStress,</highlight></codeline>
 <codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stateVars<sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="295"><highlight class="normal"></highlight></codeline>
-<codeline lineno="302" refid="class_marmot_material_finite_strain_1a5c7e383c872566fee41f6f12d863ed4c" refkind="member"><highlight class="normal"><sp/><sp/>StateView<sp/><ref refid="class_marmot_material_finite_strain_1a5c7e383c872566fee41f6f12d863ed4c" kindref="member">getStateView</ref>(<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>stateName,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>stateVars<sp/>)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="302" refid="class_marmot_material_finite_strain_1a9d542d1c64f901b7d17d9164ce5eac77" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>StateView<sp/><ref refid="class_marmot_material_finite_strain_1a9d542d1c64f901b7d17d9164ce5eac77" kindref="member">getStateView</ref>(<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>stateName,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>stateVars<sp/>)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="303"><highlight class="keyword"><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_marmot_material_finite_strain_1a4323a79f3c76c032bb451131ef5a0700" kindref="member">stateLayout</ref>.getStateView(<sp/>stateVars,<sp/>stateName<sp/>);</highlight></codeline>
 <codeline lineno="305"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
@@ -290,8 +297,10 @@
 <codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>density<sp/>&gt;<sp/>0.0<sp/>?<sp/>std::sqrt(<sp/>std::max(<sp/>0.0,<sp/>maxStiffnessDiagonal<sp/>)<sp/>/<sp/>density<sp/>)<sp/>:<sp/>0.0;</highlight></codeline>
 <codeline lineno="373"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
 <codeline lineno="374"><highlight class="normal"></highlight></codeline>
-<codeline lineno="380" refid="class_marmot_material_finite_strain_1a813742e2a66f7dfd8fdebb7122b1b955" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_marmot_material_finite_strain_1a813742e2a66f7dfd8fdebb7122b1b955" kindref="member">getDensity</ref>(<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>stateVars<sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="381"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="383" refid="class_marmot_material_finite_strain_1a55086720fb85bd24f1b99a4c19b82813" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_marmot_material_finite_strain_1a55086720fb85bd24f1b99a4c19b82813" kindref="member">setCharacteristicElementLength</ref>(<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>length<sp/>)<sp/>{}</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="390" refid="class_marmot_material_finite_strain_1a813742e2a66f7dfd8fdebb7122b1b955" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_marmot_material_finite_strain_1a813742e2a66f7dfd8fdebb7122b1b955" kindref="member">getDensity</ref>(<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">*<sp/>stateVars<sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal">};</highlight></codeline>
     </programlisting>
     <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteStrainMechanicsCore/include/Marmot/MarmotMaterialFiniteStrain.h"/>
   </compounddef>

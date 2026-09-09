@@ -50,6 +50,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../interfaces.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python_bindings.html">Python Bindings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features.html">Features</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../documentation.html">Code documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">MarmotFiniteElementCore</a><ul>
@@ -108,13 +109,15 @@
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement15assignStateVarsEPdi"><code class="docutils literal notranslate"><span class="pre">assignStateVars()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement14assignPropertyERK17ElementProperties"><code class="docutils literal notranslate"><span class="pre">assignProperty()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement14assignPropertyERK21MarmotMaterialSection"><code class="docutils literal notranslate"><span class="pre">assignProperty()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement14assignPropertyERKNSt6stringEPKd"><code class="docutils literal notranslate"><span class="pre">assignProperty()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4NK13MarmotElement16getPropertyNamesEv"><code class="docutils literal notranslate"><span class="pre">getPropertyNames()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement21assignNodeCoordinatesEPKd"><code class="docutils literal notranslate"><span class="pre">assignNodeCoordinates()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement18initializeYourselfEv"><code class="docutils literal notranslate"><span class="pre">initializeYourself()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement20setInitialConditionsE10StateTypesPKd"><code class="docutils literal notranslate"><span class="pre">setInitialConditions()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement15computeYourselfEPKdPKdPdPdPKddRd"><code class="docutils literal notranslate"><span class="pre">computeYourself()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement23computeYourselfExplicitEPKdPKdPdPKddRd"><code class="docutils literal notranslate"><span class="pre">computeYourselfExplicit()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKdPKdd"><code class="docutils literal notranslate"><span class="pre">computeDistributedLoad()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement16computeBodyForceEPdPdPKdPKdPKdd"><code class="docutils literal notranslate"><span class="pre">computeBodyForce()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement14computeKernelsEPKdPKdPdPddd"><code class="docutils literal notranslate"><span class="pre">computeKernels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement22computeKernelsExplicitEPKdPKdPddd"><code class="docutils literal notranslate"><span class="pre">computeKernelsExplicit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKddd"><code class="docutils literal notranslate"><span class="pre">computeDistributedLoad()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement16computeBodyForceEPdPdPKdPKddd"><code class="docutils literal notranslate"><span class="pre">computeBodyForce()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement20computeLumpedInertiaEPd"><code class="docutils literal notranslate"><span class="pre">computeLumpedInertia()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement24computeConsistentInertiaEPd"><code class="docutils literal notranslate"><span class="pre">computeConsistentInertia()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N13MarmotElement42computeCriticalTimeStepForExplicitDynamicsERdPKd"><code class="docutils literal notranslate"><span class="pre">computeCriticalTimeStepForExplicitDynamics()</span></code></a></li>
@@ -146,12 +149,14 @@
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper15assignStateVarsEPdi"><code class="docutils literal notranslate"><span class="pre">assignStateVars()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper14assignPropertyERK17ElementProperties"><code class="docutils literal notranslate"><span class="pre">assignProperty()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper14assignPropertyERK21MarmotMaterialSection"><code class="docutils literal notranslate"><span class="pre">assignProperty()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper14assignPropertyERKNSt6stringEPKd"><code class="docutils literal notranslate"><span class="pre">assignProperty()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4NK27MarmotElementSpatialWrapper16getPropertyNamesEv"><code class="docutils literal notranslate"><span class="pre">getPropertyNames()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper21assignNodeCoordinatesEPKd"><code class="docutils literal notranslate"><span class="pre">assignNodeCoordinates()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper18initializeYourselfEv"><code class="docutils literal notranslate"><span class="pre">initializeYourself()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper15computeYourselfEPKdPKdPdPdPKddRd"><code class="docutils literal notranslate"><span class="pre">computeYourself()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper14computeKernelsEPKdPKdPdPddd"><code class="docutils literal notranslate"><span class="pre">computeKernels()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper20setInitialConditionsE10StateTypesPKd"><code class="docutils literal notranslate"><span class="pre">setInitialConditions()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKdPKdd"><code class="docutils literal notranslate"><span class="pre">computeDistributedLoad()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper16computeBodyForceEPdPdPKdPKdPKdd"><code class="docutils literal notranslate"><span class="pre">computeBodyForce()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKddd"><code class="docutils literal notranslate"><span class="pre">computeDistributedLoad()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper16computeBodyForceEPdPdPKdPKddd"><code class="docutils literal notranslate"><span class="pre">computeBodyForce()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper12getStateViewERKNSt6stringEi"><code class="docutils literal notranslate"><span class="pre">getStateView()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper22getCoordinatesAtCenterEv"><code class="docutils literal notranslate"><span class="pre">getCoordinatesAtCenter()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N27MarmotElementSpatialWrapper32getCoordinatesAtQuadraturePointsEv"><code class="docutils literal notranslate"><span class="pre">getCoordinatesAtQuadraturePoints()</span></code></a></li>
@@ -225,6 +230,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6Marmot13FiniteElement3EAS7EASTypeE"><code class="docutils literal notranslate"><span class="pre">EASType</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6Marmot13FiniteElement3EAS1FERKN5Eigen8MatrixXdE"><code class="docutils literal notranslate"><span class="pre">F()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6Marmot13FiniteElement3EAS16EASInterpolationE7EASTypeRKN5Eigen8VectorXdE"><code class="docutils literal notranslate"><span class="pre">EASInterpolation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N6Marmot13FiniteElement11MassLumpingE"><code class="docutils literal notranslate"><span class="pre">Marmot::FiniteElement::MassLumping</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6Marmot13FiniteElement11MassLumping19manifoldBlendWeightERKN5Eigen8VectorXdERKN5Eigen8VectorXdE"><code class="docutils literal notranslate"><span class="pre">manifoldBlendWeight()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6Marmot13FiniteElement11MassLumping21manifoldMassFractionsERKN5Eigen8VectorXdERKN5Eigen8VectorXdEd"><code class="docutils literal notranslate"><span class="pre">manifoldMassFractions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N6Marmot13FiniteElement11MassLumping34timeStepFactorFromMassDistributionERKN5Eigen8VectorXdE"><code class="docutils literal notranslate"><span class="pre">timeStepFactorFromMassDistribution()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#_CPPv4N6Marmot13FiniteElement10QuadratureE"><code class="docutils literal notranslate"><span class="pre">Marmot::FiniteElement::Quadrature</span></code></a><ul>
@@ -865,6 +876,39 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N13MarmotElement14assignPropertyERKNSt6stringEPKd">
+<span id="_CPPv3N13MarmotElement14assignPropertyERKNSt6stringEPKd"></span><span id="_CPPv2N13MarmotElement14assignPropertyERKNSt6stringEPKd"></span><span id="MarmotElement::assignProperty__ssCR.doubleCP"></span><span class="target" id="class_marmot_element_1ad956dab154fbc114a5adba6d4d2f5fa5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">assignProperty</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mathcore.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">propertyName</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">properties</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13MarmotElement14assignPropertyERKNSt6stringEPKd" title="Link to this definition"></a><br /></dt>
+<dd><p>Assign a single property of the element by name. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Default implementation throws an exception, as an element not overriding this interface does not support any named properties. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>propertyName</strong> – <strong>[in]</strong> Name of the property. </p></li>
+<li><p><strong>properties</strong> – <strong>[in]</strong> Pointer to the array of property values. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK13MarmotElement16getPropertyNamesEv">
+<span id="_CPPv3NK13MarmotElement16getPropertyNamesEv"></span><span id="_CPPv2NK13MarmotElement16getPropertyNamesEv"></span><span id="MarmotElement::getPropertyNamesC"></span><span class="target" id="class_marmot_element_1a7446a64e17485904d26737815a963979"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="mathcore.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mathcore.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getPropertyNames</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK13MarmotElement16getPropertyNamesEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Get the names of all the valid properties of the element. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Default implementation returns an empty vector, as an element not overriding this interface does not expose any named properties. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Vector of strings containing the property names. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N13MarmotElement21assignNodeCoordinatesEPKd">
 <span id="_CPPv3N13MarmotElement21assignNodeCoordinatesEPKd"></span><span id="_CPPv2N13MarmotElement21assignNodeCoordinatesEPKd"></span><span id="MarmotElement::assignNodeCoordinates__doubleCP"></span><span class="target" id="class_marmot_element_1ab43a5fd29bebd1d7b5129bcb51fb192b"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">assignNodeCoordinates</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">coordinates</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N13MarmotElement21assignNodeCoordinatesEPKd" title="Link to this definition"></a><br /></dt>
 <dd><p>Assign nodal coordinates to element. </p>
@@ -896,8 +940,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N13MarmotElement15computeYourselfEPKdPKdPdPdPKddRd">
-<span id="_CPPv3N13MarmotElement15computeYourselfEPKdPKdPdPdPKddRd"></span><span id="_CPPv2N13MarmotElement15computeYourselfEPKdPKdPdPdPKddRd"></span><span id="MarmotElement::computeYourself__doubleCP.doubleCP.doubleP.doubleP.doubleCP.double.doubleR"></span><span class="target" id="class_marmot_element_1abbef3863159574d0bc93aa9c327cb493"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">computeYourself</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">QTotal</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">dQ</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Pint</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">K</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">time</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dT</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pNewdT</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N13MarmotElement15computeYourselfEPKdPKdPdPdPKddRd" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N13MarmotElement14computeKernelsEPKdPKdPdPddd">
+<span id="_CPPv3N13MarmotElement14computeKernelsEPKdPKdPdPddd"></span><span id="_CPPv2N13MarmotElement14computeKernelsEPKdPKdPdPddd"></span><span id="MarmotElement::computeKernels__doubleCP.doubleCP.doubleP.doubleP.double.double"></span><span class="target" id="class_marmot_element_1a46d422a1a796502a8bda4f115ae0fd6e"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">computeKernels</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">QTotal</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">dQ</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Pint</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">K</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">time</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dT</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N13MarmotElement14computeKernelsEPKdPKdPdPddd" title="Link to this definition"></a><br /></dt>
 <dd><p>Perform element computations (stiffness, residual, etc.). </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -908,15 +952,14 @@
 <li><p><strong>K</strong> – <strong>[out]</strong> Stiffness matrix. </p></li>
 <li><p><strong>time</strong> – <strong>[in]</strong> Current time. </p></li>
 <li><p><strong>dT</strong> – <strong>[in]</strong> Time step size. </p></li>
-<li><p><strong>pNewdT</strong> – <strong>[out]</strong> Suggested new time step size. </p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N13MarmotElement23computeYourselfExplicitEPKdPKdPdPKddRd">
-<span id="_CPPv3N13MarmotElement23computeYourselfExplicitEPKdPKdPdPKddRd"></span><span id="_CPPv2N13MarmotElement23computeYourselfExplicitEPKdPKdPdPKddRd"></span><span id="MarmotElement::computeYourselfExplicit__doubleCP.doubleCP.doubleP.doubleCP.double.doubleR"></span><span class="target" id="class_marmot_element_1aea8b2bf16a013b0b4617a644f4d981ae"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">computeYourselfExplicit</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">QTotal</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">dQ</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Pint</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">time</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dT</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pNewdT</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13MarmotElement23computeYourselfExplicitEPKdPKdPdPKddRd" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N13MarmotElement22computeKernelsExplicitEPKdPKdPddd">
+<span id="_CPPv3N13MarmotElement22computeKernelsExplicitEPKdPKdPddd"></span><span id="_CPPv2N13MarmotElement22computeKernelsExplicitEPKdPKdPddd"></span><span id="MarmotElement::computeKernelsExplicit__doubleCP.doubleCP.doubleP.double.double"></span><span class="target" id="class_marmot_element_1a974b4bdb46d9d1e52fc1cceda894bad8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">computeKernelsExplicit</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">QTotal</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">dQ</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Pint</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">time</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dT</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13MarmotElement22computeKernelsExplicitEPKdPKdPddd" title="Link to this definition"></a><br /></dt>
 <dd><p>Perform element computations for explicit time integration. </p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -929,16 +972,15 @@
 <li><p><strong>dQ</strong> – <strong>[in]</strong> Incremental dof vector. </p></li>
 <li><p><strong>Pint</strong> – <strong>[out]</strong> Internal force vector. </p></li>
 <li><p><strong>time</strong> – <strong>[in]</strong> Current time. </p></li>
-<li><p><strong>dT</strong> – <strong>[in]</strong> Time step size. </p></li>
-<li><p><strong>pNewdT</strong> – <strong>[out]</strong> Suggested new time step size.</p></li>
+<li><p><strong>dT</strong> – <strong>[in]</strong> Time step size.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N13MarmotElement22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKdPKdd">
-<span id="_CPPv3N13MarmotElement22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKdPKdd"></span><span id="_CPPv2N13MarmotElement22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKdPKdd"></span><span id="MarmotElement::computeDistributedLoad__DistributedLoadTypes.doubleP.doubleP.i.doubleCP.doubleCP.doubleCP.double"></span><span class="target" id="class_marmot_element_1ac68956668d34ac2ddac545ff2ce56004"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">computeDistributedLoad</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N13MarmotElement20DistributedLoadTypesE" title="MarmotElement::DistributedLoadTypes"><span class="n"><span class="pre">DistributedLoadTypes</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">loadType</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Pext</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">K</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">elementFace</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">load</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">QTotal</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">time</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dT</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N13MarmotElement22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKdPKdd" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N13MarmotElement22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKddd">
+<span id="_CPPv3N13MarmotElement22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKddd"></span><span id="_CPPv2N13MarmotElement22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKddd"></span><span id="MarmotElement::computeDistributedLoad__DistributedLoadTypes.doubleP.doubleP.i.doubleCP.doubleCP.double.double"></span><span class="target" id="class_marmot_element_1afb003de9900a67cc1b4020f89eb3f985"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">computeDistributedLoad</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N13MarmotElement20DistributedLoadTypesE" title="MarmotElement::DistributedLoadTypes"><span class="n"><span class="pre">DistributedLoadTypes</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">loadType</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Pext</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">K</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">elementFace</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">load</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">QTotal</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">time</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dT</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N13MarmotElement22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKddd" title="Link to this definition"></a><br /></dt>
 <dd><p>Compute contribution from distributed surface loads. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -957,8 +999,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N13MarmotElement16computeBodyForceEPdPdPKdPKdPKdd">
-<span id="_CPPv3N13MarmotElement16computeBodyForceEPdPdPKdPKdPKdd"></span><span id="_CPPv2N13MarmotElement16computeBodyForceEPdPdPKdPKdPKdd"></span><span id="MarmotElement::computeBodyForce__doubleP.doubleP.doubleCP.doubleCP.doubleCP.double"></span><span class="target" id="class_marmot_element_1aa0ef25e441523e4d36b748e83a4270b5"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">computeBodyForce</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Pext</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">K</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">load</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">QTotal</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">time</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dT</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N13MarmotElement16computeBodyForceEPdPdPKdPKdPKdd" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N13MarmotElement16computeBodyForceEPdPdPKdPKddd">
+<span id="_CPPv3N13MarmotElement16computeBodyForceEPdPdPKdPKddd"></span><span id="_CPPv2N13MarmotElement16computeBodyForceEPdPdPKdPKddd"></span><span id="MarmotElement::computeBodyForce__doubleP.doubleP.doubleCP.doubleCP.double.double"></span><span class="target" id="class_marmot_element_1a4d87a96689701d0cc547c445373a1e8b"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">computeBodyForce</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Pext</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">K</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">load</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">QTotal</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">time</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dT</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N13MarmotElement16computeBodyForceEPdPdPKdPKddd" title="Link to this definition"></a><br /></dt>
 <dd><p>Compute contribution from body forces. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1331,6 +1373,39 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N27MarmotElementSpatialWrapper14assignPropertyERKNSt6stringEPKd">
+<span id="_CPPv3N27MarmotElementSpatialWrapper14assignPropertyERKNSt6stringEPKd"></span><span id="_CPPv2N27MarmotElementSpatialWrapper14assignPropertyERKNSt6stringEPKd"></span><span id="MarmotElementSpatialWrapper::assignProperty__ssCR.doubleCP"></span><span class="target" id="class_marmot_element_spatial_wrapper_1a73a70f58be441a69934b9d12b5bde609"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">assignProperty</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mathcore.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">propertyName</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">properties</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N27MarmotElementSpatialWrapper14assignPropertyERKNSt6stringEPKd" title="Link to this definition"></a><br /></dt>
+<dd><p>Assign a single property of the element by name.    </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Default implementation throws an exception, as an element not overriding this interface does not support any named properties.    </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>propertyName</strong> – <strong>[in]</strong> Name of the property. </p></li>
+<li><p><strong>properties</strong> – <strong>[in]</strong> Pointer to the array of property values. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK27MarmotElementSpatialWrapper16getPropertyNamesEv">
+<span id="_CPPv3NK27MarmotElementSpatialWrapper16getPropertyNamesEv"></span><span id="_CPPv2NK27MarmotElementSpatialWrapper16getPropertyNamesEv"></span><span id="MarmotElementSpatialWrapper::getPropertyNamesC"></span><span class="target" id="class_marmot_element_spatial_wrapper_1a67a01d9cad5d5f9db2141ae1ff7d051b"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="mathcore.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mathcore.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getPropertyNames</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK27MarmotElementSpatialWrapper16getPropertyNamesEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Get the names of all the valid properties of the element.    </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Default implementation returns an empty vector, as an element not overriding this interface does not expose any named properties.    </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Vector of strings containing the property names. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N27MarmotElementSpatialWrapper21assignNodeCoordinatesEPKd">
 <span id="_CPPv3N27MarmotElementSpatialWrapper21assignNodeCoordinatesEPKd"></span><span id="_CPPv2N27MarmotElementSpatialWrapper21assignNodeCoordinatesEPKd"></span><span id="MarmotElementSpatialWrapper::assignNodeCoordinates__doubleCP"></span><span class="target" id="class_marmot_element_spatial_wrapper_1acd6bc7e5c1f4e2ae91830c24398beee9"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">assignNodeCoordinates</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">coordinates</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N27MarmotElementSpatialWrapper21assignNodeCoordinatesEPKd" title="Link to this definition"></a><br /></dt>
 <dd><p>Assign nodal coordinates to element.    </p>
@@ -1348,8 +1423,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N27MarmotElementSpatialWrapper15computeYourselfEPKdPKdPdPdPKddRd">
-<span id="_CPPv3N27MarmotElementSpatialWrapper15computeYourselfEPKdPKdPdPdPKddRd"></span><span id="_CPPv2N27MarmotElementSpatialWrapper15computeYourselfEPKdPKdPdPdPKddRd"></span><span id="MarmotElementSpatialWrapper::computeYourself__doubleCP.doubleCP.doubleP.doubleP.doubleCP.double.doubleR"></span><span class="target" id="class_marmot_element_spatial_wrapper_1a588759d3bc43cab8c90ef1577dfc4282"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">computeYourself</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">QTotal</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">dQ</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Pe</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Ke</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">time</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dT</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pNewdT</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N27MarmotElementSpatialWrapper15computeYourselfEPKdPKdPdPdPKddRd" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N27MarmotElementSpatialWrapper14computeKernelsEPKdPKdPdPddd">
+<span id="_CPPv3N27MarmotElementSpatialWrapper14computeKernelsEPKdPKdPdPddd"></span><span id="_CPPv2N27MarmotElementSpatialWrapper14computeKernelsEPKdPKdPdPddd"></span><span id="MarmotElementSpatialWrapper::computeKernels__doubleCP.doubleCP.doubleP.doubleP.double.double"></span><span class="target" id="class_marmot_element_spatial_wrapper_1aaeb81d8a0fdb0686a0d1a69eb4768d3d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">computeKernels</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">QTotal</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">dQ</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Pe</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">Ke</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">time</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dT</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N27MarmotElementSpatialWrapper14computeKernelsEPKdPKdPdPddd" title="Link to this definition"></a><br /></dt>
 <dd><p>Perform element computations with coordinate transformation. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1360,7 +1435,6 @@
 <li><p><strong>Ke</strong> – <strong>[out]</strong> Stiffness matrix in the ambient space. </p></li>
 <li><p><strong>time</strong> – <strong>[in]</strong> Current time. </p></li>
 <li><p><strong>dT</strong> – <strong>[in]</strong> Time step size. </p></li>
-<li><p><strong>pNewdT</strong> – <strong>[out]</strong> Suggested new time step size. </p></li>
 </ul>
 </dd>
 </dl>
@@ -1381,8 +1455,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N27MarmotElementSpatialWrapper22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKdPKdd">
-<span id="_CPPv3N27MarmotElementSpatialWrapper22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKdPKdd"></span><span id="_CPPv2N27MarmotElementSpatialWrapper22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKdPKdd"></span><span id="MarmotElementSpatialWrapper::computeDistributedLoad__DistributedLoadTypes.doubleP.doubleP.i.doubleCP.doubleCP.doubleCP.double"></span><span class="target" id="class_marmot_element_spatial_wrapper_1a72aab0a107fc396d5c5f36b5b076f376"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">computeDistributedLoad</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">DistributedLoadTypes</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">loadType</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">P</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">K</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">elementFace</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">load</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">QTotal</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">time</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dT</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N27MarmotElementSpatialWrapper22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKdPKdd" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N27MarmotElementSpatialWrapper22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKddd">
+<span id="_CPPv3N27MarmotElementSpatialWrapper22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKddd"></span><span id="_CPPv2N27MarmotElementSpatialWrapper22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKddd"></span><span id="MarmotElementSpatialWrapper::computeDistributedLoad__DistributedLoadTypes.doubleP.doubleP.i.doubleCP.doubleCP.double.double"></span><span class="target" id="class_marmot_element_spatial_wrapper_1a4e9fdd4d500f9f77c38346cdc6e621cf"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">computeDistributedLoad</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">DistributedLoadTypes</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">loadType</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">P</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">K</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">elementFace</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">load</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">QTotal</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">time</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dT</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N27MarmotElementSpatialWrapper22computeDistributedLoadE20DistributedLoadTypesPdPdiPKdPKddd" title="Link to this definition"></a><br /></dt>
 <dd><p>Compute contribution from distributed surface loads with coordinate transformation. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1401,8 +1475,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N27MarmotElementSpatialWrapper16computeBodyForceEPdPdPKdPKdPKdd">
-<span id="_CPPv3N27MarmotElementSpatialWrapper16computeBodyForceEPdPdPKdPKdPKdd"></span><span id="_CPPv2N27MarmotElementSpatialWrapper16computeBodyForceEPdPdPKdPKdPKdd"></span><span id="MarmotElementSpatialWrapper::computeBodyForce__doubleP.doubleP.doubleCP.doubleCP.doubleCP.double"></span><span class="target" id="class_marmot_element_spatial_wrapper_1af1403c3a29504fb4ccc25475bb3b2699"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">computeBodyForce</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">P</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">K</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">load</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">QTotal</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">time</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dT</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N27MarmotElementSpatialWrapper16computeBodyForceEPdPdPKdPKdPKdd" title="Link to this definition"></a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N27MarmotElementSpatialWrapper16computeBodyForceEPdPdPKdPKddd">
+<span id="_CPPv3N27MarmotElementSpatialWrapper16computeBodyForceEPdPdPKdPKddd"></span><span id="_CPPv2N27MarmotElementSpatialWrapper16computeBodyForceEPdPdPKdPKddd"></span><span id="MarmotElementSpatialWrapper::computeBodyForce__doubleP.doubleP.doubleCP.doubleCP.double.double"></span><span class="target" id="class_marmot_element_spatial_wrapper_1a794addc988b52ae4dbb33c041deb0fa5"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">computeBodyForce</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">P</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">K</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">load</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">QTotal</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">time</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dT</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N27MarmotElementSpatialWrapper16computeBodyForceEPdPdPKdPKddd" title="Link to this definition"></a><br /></dt>
 <dd><p>Compute body force contribution with coordinate transformation. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2130,6 +2204,133 @@ Provides shape functions <code class="docutils literal notranslate"><span class=
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#namespace_marmot_1_1_finite_element_1_1_e_a_s"><span class="std std-ref">EAS</span></a> interpolation matrix <span class="math notranslate nohighlight">\(\mathbf{M}\)</span>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N6Marmot13FiniteElement11MassLumpingE">
+<span id="_CPPv3N6Marmot13FiniteElement11MassLumpingE"></span><span id="_CPPv2N6Marmot13FiniteElement11MassLumpingE"></span><span id="Marmot::FiniteElement::MassLumping"></span><span class="target" id="namespace_marmot_1_1_finite_element_1_1_mass_lumping"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MassLumping</span></span></span><a class="headerlink" href="#_CPPv4N6Marmot13FiniteElement11MassLumpingE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6Marmot13FiniteElement11MassLumping19manifoldBlendWeightERKN5Eigen8VectorXdERKN5Eigen8VectorXdE">
+<span id="_CPPv3N6Marmot13FiniteElement11MassLumping19manifoldBlendWeightERKN5Eigen8VectorXdERKN5Eigen8VectorXdE"></span><span id="_CPPv2N6Marmot13FiniteElement11MassLumping19manifoldBlendWeightERKN5Eigen8VectorXdERKN5Eigen8VectorXdE"></span><span id="Marmot::FiniteElement::MassLumping::manifoldBlendWeight__Eigen::VectorXdCR.Eigen::VectorXdCR"></span><span class="target" id="_marmot_mass_lumping_8h_1a1519be9621a760636bb01a7db0d6e7af"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">manifoldBlendWeight</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mathcore.html#_CPPv45Eigen" title="Eigen"><span class="n"><span class="pre">Eigen</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">VectorXd</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rowSumsHighOrder</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mathcore.html#_CPPv45Eigen" title="Eigen"><span class="n"><span class="pre">Eigen</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">VectorXd</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rowSumsLinear</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6Marmot13FiniteElement11MassLumping19manifoldBlendWeightERKN5Eigen8VectorXdERKN5Eigen8VectorXdE" title="Link to this definition"></a><br /></dt>
+<dd><p>The blend weight of the manifold-based mass lumping scheme. </p>
+<p>
+The scheme is manifold-based lumping:</p>
+<p><ul class="simple">
+<li><p><p>Yang, Y., Zheng, H. &amp; Sivaselvan, M. V. (2017). “A rigorous and unified mass lumping scheme</p>
+<p>for higher-order elements”. CMAME 319, 491-514.</p>
+<a class="reference external" href="https://doi.org/10.1016/j.cma.2017.03.011">https://doi.org/10.1016/j.cma.2017.03.011</a></p></li>
+<li><p><p>Duczek, S. &amp; Gravenkamp, H. (2019). “Critical assessment of different mass lumping schemes</p>
+<p>for higher order serendipity finite elements”. CMAME 350, 836-897.</p>
+<a class="reference external" href="https://doi.org/10.1016/j.cma.2019.03.028">https://doi.org/10.1016/j.cma.2019.03.028</a></p></li>
+</ul>
+</p>
+<p>It row-sums a blended shape function <span class="math notranslate nohighlight">\(\hat{N} = w N + (1-w) N_\mathrm{lin}\)</span>. Row-summing <span class="math notranslate nohighlight">\(N\)</span> alone is not positive for a serendipity element &amp;#8212; its corner shape functions integrate to a negative value &amp;#8212; and blending in the linear shape functions is what restores positivity.</p>
+<p>The weight cannot be a constant, which is the subtlety this function exists for. A corner node’s lumped mass is <span class="math notranslate nohighlight">\(w S^{N}_i + (1-w) S^{\mathrm{lin}}_i\)</span>, so with <span class="math notranslate nohighlight">\(S^{N}_i &lt; 0 &lt; S^{\mathrm{lin}}_i\)</span> positivity requires <div class="math notranslate nohighlight">
+\[ w &lt; w_\mathrm{max} = \min_i \frac{S^{\mathrm{lin}}_i}{S^{\mathrm{lin}}_i - S^{N}_i}. \]</div>
+ That limit is element-dependent, because the corner row sum is:</p>
+<p><ul class="simple">
+<li><p>quad8 (2D serendipity): <span class="math notranslate nohighlight">\(S^N = -\tfrac{1}{3}\)</span> per corner (area 4) -&gt; <span class="math notranslate nohighlight">\(w_\mathrm{max} = 0.75\)</span></p></li>
+<li><p>hexa20 (3D serendipity): <span class="math notranslate nohighlight">\(S^N = -1\)</span> per corner (volume 8) -&gt; <span class="math notranslate nohighlight">\(w_\mathrm{max} = 0.50\)</span></p></li>
+</ul>
+</p>
+<p>A hard-coded <span class="math notranslate nohighlight">\(w = \tfrac{1}{2}\)</span> therefore sits comfortably inside the admissible range in 2D and <strong>exactly on its boundary</strong> in 3D, where it produces corner masses of exactly zero &amp;#8212; a singular lumped mass matrix, and one that lands a few 1e-17 either side of zero in floating point rather than on it, so an “is any mass zero” check downstream passes and the inverse mass comes out around 1e17.</p>
+<p>Returned here is <span class="math notranslate nohighlight">\(w = \min(\tfrac{1}{2}, \tfrac{2}{3} w_\mathrm{max})\)</span>. The <span class="math notranslate nohighlight">\(\tfrac{2}{3}\)</span> is a safety fraction chosen here rather than taken from either reference, but it is not free-floating: it is the largest simple fraction that still yields <span class="math notranslate nohighlight">\(w = \tfrac{1}{2}\)</span> for quad8, and the values it produces are the published ones on both element types where a published value exists &amp;#8212;</p>
+<p><ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(w = \tfrac{1}{2}\)</span> for quad8, the split of Yang et al. (2017),</p></li>
+<li><p><span class="math notranslate nohighlight">\(w = \tfrac{1}{3}\)</span> for hexa20, the split assessed by Duczek &amp; Gravenkamp (2019),</p></li>
+</ul>
+</p>
+<p>so the rule is not merely a way of staying off the positivity boundary; it reproduces the literature wherever the literature has an answer, and extrapolates in the same spirit where it does not. The cap keeps <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span> as the value used wherever it is safe.</p>
+<p>An element with no negatively-integrating corner shape function (every linear element, since there <span class="math notranslate nohighlight">\(N_\mathrm{lin} \equiv N\)</span> and the result does not depend on <span class="math notranslate nohighlight">\(w\)</span> at all) is unconstrained and gets <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The reproduction of <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span> for quad8 is exact analytically, not necessarily bit-exact: the row sums are accumulated numerically over the element’s own quadrature points, so <span class="math notranslate nohighlight">\(w_\mathrm{max}\)</span> can land an ulp below <span class="math notranslate nohighlight">\(\tfrac{3}{4}\)</span> (it does for a quad8 under 2x2 reduced integration) and the returned weight then sits an ulp below <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span> rather than on it. The difference is far below any tolerance the lumped masses are checked against, but it is a rounding-level difference and not a bitwise identity.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Positivity is enforced at the corner nodes only, which is all a blend weight can reach. A node with no linear counterpart carries <span class="math notranslate nohighlight">\(w S^{N}_i\)</span>, so if its own shape function integrates to a negative value &amp;#8212; not possible for any of the element types in use, but reachable in principle by a sufficiently distorted one &amp;#8212; its lumped mass is negative for every <span class="math notranslate nohighlight">\(w &gt; 0\)</span> and this function cannot help. A positive returned weight is therefore not a guarantee of a positive definite lumped mass matrix. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rowSumsHighOrder</strong> – Row sums of the consistent mass matrix built from the element’s own (high-order) shape functions, i.e. the integral of each <span class="math notranslate nohighlight">\(N_i\)</span> over the element. </p></li>
+<li><p><strong>rowSumsLinear</strong> – Row sums built from the linear (corner-node) shape functions of the same element, one entry per corner node. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The blend weight <span class="math notranslate nohighlight">\(w\)</span> to use in <span class="math notranslate nohighlight">\(\hat{N} = w\,N + (1-w)\,N_\mathrm{lin}\)</span>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6Marmot13FiniteElement11MassLumping21manifoldMassFractionsERKN5Eigen8VectorXdERKN5Eigen8VectorXdEd">
+<span id="_CPPv3N6Marmot13FiniteElement11MassLumping21manifoldMassFractionsERKN5Eigen8VectorXdERKN5Eigen8VectorXdEd"></span><span id="_CPPv2N6Marmot13FiniteElement11MassLumping21manifoldMassFractionsERKN5Eigen8VectorXdERKN5Eigen8VectorXdEd"></span><span id="Marmot::FiniteElement::MassLumping::manifoldMassFractions__Eigen::VectorXdCR.Eigen::VectorXdCR.double"></span><span class="target" id="_marmot_mass_lumping_8h_1ab876ce3456134e9b07806bbfad4ea744"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="mathcore.html#_CPPv45Eigen" title="Eigen"><span class="n"><span class="pre">Eigen</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">VectorXd</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">manifoldMassFractions</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mathcore.html#_CPPv45Eigen" title="Eigen"><span class="n"><span class="pre">Eigen</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">VectorXd</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rowSumsHighOrder</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mathcore.html#_CPPv45Eigen" title="Eigen"><span class="n"><span class="pre">Eigen</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">VectorXd</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rowSumsLinear</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">weight</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6Marmot13FiniteElement11MassLumping21manifoldMassFractionsERKN5Eigen8VectorXdERKN5Eigen8VectorXdEd" title="Link to this definition"></a><br /></dt>
+<dd><p>The per-node lumped mass fractions of the manifold-based scheme, summing to one. </p>
+<p>
+Density-free on purpose: positivity and the mass <em>distribution</em> are properties of the element geometry and its shape functions, so the same fractions serve the lumped mass (scaled by density) and the critical time step (which needs only the distribution). Sharing them is what keeps the two from drifting apart &amp;#8212; a time step derived from a different mass distribution than the one actually assembled is exactly the sort of inconsistency that shows up as an unexplained instability.</p>
+<p>Note the total is independent of the weight: the blend moves mass between the corner and the remaining nodes but conserves the element total. That is why an incorrect weight leaves the element mass, and hence the model mass, perfectly correct &amp;#8212; and is invisible to any check that looks at totals.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Integrating the blended shape function once, as done here and by the callers, is exactly equivalent to assembling the blended consistent mass matrix <span class="math notranslate nohighlight">\(M = \int \hat{N}^T \hat{N} \rho \,dV\)</span> and row-summing that &amp;#8212; the form in which the scheme is usually written and implemented. Both <span class="math notranslate nohighlight">\(N\)</span> and <span class="math notranslate nohighlight">\(N_\mathrm{lin}\)</span> are partitions of unity and the blend is convex, so <span class="math notranslate nohighlight">\(\sum_j \hat{N}_j \equiv 1\)</span> and  <div class="math notranslate nohighlight">
+\[ \sum_j M_{ij} = \int \hat{N}_i \Big( \sum_j \hat{N}_j \Big) \rho \,dV
+                  = \int \hat{N}_i \rho \,dV. \]</div>
+ The linear form is therefore not an approximation of the quadratic one; it is the same numbers at a fraction of the cost, and no consistent mass matrix has to be formed to get them.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The normalisation is skipped, and the raw blended row sums returned, if their total is not positive. That cannot happen for any element whose geometry is valid, since the total is the element volume; it is a guard against dividing by a degenerate element’s zero volume, not a supported mode. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rowSumsHighOrder</strong> – Row sums from the element’s own shape functions. </p></li>
+<li><p><strong>rowSumsLinear</strong> – Row sums from the linear shape functions, one per corner node. </p></li>
+<li><p><strong>weight</strong> – The blend weight, from manifoldBlendWeight(). </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>One fraction per node, summing to one.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6Marmot13FiniteElement11MassLumping34timeStepFactorFromMassDistributionERKN5Eigen8VectorXdE">
+<span id="_CPPv3N6Marmot13FiniteElement11MassLumping34timeStepFactorFromMassDistributionERKN5Eigen8VectorXdE"></span><span id="_CPPv2N6Marmot13FiniteElement11MassLumping34timeStepFactorFromMassDistributionERKN5Eigen8VectorXdE"></span><span id="Marmot::FiniteElement::MassLumping::timeStepFactorFromMassDistribution__Eigen::VectorXdCR"></span><span class="target" id="_marmot_mass_lumping_8h_1aaffc2851ed0b48f7bc7fac6193139a39"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">timeStepFactorFromMassDistribution</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mathcore.html#_CPPv45Eigen" title="Eigen"><span class="n"><span class="pre">Eigen</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">VectorXd</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">massFractions</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6Marmot13FiniteElement11MassLumping34timeStepFactorFromMassDistributionERKN5Eigen8VectorXdE" title="Link to this definition"></a><br /></dt>
+<dd><p>The factor by which a non-uniform lumped mass tightens the critical time step. </p>
+<p>
+The usual estimate <span class="math notranslate nohighlight">\(\Delta t = l / c\)</span> is the stable increment for an element whose mass is spread uniformly over its nodes, each carrying <span class="math notranslate nohighlight">\(1/n\)</span> of it. Lumping does not spread it uniformly, and the lightest node sets the highest frequency: <span class="math notranslate nohighlight">\(\omega = \sqrt{k/m}\)</span>, so the stable increment scales with <span class="math notranslate nohighlight">\(\sqrt{m_\mathrm{min} / m_\mathrm{uniform}}\)</span>, which is what is returned.</p>
+<p>Exactly 1 for a linear element on a regular mesh, slightly below 1 for a distorted one (correct: a distorted element does have a tighter limit than its volume alone suggests), and 0.913 for a hexa20 under this scheme.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This corrects only the mass-distribution part of the estimate. It does NOT correct for polynomial order, and that residue is large: a convergence study on a GC3D20R bar shows the answer settling only around a courant number of 0.1-0.2, i.e. roughly a further factor of five unaccounted for, because <span class="math notranslate nohighlight">\(l/c\)</span> is a linear-element formula and a quadratic element’s highest free eigenfrequency is well above what it predicts. Closing that properly wants an eigenvalue-based estimate rather than another factor.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>on manifoldBlendWeight()). Scaling <span class="math notranslate nohighlight">\(l/c\)</span> by <span class="math notranslate nohighlight">\(\sqrt{m_\mathrm{min}/m_\mathrm{uniform}}\)</span> would return zero or NaN and mask the cause, so the estimate is left alone and the assembled mass is where the failure belongs.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>A non-positive smallest fraction returns 1.0, i.e. the uncorrected <span class="math notranslate nohighlight">\(l/c\)</span> estimate. That is deliberately a fallback and not a fix: a non-positive nodal mass means the lumping itself has failed, no time step derived from it is meaningful, and no blend weight can repair it (see the second </p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Nothing currently reports it there either: the only check on the assembled lumped mass is on the solver side and tests for an exact zero, which a negative or near-zero nodal mass passes. So a lumping failure is at present silent in both places. Detecting it at assembly is the right fix and is deliberately out of scope here. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>massFractions</strong> – Per-node lumped mass fractions, from manifoldMassFractions(). </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The factor to apply to a characteristic-length / wave-speed time step estimate.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3248,6 +3449,37 @@ Provides shape functions <code class="docutils literal notranslate"><span class=
     &quot;1&quot; -&gt; &quot;5&quot; [dir=forward tooltip=&quot;include&quot;]
     &quot;1&quot; -&gt; &quot;6&quot; [dir=forward tooltip=&quot;include&quot;]
     &quot;1&quot; -&gt; &quot;7&quot; [dir=forward tooltip=&quot;include&quot;]
+}" class="graphviz" /></div>
+</div>
+</figure>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="_marmot_mass_lumping_8h"></span><em><span class="pre">file</span></em> <span class="sig-name descname"><span class="pre">MarmotMassLumping.h</span></span></dt>
+<dd><div class="docutils container">
+<em>#include &lt;Eigen/Core&gt;</em></div>
+<div class="docutils container">
+<em>#include &lt;algorithm&gt;</em></div>
+<div class="docutils container">
+<em>#include &lt;cmath&gt;</em></div>
+<div class="docutils container">
+<em>#include &lt;limits&gt;</em></div>
+<p>Include dependency graph for MarmotMassLumping.h:</p>
+<figure class="align-default">
+<div align="center" class="align-center"><div class="graphviz"><img src="../../_images/graphviz-6c6444586dd3e271a15c16b3ac67d3009f422472.png" alt="digraph {
+    graph [bgcolor=&quot;#00000000&quot;]
+    node [shape=rectangle style=filled fillcolor=&quot;#FFFFFF&quot; font=Helvetica padding=2]
+    edge [color=&quot;#1414CE&quot;]
+    &quot;1&quot; [label=&quot;/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotMassLumping.h&quot; tooltip=&quot;/home/runner/work/Marmot/Marmot/modules/core/MarmotFiniteElementCore/include/Marmot/MarmotMassLumping.h&quot; fillcolor=&quot;#BFBFBF&quot;]
+    &quot;2&quot; [label=&quot;Eigen/Core&quot; tooltip=&quot;Eigen/Core&quot;]
+    &quot;3&quot; [label=&quot;algorithm&quot; tooltip=&quot;algorithm&quot;]
+    &quot;4&quot; [label=&quot;cmath&quot; tooltip=&quot;cmath&quot;]
+    &quot;5&quot; [label=&quot;limits&quot; tooltip=&quot;limits&quot;]
+    &quot;1&quot; -&gt; &quot;2&quot; [dir=forward tooltip=&quot;include&quot;]
+    &quot;1&quot; -&gt; &quot;3&quot; [dir=forward tooltip=&quot;include&quot;]
+    &quot;1&quot; -&gt; &quot;4&quot; [dir=forward tooltip=&quot;include&quot;]
+    &quot;1&quot; -&gt; &quot;5&quot; [dir=forward tooltip=&quot;include&quot;]
 }" class="graphviz" /></div>
 </div>
 </figure>

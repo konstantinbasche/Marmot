@@ -372,7 +372,6 @@
   <compound refid="namespace_eigen" kind="namespace"><name>Eigen</name>
   </compound>
   <compound refid="namespace_marmot" kind="namespace"><name>Marmot</name>
-    <member refid="_marmot_utility_8h_1a252d6a7dd503dee472f2d47ae9782b83" kind="function"><name>discardTheIncrement</name></member>
   </compound>
   <compound refid="namespace_marmot_1_1_continuum_mechanics" kind="namespace"><name>Marmot::ContinuumMechanics</name>
   </compound>
@@ -454,6 +453,7 @@
     <member refid="_marmot_voigt_8h_1ad2929e869c726f5ae5e7f2f5cb1f6f35a5796253cd75835a97f51da8153d8b6c1" kind="enumvalue"><name>TwoD</name></member>
     <member refid="_marmot_voigt_8h_1ad2929e869c726f5ae5e7f2f5cb1f6f35a8375e843d49cef703da0de814e6dffe9" kind="enumvalue"><name>ThreeD</name></member>
     <member refid="_marmot_voigt_8h_1ad2929e869c726f5ae5e7f2f5cb1f6f35ae80d9e99c856074fee0bc846f771a017" kind="enumvalue"><name>Axial</name></member>
+    <member refid="_marmot_voigt_8h_1a8fe7af0685581e33398e5fb39890698d" kind="variable"><name>IndicesToVoigtIndex</name></member>
     <member refid="_marmot_voigt_8h_1a9ced2ccba0453d40c8258b5b8fcd6dc5" kind="variable"><name>P</name></member>
     <member refid="_marmot_voigt_8h_1a80e5caee708bb8aa73d42a256c8a714a" kind="variable"><name>PInv</name></member>
     <member refid="_marmot_voigt_8h_1acf9352cae95af25313c71032e776af4f" kind="variable"><name>I</name></member>

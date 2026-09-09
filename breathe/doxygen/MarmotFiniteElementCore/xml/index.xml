@@ -63,13 +63,15 @@
     <member refid="class_marmot_element_1a51789466344c5a3437cd4e07d7996313" kind="function"><name>assignStateVars</name></member>
     <member refid="class_marmot_element_1a2d05121938f57f6bc969774ac384f1e5" kind="function"><name>assignProperty</name></member>
     <member refid="class_marmot_element_1accde07ef0b65f8ae46108fcbc793dc59" kind="function"><name>assignProperty</name></member>
+    <member refid="class_marmot_element_1ad956dab154fbc114a5adba6d4d2f5fa5" kind="function"><name>assignProperty</name></member>
+    <member refid="class_marmot_element_1a7446a64e17485904d26737815a963979" kind="function"><name>getPropertyNames</name></member>
     <member refid="class_marmot_element_1ab43a5fd29bebd1d7b5129bcb51fb192b" kind="function"><name>assignNodeCoordinates</name></member>
     <member refid="class_marmot_element_1ad2fee3bfc78fa49a28ceded4aaa3f836" kind="function"><name>initializeYourself</name></member>
     <member refid="class_marmot_element_1a8dada12f443d996232e95326b39abed7" kind="function"><name>setInitialConditions</name></member>
-    <member refid="class_marmot_element_1abbef3863159574d0bc93aa9c327cb493" kind="function"><name>computeYourself</name></member>
-    <member refid="class_marmot_element_1aea8b2bf16a013b0b4617a644f4d981ae" kind="function"><name>computeYourselfExplicit</name></member>
-    <member refid="class_marmot_element_1ac68956668d34ac2ddac545ff2ce56004" kind="function"><name>computeDistributedLoad</name></member>
-    <member refid="class_marmot_element_1aa0ef25e441523e4d36b748e83a4270b5" kind="function"><name>computeBodyForce</name></member>
+    <member refid="class_marmot_element_1a46d422a1a796502a8bda4f115ae0fd6e" kind="function"><name>computeKernels</name></member>
+    <member refid="class_marmot_element_1a974b4bdb46d9d1e52fc1cceda894bad8" kind="function"><name>computeKernelsExplicit</name></member>
+    <member refid="class_marmot_element_1afb003de9900a67cc1b4020f89eb3f985" kind="function"><name>computeDistributedLoad</name></member>
+    <member refid="class_marmot_element_1a4d87a96689701d0cc547c445373a1e8b" kind="function"><name>computeBodyForce</name></member>
     <member refid="class_marmot_element_1aed752615a4b8434456de9baf1b5a9e24" kind="function"><name>computeLumpedInertia</name></member>
     <member refid="class_marmot_element_1a898fde1c6644d2f2b5b10d6f6e6dd5fb" kind="function"><name>computeConsistentInertia</name></member>
     <member refid="class_marmot_element_1a49b6f3e2262faaa3d27bbde3571fff12" kind="function"><name>computeCriticalTimeStepForExplicitDynamics</name></member>
@@ -110,12 +112,14 @@
     <member refid="class_marmot_element_spatial_wrapper_1a4e585a1c9f10737a126c9822a16230ea" kind="function"><name>assignStateVars</name></member>
     <member refid="class_marmot_element_spatial_wrapper_1a15f30481bbd8b2b7fbdb11a2def2834f" kind="function"><name>assignProperty</name></member>
     <member refid="class_marmot_element_spatial_wrapper_1ab702a28a129fcd3b07c83b29489338a6" kind="function"><name>assignProperty</name></member>
+    <member refid="class_marmot_element_spatial_wrapper_1a73a70f58be441a69934b9d12b5bde609" kind="function"><name>assignProperty</name></member>
+    <member refid="class_marmot_element_spatial_wrapper_1a67a01d9cad5d5f9db2141ae1ff7d051b" kind="function"><name>getPropertyNames</name></member>
     <member refid="class_marmot_element_spatial_wrapper_1acd6bc7e5c1f4e2ae91830c24398beee9" kind="function"><name>assignNodeCoordinates</name></member>
     <member refid="class_marmot_element_spatial_wrapper_1ae0206d68142bd2c2b56334e3f5e48609" kind="function"><name>initializeYourself</name></member>
-    <member refid="class_marmot_element_spatial_wrapper_1a588759d3bc43cab8c90ef1577dfc4282" kind="function"><name>computeYourself</name></member>
+    <member refid="class_marmot_element_spatial_wrapper_1aaeb81d8a0fdb0686a0d1a69eb4768d3d" kind="function"><name>computeKernels</name></member>
     <member refid="class_marmot_element_spatial_wrapper_1a9d4962210e1a7dfcb2eb9813069ae7b5" kind="function"><name>setInitialConditions</name></member>
-    <member refid="class_marmot_element_spatial_wrapper_1a72aab0a107fc396d5c5f36b5b076f376" kind="function"><name>computeDistributedLoad</name></member>
-    <member refid="class_marmot_element_spatial_wrapper_1af1403c3a29504fb4ccc25475bb3b2699" kind="function"><name>computeBodyForce</name></member>
+    <member refid="class_marmot_element_spatial_wrapper_1a4e9fdd4d500f9f77c38346cdc6e621cf" kind="function"><name>computeDistributedLoad</name></member>
+    <member refid="class_marmot_element_spatial_wrapper_1a794addc988b52ae4dbb33c041deb0fa5" kind="function"><name>computeBodyForce</name></member>
     <member refid="class_marmot_element_spatial_wrapper_1a4c6940f963c814d25b38c4c5b7752dfa" kind="function"><name>getStateView</name></member>
     <member refid="class_marmot_element_spatial_wrapper_1ab270b0bf2343259bf92621076b44510b" kind="function"><name>getCoordinatesAtCenter</name></member>
     <member refid="class_marmot_element_spatial_wrapper_1a7ad0bea8a7f244dee187f2f07c25bdc7" kind="function"><name>getCoordinatesAtQuadraturePoints</name></member>
@@ -193,6 +197,11 @@
     <member refid="namespace_marmot_1_1_finite_element_1_1_e_a_s_1a5c4676500200a84f62767fb4740717aaa241c74b8c56ddd47c46fc03b3feb7cf3" kind="enumvalue"><name>SimoRifaiEAS4</name></member>
     <member refid="namespace_marmot_1_1_finite_element_1_1_e_a_s_1a8849b2e477cdf62cfca5cf2614256c91" kind="function"><name>F</name></member>
     <member refid="namespace_marmot_1_1_finite_element_1_1_e_a_s_1a988a8476619b95f92db9654db98ed7e9" kind="function"><name>EASInterpolation</name></member>
+  </compound>
+  <compound refid="namespace_marmot_1_1_finite_element_1_1_mass_lumping" kind="namespace"><name>Marmot::FiniteElement::MassLumping</name>
+    <member refid="_marmot_mass_lumping_8h_1a1519be9621a760636bb01a7db0d6e7af" kind="function"><name>manifoldBlendWeight</name></member>
+    <member refid="_marmot_mass_lumping_8h_1ab876ce3456134e9b07806bbfad4ea744" kind="function"><name>manifoldMassFractions</name></member>
+    <member refid="_marmot_mass_lumping_8h_1aaffc2851ed0b48f7bc7fac6193139a39" kind="function"><name>timeStepFactorFromMassDistribution</name></member>
   </compound>
   <compound refid="namespace_marmot_1_1_finite_element_1_1_quadrature" kind="namespace"><name>Marmot::FiniteElement::Quadrature</name>
     <member refid="_marmot_finite_element_8h_1a1ee0398d36d7eb708541aa02dadfde4b" kind="enum"><name>IntegrationTypes</name></member>
@@ -328,6 +337,8 @@
   <compound refid="_marmot_finite_element_spatial_wrapper_8h" kind="file"><name>MarmotFiniteElementSpatialWrapper.h</name>
   </compound>
   <compound refid="_marmot_geometry_element_8h" kind="file"><name>MarmotGeometryElement.h</name>
+  </compound>
+  <compound refid="_marmot_mass_lumping_8h" kind="file"><name>MarmotMassLumping.h</name>
   </compound>
   <compound refid="dir_6d4da112a1331882b0b6514a341190a0" kind="dir"><name>/home/runner/work/Marmot/Marmot/modules/core</name>
   </compound>

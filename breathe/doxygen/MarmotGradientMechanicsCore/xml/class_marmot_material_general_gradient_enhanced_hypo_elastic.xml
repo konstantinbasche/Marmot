@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="125" column="28" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="125" bodyend="-1"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="138" column="28" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="138" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -134,6 +134,22 @@
         </inbodydescription>
         <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="71" column="3" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="71" bodyend="78"/>
       </memberdef>
+      <memberdef kind="function" id="class_marmot_material_general_gradient_enhanced_hypo_elastic_1ac9f0735721166d978d12b16e062b2e84" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual MarmotMaterialGeneralGradientEnhancedHypoElastic&lt; nNonlocalVariables &gt;::~MarmotMaterialGeneralGradientEnhancedHypoElastic</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MarmotMaterialGeneralGradientEnhancedHypoElastic</name>
+        <qualifiedname>MarmotMaterialGeneralGradientEnhancedHypoElastic::~MarmotMaterialGeneralGradientEnhancedHypoElastic</qualifiedname>
+        <briefdescription>
+<para>Virtual destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This class is abstract and instances are owned through base-class pointers (e.g. the std::unique_ptr held by the gradient-enhanced elements), so the destructor must be virtual — destroying a derived object through a base pointer with a non-virtual destructor is undefined behaviour. libstdc++ silently invokes the wrong destructor, while libc++/clang diagnoses it (-Wdelete-abstract-non-virtual-dtor) and emits a trap instruction, which aborted every simulation using such a material on macOS/arm64. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="91" column="11"/>
+      </memberdef>
       <memberdef kind="function" id="class_marmot_material_general_gradient_enhanced_hypo_elastic_1a9860f796ad26818200a0cd86b24be056" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
         <definition>virtual void MarmotMaterialGeneralGradientEnhancedHypoElastic&lt; nNonlocalVariables &gt;::computeStress</definition>
@@ -185,7 +201,7 @@ This method must be implemented in derived classes to compute the stress respons
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="138" column="16"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="151" column="16"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_material_general_gradient_enhanced_hypo_elastic_1afefe46fe7c052828dace64090184b879" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
@@ -226,7 +242,7 @@ This method can be used when only the stress response is needed without the tang
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="151" column="16" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="151" bodyend="155"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="164" column="16" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="164" bodyend="168"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_material_general_gradient_enhanced_hypo_elastic_1a71dbdef7e55e3bd6ae6528835340cdd0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
@@ -279,7 +295,7 @@ This method provides a default implementation for computing the plane stress res
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="171" column="16" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="171" bodyend="225"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="184" column="16" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="184" bodyend="238"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_material_general_gradient_enhanced_hypo_elastic_1ac260cf28dacd2955d9f460fb07c9ee95" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
@@ -320,7 +336,7 @@ This method can be used when only the plane stress response is needed without th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="238" column="16" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="238" bodyend="242"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="251" column="16" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="251" bodyend="255"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_material_general_gradient_enhanced_hypo_elastic_1a9e067dc3bdc7caa4dbcdb772c3c4ee8d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>StateView</type>
@@ -363,7 +379,7 @@ This method can be used when only the plane stress response is needed without th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="250" column="13" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="250" bodyend="253"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="263" column="13" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="263" bodyend="266"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_material_general_gradient_enhanced_hypo_elastic_1ac0486ec1b5aca6c8fe49ea09d52d1321" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type>int</type>
@@ -381,7 +397,7 @@ This method can be used when only the plane stress response is needed without th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="259" column="7" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="259" bodyend="259"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="272" column="7" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="272" bodyend="272"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_material_general_gradient_enhanced_hypo_elastic_1a67f5c938713e82005b738eb3b7db51c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
@@ -424,7 +440,7 @@ This method can be used when only the plane stress response is needed without th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="268" column="16" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="268" bodyend="273"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="281" column="16" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="281" bodyend="286"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_material_general_gradient_enhanced_hypo_elastic_1a88fc70f64291d9d14728c71eb0f520c8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>double</type>
@@ -455,7 +471,7 @@ This method must be implemented in derived classes to return the density of the 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="282" column="18"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="295" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_material_general_gradient_enhanced_hypo_elastic_1af6693d84f5cc934a58bf2560699b6bf9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type>double</type>
@@ -486,7 +502,7 @@ The default implementation computes the 3D algorithmic tangent and returns <comp
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="291" column="18" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="291" bodyend="322"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="304" column="18" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="304" bodyend="335"/>
       </memberdef>
       <memberdef kind="function" id="class_marmot_material_general_gradient_enhanced_hypo_elastic_1a2579559cc7a0357a90f57ecb6f0e3fc0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; double &gt;</type>
@@ -517,7 +533,7 @@ This method must be implemented in derived classes to return the nonlocal viscos
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="333" column="23"/>
+        <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="346" column="23"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -527,7 +543,7 @@ This method must be implemented in derived classes to return the nonlocal viscos
 <para>This class defines the interface for general gradient-enhanced hypoelastic material models, including methods for computing stress, plane stress response, and managing state variables. The template parameter <computeroutput>nNonlocalVariables</computeroutput> specifies the number of nonlocal variables used in the material model.</para>
 <para>In addition to the standard balance of linear momentum each nonlocal variable introduces an additional balance equation, which is solved simultaneously with the balance of linear momentum. This balance equation is defined as: <formula id="0">\[ \knl_i - \nabla ( c( \knl_i )\, \nabla \knl_i ) = s_i (\boldsymbol \varepsilon,\, \knl_i ) \]</formula> where <formula id="1">$ \knl_i $</formula> is the nonlocal variable, <formula id="2">$ c( \knl_i ) $</formula> is the nonlocal interaction parameter, and <formula id="3">$ s_i $</formula> is the local driving variable for the nonlocal variable <formula id="1">$ \knl_i $</formula>. The interaction parameter <formula id="2">$ c( \knl_i ) $</formula> defines the influence of the nonlocal variable on its own gradient and can be used to model phenomena such as damage-dependent interactions. Also phase-field models can be implemented in this framework by defining the nonlocal variable as the phase-field variable and the local driving variable as a function of the strain tensor. </para>
     </detaileddescription>
-    <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="53" column="1" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="53" bodyend="334"/>
+    <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" line="53" column="1" bodyfile="/home/runner/work/Marmot/Marmot/modules/core/MarmotGradientMechanicsCore/include/Marmot/MarmotMaterialGeneralGradientEnhancedHypoElastic.h" bodystart="53" bodyend="347"/>
     <listofallmembers>
       <member refid="class_marmot_material_general_gradient_enhanced_hypo_elastic_1a71dbdef7e55e3bd6ae6528835340cdd0" prot="public" virt="virtual"><scope>MarmotMaterialGeneralGradientEnhancedHypoElastic</scope><name>computePlaneStress</name></member>
       <member refid="class_marmot_material_general_gradient_enhanced_hypo_elastic_1ac260cf28dacd2955d9f460fb07c9ee95" prot="public" virt="virtual"><scope>MarmotMaterialGeneralGradientEnhancedHypoElastic</scope><name>computePlaneStressExplicit</name></member>
@@ -544,6 +560,7 @@ This method must be implemented in derived classes to return the nonlocal viscos
       <member refid="class_marmot_material_general_gradient_enhanced_hypo_elastic_1ad26551fda1395c4e8f53e538258cb47e" prot="protected" virt="non-virtual"><scope>MarmotMaterialGeneralGradientEnhancedHypoElastic</scope><name>materialProperties</name></member>
       <member refid="class_marmot_material_general_gradient_enhanced_hypo_elastic_1ad2d41c7ec72a89d0f8a702703a82c1e0" prot="protected" virt="non-virtual"><scope>MarmotMaterialGeneralGradientEnhancedHypoElastic</scope><name>nMaterialProperties</name></member>
       <member refid="class_marmot_material_general_gradient_enhanced_hypo_elastic_1a5c996337237851ae5024cb01e48a2ef3" prot="public" virt="non-virtual"><scope>MarmotMaterialGeneralGradientEnhancedHypoElastic</scope><name>stateLayout</name></member>
+      <member refid="class_marmot_material_general_gradient_enhanced_hypo_elastic_1ac9f0735721166d978d12b16e062b2e84" prot="public" virt="virtual"><scope>MarmotMaterialGeneralGradientEnhancedHypoElastic</scope><name>~MarmotMaterialGeneralGradientEnhancedHypoElastic</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>
