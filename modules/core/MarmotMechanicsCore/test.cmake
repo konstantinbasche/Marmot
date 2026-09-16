@@ -42,3 +42,6 @@ add_marmot_test("TestNewmarkBetaIntegrator" "${CURR_TEST_SOURCE_DIR}/TestNewmark
 
 # Tests for MarmotGeostaticStress
 add_marmot_test("TestMarmotGeostaticStress" "${CURR_TEST_SOURCE_DIR}/TestMarmotGeostaticStress.cpp")
+
+# Tests for MarmotMicroplane
+add_marmot_test("TestMarmotMicroplane" "${CURR_TEST_SOURCE_DIR}/TestMarmotMicroplane.cpp")
