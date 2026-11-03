@@ -25,15 +25,17 @@ namespace {
   void testLinearViscoElasticWiechertReferenceStress()
   {
     auto materialProperties = getMaterialPropertiesLinearViscoElasticWiechert();
-    Marmot::Materials::LinearViscoElasticWiechert material( materialProperties.data(), materialProperties.size(), 1 );
+    Marmot::Materials::LinearViscoElasticWiechert material( materialProperties.data(),
+                                                            static_cast< int >( materialProperties.size() ),
+                                                            1 );
 
     Eigen::VectorXd stateVars( material.getNumberOfRequiredStateVars() );
-    material.initializeYourself( stateVars.data(), stateVars.size() );
+    material.initializeYourself( stateVars.data(), static_cast< int >( stateVars.size() ) );
 
-    MarmotMaterialHypoElastic::state3D state{ Marmot::Vector6d::Zero(), 0.0, 0.0, stateVars.data() };
-    Marmot::Matrix6d                   tangent = Marmot::Matrix6d::Zero();
+    Marmot::Materials::MaterialHypoElastic::state3D state{ Marmot::Math::Vector6d::Zero(), 0.0, 0.0, stateVars.data() };
+    Marmot::Math::Matrix6d                          tangent = Marmot::Math::Matrix6d::Zero();
 
-    Marmot::Vector6d dStrain = Marmot::Vector6d::Zero();
+    Marmot::Math::Vector6d dStrain = Marmot::Math::Vector6d::Zero();
     material.computeStress( state, tangent, dStrain, { 0.0, 28.0 } );
 
     dStrain << 10e-6, 10e-6, 0., 0., 0., 0.;
@@ -42,7 +44,7 @@ namespace {
     dStrain.setZero();
     material.computeStress( state, tangent, dStrain, { 28.01, 100.0 } );
 
-    Marmot::Vector6d stressTarget;
+    Marmot::Math::Vector6d stressTarget;
     stressTarget << 2.77778377468268234, 2.77778377468268234, 1.11111350987307289, 0., 0., 0.;
 
     throwExceptionOnFailure( checkIfEqual< double >( state.stress, stressTarget, 1e-10 ),
@@ -109,18 +111,20 @@ namespace {
   void testZeroIncrementReturnsInstantaneousElasticTangent()
   {
     auto materialProperties = getMaterialPropertiesLinearViscoElasticWiechert();
-    Marmot::Materials::LinearViscoElasticWiechert material( materialProperties.data(), materialProperties.size(), 1 );
+    Marmot::Materials::LinearViscoElasticWiechert material( materialProperties.data(),
+                                                            static_cast< int >( materialProperties.size() ),
+                                                            1 );
 
     Eigen::VectorXd stateVars( material.getNumberOfRequiredStateVars() );
-    material.initializeYourself( stateVars.data(), stateVars.size() );
+    material.initializeYourself( stateVars.data(), static_cast< int >( stateVars.size() ) );
 
-    MarmotMaterialHypoElastic::state3D state{ Marmot::Vector6d::Zero(), 0.0, 0.0, stateVars.data() };
-    Marmot::Matrix6d                   tangent = Marmot::Matrix6d::Zero();
+    Marmot::Materials::MaterialHypoElastic::state3D state{ Marmot::Math::Vector6d::Zero(), 0.0, 0.0, stateVars.data() };
+    Marmot::Math::Matrix6d                          tangent = Marmot::Math::Matrix6d::Zero();
 
     // neither strain nor time advance: the tangent is the instantaneous isotropic stiffness
-    material.computeStress( state, tangent, Marmot::Vector6d::Zero(), { 0.0, 0.0 } );
+    material.computeStress( state, tangent, Marmot::Math::Vector6d::Zero(), { 0.0, 0.0 } );
 
-    const Marmot::Matrix6d
+    const Marmot::Math::Matrix6d
       expected = Marmot::ContinuumMechanics::Elasticity::Isotropic::stiffnessTensor( materialProperties( 0 ),
                                                                                      materialProperties( 1 ) );
     throwExceptionOnFailure( checkIfEqual< double >( tangent, expected, 1e-8 * expected.maxCoeff() ),

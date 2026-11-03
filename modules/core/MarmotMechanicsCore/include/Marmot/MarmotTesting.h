@@ -22,14 +22,22 @@
  * the top level directory of marmot.
  * ---------------------------------------------------------------------
  */
-
+#pragma once
 #include "Marmot/MarmotConstants.h"
 #include "Marmot/MarmotMaterialHypoElastic.h"
 #include "Marmot/MarmotMaterialPointSolverHypoElastic.h"
 #include "autodiff/forward/dual/dual.hpp"
 #include "unsupported/Eigen/CXX11/Tensor"
 #include <Eigen/Core>
+/* Fastor/Fastor.h ends with `#pragma warning( default : ... )`; scope it so it neither overrides the build's warning
+ * flags nor leaks into consumers. */
+#ifdef _MSC_VER
+#  pragma warning( push )
+#endif
 #include <Fastor/Fastor.h>
+#ifdef _MSC_VER
+#  pragma warning( pop )
+#endif
 #include <iostream>
 
 /**
@@ -210,13 +218,12 @@ namespace Marmot::Testing {
   {
     double                        phi;
     double                        theta;
-    Eigen::Matrix< double, 1, 2 > pt;
     Eigen::Matrix< double, N, 2 > pts;
 
     // i1 = 1, 2, ..., N
     for ( int i1 = 1; i1 <= N; i1++ ) {
       theta = acos( -( i1 - 1. ) / N );
-      phi   = ( i1 - 1. ) * Constants::GoldenAngle;
+      phi   = ( i1 - 1. ) * Marmot::Math::Constants::GoldenAngle;
 
       pts.row( i1 - 1 ) = Eigen::Vector2d( phi, theta );
     }
@@ -236,7 +243,7 @@ namespace Marmot::Testing {
    * @param stiffnessTol Tolerance for the stiffness objectivity check (default: 1e-15).
    * @return `true` if the solver passes both checks, `false` otherwise.
    */
-  bool spinTurbokreisel( Marmot::Solvers::MarmotMaterialPointSolverHypoElastic& solver,
-                         double                                                 stressTol    = 1e-15,
-                         double                                                 stiffnessTol = 1e-15 );
+  bool spinTurbokreisel( Marmot::Materials::MaterialPointSolverHypoElastic& solver,
+                         double                                             stressTol    = 1e-15,
+                         double                                             stiffnessTol = 1e-15 );
 } // namespace Marmot::Testing

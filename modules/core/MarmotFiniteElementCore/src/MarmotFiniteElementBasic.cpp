@@ -2,111 +2,109 @@
 #include "Marmot/MarmotTypedefs.h"
 
 using namespace Eigen;
-namespace Marmot {
-  namespace FiniteElement {
-    ElementShapes getElementShapeByMetric( int nDim, int nNodes )
-    {
+namespace Marmot::Discretizations::Elements {
+  ElementShapes getElementShapeByMetric( int nDim, int nNodes )
+  {
 
-      switch ( nDim ) {
-      case ( 1 ): {
-        switch ( nNodes ) {
-        case 2: return ElementShapes::Bar2;
-        default: throw std::invalid_argument( "Invalid number of nodes for nDim=1" );
-        }
-      }
-
-      case ( 2 ): {
-        switch ( nNodes ) {
-        case 3: return ElementShapes::Tri3;
-        case 4: return ElementShapes::Quad4;
-        case 8: return ElementShapes::Quad8;
-        case 9: return ElementShapes::Quad9;
-        case 16: return ElementShapes::Quad16;
-        default: throw std::invalid_argument( "Invalid number of nodes for nDim=2" );
-        }
-      }
-      case ( 3 ): {
-        switch ( nNodes ) {
-        case 4: return ElementShapes::Tetra4;
-        case 10: return ElementShapes::Tetra10;
-        case 8: return ElementShapes::Hexa8;
-        case 20: return ElementShapes::Hexa20;
-        case 27: return ElementShapes::Hexa27;
-        case 64: return ElementShapes::Hexa64;
-        default: throw std::invalid_argument( "Invalid number of nodes for nDim=3" );
-        }
-      }
-      default: throw std::invalid_argument( "Invalid dimension specified" );
+    switch ( nDim ) {
+    case ( 1 ): {
+      switch ( nNodes ) {
+      case 2: return ElementShapes::Bar2;
+      default: throw std::invalid_argument( "Invalid number of nodes for nDim=1" );
       }
     }
-    // create a large N matrix dependent on the degrees of freedom per node
-    MatrixXd NB( const VectorXd& N, const int nDoFPerNode )
-    {
 
-      MatrixXd N_( nDoFPerNode, N.size() * nDoFPerNode );
-      N_ = MatrixXd::Zero( nDoFPerNode, N.size() * nDoFPerNode );
-
-      for ( int i = 0; i < N.size(); i++ ) {
-        for ( int j = 0; j < nDoFPerNode; j++ ) {
-          N_( j, nDoFPerNode * i + j ) = N( i );
-        }
+    case ( 2 ): {
+      switch ( nNodes ) {
+      case 3: return ElementShapes::Tri3;
+      case 4: return ElementShapes::Quad4;
+      case 8: return ElementShapes::Quad8;
+      case 9: return ElementShapes::Quad9;
+      case 16: return ElementShapes::Quad16;
+      default: throw std::invalid_argument( "Invalid number of nodes for nDim=2" );
       }
+    }
+    case ( 3 ): {
+      switch ( nNodes ) {
+      case 4: return ElementShapes::Tetra4;
+      case 10: return ElementShapes::Tetra10;
+      case 8: return ElementShapes::Hexa8;
+      case 20: return ElementShapes::Hexa20;
+      case 27: return ElementShapes::Hexa27;
+      case 64: return ElementShapes::Hexa64;
+      default: throw std::invalid_argument( "Invalid number of nodes for nDim=3" );
+      }
+    }
+    default: throw std::invalid_argument( "Invalid dimension specified" );
+    }
+  }
+  // create a large N matrix dependent on the degrees of freedom per node
+  MatrixXd NB( const VectorXd& N, const int nDoFPerNode )
+  {
 
-      return N_;
+    MatrixXd N_( nDoFPerNode, N.size() * nDoFPerNode );
+    N_ = MatrixXd::Zero( nDoFPerNode, N.size() * nDoFPerNode );
+
+    for ( int i = 0; i < N.size(); i++ ) {
+      for ( int j = 0; j < nDoFPerNode; j++ ) {
+        N_( j, nDoFPerNode * i + j ) = N( i );
+      }
     }
 
-    MatrixXd Jacobian( const MatrixXd& dNdXi, const VectorXd& coordinates )
-    {
+    return N_;
+  }
 
-      /* Dynamic version of jacobian, and not necessarily square!
-       *
-       * Notation:
-       *
-       * /                          \
-       * | x1,xi1,  x1,xi2,  x1,xi3 |
-       * |                          |
-       * | x2,xi1,  x2,xi2,  x2,xi3 |
-       * |                          |
-       * | x3,xi1,  x3,xi2,  x3,xi3 |
-       * \                          /
-       *
-       * */
+  MatrixXd Jacobian( const MatrixXd& dNdXi, const VectorXd& coordinates )
+  {
 
-      const int nDimXi = dNdXi.rows();
-      const int nNodes = dNdXi.cols();
-      const int nDimX  = coordinates.size() / nNodes;
+    /* Dynamic version of jacobian, and not necessarily square!
+     *
+     * Notation:
+     *
+     * /                          \
+     * | x1,xi1,  x1,xi2,  x1,xi3 |
+     * |                          |
+     * | x2,xi1,  x2,xi2,  x2,xi3 |
+     * |                          |
+     * | x3,xi1,  x3,xi2,  x3,xi3 |
+     * \                          /
+     *
+     * */
 
-      MatrixXd J_ = MatrixXd::Zero( nDimX, nDimXi );
+    const int nDimXi = static_cast< int >( dNdXi.rows() );
+    const int nNodes = static_cast< int >( dNdXi.cols() );
+    const int nDimX  = static_cast< int >( coordinates.size() ) / nNodes;
 
-      for ( int i = 0; i < nDimX; i++ )      // loop over global dimensions
-        for ( int j = 0; j < nDimXi; j++ )   // loop over local dimensions
-          for ( int k = 0; k < nNodes; k++ ) // Loop over nodes
-            J_( i, j ) += dNdXi( j, k ) * coordinates( i + k * nDimX );
-      return J_;
-    }
+    MatrixXd J_ = MatrixXd::Zero( nDimX, nDimXi );
 
-    VectorXi expandNodeIndicesToCoordinateIndices( const VectorXi& nodeIndices, int nDim )
-    {
-      VectorXi indices( nDim * nodeIndices.size() );
+    for ( int i = 0; i < nDimX; i++ )      // loop over global dimensions
+      for ( int j = 0; j < nDimXi; j++ )   // loop over local dimensions
+        for ( int k = 0; k < nNodes; k++ ) // Loop over nodes
+          J_( i, j ) += dNdXi( j, k ) * coordinates( i + k * nDimX );
+    return J_;
+  }
 
-      for ( int i = 0; i < nodeIndices.size(); i++ )
-        for ( int k = 0; k < nDim; k++ )
-          indices( ( i * nDim ) + k ) = ( nodeIndices( i ) * nDim ) + k;
+  VectorXi expandNodeIndicesToCoordinateIndices( const VectorXi& nodeIndices, int nDim )
+  {
+    VectorXi indices( nDim * nodeIndices.size() );
 
-      return indices;
-    }
-  } // namespace FiniteElement
+    for ( int i = 0; i < nodeIndices.size(); i++ )
+      for ( int k = 0; k < nDim; k++ )
+        indices( ( i * nDim ) + k ) = ( nodeIndices( i ) * nDim ) + k;
 
-  namespace FiniteElement::Quadrature {
-    const std::vector< QuadraturePointInfo >& getGaussPointInfo( Marmot::FiniteElement::ElementShapes shape,
-                                                                 IntegrationTypes                     integrationType )
+    return indices;
+  }
+
+  namespace Quadrature {
+    const std::vector< QuadraturePointInfo >& getGaussPointInfo( Marmot::Discretizations::Elements::ElementShapes shape,
+                                                                 IntegrationTypes integrationType )
     {
       // the shapes below fall back to the reduced rule for every type but FullIntegration
       if ( integrationType == IntegrationTypes::NodalIntegration )
         throw std::invalid_argument( "getGaussPointInfo() provides Gauss rules only; use getQuadraturePointInfo() for "
                                      "nodal integration" );
 
-      using Marmot::FiniteElement::ElementShapes;
+      using Marmot::Discretizations::Elements::ElementShapes;
       switch ( shape ) {
       case ( ElementShapes::Bar2 ): {
         if ( integrationType == IntegrationTypes::FullIntegration )
@@ -170,15 +168,16 @@ namespace Marmot {
       }
     }
 
-    int getNumGaussPoints( Marmot::FiniteElement::ElementShapes shape, IntegrationTypes integrationType )
+    int getNumGaussPoints( Marmot::Discretizations::Elements::ElementShapes shape, IntegrationTypes integrationType )
     {
-      return getGaussPointInfo( shape, integrationType ).size();
+      return static_cast< int >( getGaussPointInfo( shape, integrationType ).size() );
     }
 
-    const std::vector< QuadraturePointInfo >& getQuadraturePointInfo( Marmot::FiniteElement::ElementShapes shape,
-                                                                      IntegrationTypes integrationType )
+    const std::vector< QuadraturePointInfo >& getQuadraturePointInfo(
+      Marmot::Discretizations::Elements::ElementShapes shape,
+      IntegrationTypes                                 integrationType )
     {
-      using Marmot::FiniteElement::ElementShapes;
+      using Marmot::Discretizations::Elements::ElementShapes;
 
       // no default, so that a new integration type is flagged by -Wswitch
       switch ( integrationType ) {
@@ -200,5 +199,5 @@ namespace Marmot {
       throw std::invalid_argument( "Invalid integration type" );
     }
 
-  } // end of namespace FiniteElement::Quadrature
-} // end of namespace Marmot
+  } // namespace Quadrature
+} // namespace Marmot::Discretizations::Elements

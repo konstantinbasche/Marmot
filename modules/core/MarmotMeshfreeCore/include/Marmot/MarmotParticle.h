@@ -32,17 +32,17 @@
 #include <unordered_map>
 #include <vector>
 
-namespace Marmot::Meshfree {
+namespace Marmot::Discretizations::Meshfree {
 
   /**
-   * @class Marmot::Meshfree::MarmotParticle
+   * @class Marmot::Discretizations::Meshfree::Particle
    * @brief Abstract interface of a particle of the reproducing kernel particle method (RKPM).
    *
    * A particle is the integration entity of the meshfree layer: it represents a piece of the body (its domain,
    * commonly a point, a quadrilateral or a hexahedron) and it evaluates the weak form on that piece. Unlike a finite
    * element, a particle has no fixed nodes. It interacts with the degrees of freedom, which live on the nodes of the
-   * meshfree kernel functions (MarmotMeshfreeKernelFunction), via the shape functions of a meshfree approximation
-   * (MarmotMeshfreeApproximation). The host framework (e.g., EdelweissMeshfree) finds the kernel functions whose
+   * meshfree kernel functions (KernelFunction), via the shape functions of a meshfree approximation
+   * (Approximation). The host framework (e.g., EdelweissMeshfree) finds the kernel functions whose
    * support covers the particle and hands them over with assignMeshfreeKernelFunctions(); the particle then
    * evaluates the shape functions @f$ N_A @f$ and (possibly smoothed) gradients @f$ \partial N_A / \partial Y @f$
    * of these @f$ A = 1 \dots n_{\text{nodes}} @f$ nodes.
@@ -54,7 +54,7 @@ namespace Marmot::Meshfree {
    * particle to the new configuration at the end of a converged increment.
    *
    * A typical life cycle driven by the host framework is
-   * -# creation via MarmotLibrary::MarmotParticleFactory::createParticle(),
+   * -# creation via Marmot::Registry::ParticleFactory::createParticle(),
    * -# setProperties() (e.g., the order of the variationally consistent integration and time integration
    *    parameters),
    * -# assignStateVars() with a block of getNumberOfRequiredStateVars() doubles, initializeYourself(),
@@ -85,14 +85,14 @@ namespace Marmot::Meshfree {
    * done by the host framework.
    */
 
-  class MarmotParticle {
+  class Particle {
 
   public:
     /// @brief Default constructor.
-    MarmotParticle() = default;
+    Particle() = default;
 
     /// @brief Virtual destructor.
-    virtual ~MarmotParticle() = default;
+    virtual ~Particle() = default;
 
     /**
      * @brief Assign all the properties of the particle.
@@ -123,8 +123,7 @@ namespace Marmot::Meshfree {
      * defines the node order of the residual vector and the stiffness matrix.
      * @param[in] kernelFunctions Kernel functions whose support covers the particle.
      */
-    virtual void assignMeshfreeKernelFunctions(
-      const std::vector< const MarmotMeshfreeKernelFunction* >& kernelFunctions ) = 0;
+    virtual void assignMeshfreeKernelFunctions( const std::vector< const KernelFunction* >& kernelFunctions ) = 0;
 
     /**
      * @brief Assign the memory block that holds the state variables of the particle.
@@ -148,9 +147,9 @@ namespace Marmot::Meshfree {
      * @brief Get a view on a named state (e.g., a state variable of the material point).
      * @param[in] stateName Name of the state.
      * @param[in] qp Index of the evaluation point or subdomain; ignored by particles with a single material point.
-     * @return A StateView (pointer and size) into the state storage.
+     * @return A Marmot::Utilities::StateView (pointer and size) into the state storage.
      */
-    virtual StateView getStateView( const std::string& stateName, int qp ) const = 0;
+    virtual Marmot::Utilities::StateView getStateView( const std::string& stateName, int qp ) const = 0;
 
     /// @brief Get the number of state variables (doubles) required by the particle.
     /// @return The size of the block to be passed to assignStateVars().
@@ -258,14 +257,16 @@ namespace Marmot::Meshfree {
      * @param[in] timeNew Time at the end of the increment.
      * @param[in] dT Time increment.
      */
-    virtual void updatePhysicsExplicit( const double* dQ, double timeNew, double dT ){};
+    virtual void updatePhysicsExplicit( [[maybe_unused]] const double* dQ,
+                                        [[maybe_unused]] double        timeNew,
+                                        [[maybe_unused]] double        dT ){};
 
     /**
      * @brief Explicit dynamics: compute the internal force vector for the state set by updatePhysicsExplicit().
      * @details The default implementation does nothing.
      * @param[in,out] fInt Internal force vector (node-wise).
      */
-    virtual void computePhysicsKernelsExplicit( double* fInt ){};
+    virtual void computePhysicsKernelsExplicit( [[maybe_unused]] double* fInt ){};
 
     /**
      * @brief Explicit dynamics: compute a body load (no tangent).
@@ -276,11 +277,11 @@ namespace Marmot::Meshfree {
      * @param[in] timeNew Time at the end of the increment.
      * @param[in] dT Time increment.
      */
-    virtual void computeBodyLoadExplicit( int           type,
-                                          const double* load,
-                                          double*       fExt,
-                                          double        timeNew,
-                                          double        dT ) const {};
+    virtual void computeBodyLoadExplicit( [[maybe_unused]] int           type,
+                                          [[maybe_unused]] const double* load,
+                                          [[maybe_unused]] double*       fExt,
+                                          [[maybe_unused]] double        timeNew,
+                                          [[maybe_unused]] double        dT ) const {};
 
     /**
      * @brief Explicit dynamics: compute a distributed load (no tangent).
@@ -292,26 +293,32 @@ namespace Marmot::Meshfree {
      * @param[in] timeNew Time at the end of the increment.
      * @param[in] dT Time increment.
      */
-    virtual void computeDistributedLoadExplicit( int           type,
-                                                 int           boundaryFaceID,
-                                                 const double* load,
-                                                 double*       fExt,
-                                                 double        timeNew,
-                                                 double        dT ) const {};
+    virtual void computeDistributedLoadExplicit( [[maybe_unused]] int           type,
+                                                 [[maybe_unused]] int           boundaryFaceID,
+                                                 [[maybe_unused]] const double* load,
+                                                 [[maybe_unused]] double*       fExt,
+                                                 [[maybe_unused]] double        timeNew,
+                                                 [[maybe_unused]] double        dT ) const {};
 
     /**
      * @brief Compute the lumped (row-sum) inertia contribution of the particle.
      * @param[in,out] mLumped Lumped mass vector (node-wise).
      * @throws std::runtime_error in the default implementation.
      */
-    virtual void computeLumpedInertia( double* mLumped ) const { throw std::runtime_error( "Not implemented yet!" ); };
+    virtual void computeLumpedInertia( [[maybe_unused]] double* mLumped ) const
+    {
+      throw std::runtime_error( "Not implemented yet!" );
+    };
 
     /**
      * @brief Compute the lumped momentum contribution of the particle.
      * @param[in,out] mLumped Lumped momentum vector (node-wise).
      * @throws std::runtime_error in the default implementation.
      */
-    virtual void computeLumpedMomentum( double* mLumped ) const { throw std::runtime_error( "Not implemented yet!" ); };
+    virtual void computeLumpedMomentum( [[maybe_unused]] double* mLumped ) const
+    {
+      throw std::runtime_error( "Not implemented yet!" );
+    };
 
     /**
      * @brief Evaluate the shape functions of the assigned kernel functions at arbitrary coordinates.
@@ -407,4 +414,4 @@ namespace Marmot::Meshfree {
     virtual void setInitialCondition( const std::string& conditionName, const double* value ) = 0;
   };
 
-} // namespace Marmot::Meshfree
+} // namespace Marmot::Discretizations::Meshfree

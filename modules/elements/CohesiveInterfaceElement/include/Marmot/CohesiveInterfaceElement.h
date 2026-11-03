@@ -45,7 +45,7 @@
 #include <stdexcept>
 #include <vector>
 
-namespace Marmot::Elements {
+namespace Marmot::Discretizations::Elements {
 
   /**
    * @class CohesiveInterfaceElement
@@ -63,7 +63,7 @@ namespace Marmot::Elements {
    * (right-hand rule of the node order of a face, so that it points from the bottom towards the top face for a
    * correctly oriented element). The mid-surface also gives the integration measure; for coincident faces it is
    * either face, and for faces that start apart it treats both alike. The traction \f$ \boldsymbol{t}' \f$ of a
-   * @ref MarmotMaterialCohesive gives the internal force and the tangent
+   * @ref Marmot::Materials::MaterialCohesive gives the internal force and the tangent
    *
    * \f[ \boldsymbol{P} = \int_\Gamma \boldsymbol{N}_{[\![u]\!]}^T \boldsymbol{R}^T \boldsymbol{t}' \, dA, \qquad
    *     \boldsymbol{K} = \int_\Gamma \boldsymbol{N}_{[\![u]\!]}^T \boldsymbol{R}^T
@@ -83,7 +83,8 @@ namespace Marmot::Elements {
    * integral over the interface is the internal energy of the element, i.e. the work done on it.
    */
   template < int nDim, int nNodes >
-  class CohesiveInterfaceElement : public MarmotElement, public MarmotGeometryInterfaceElement< nDim, nNodes > {
+  class CohesiveInterfaceElement : public Marmot::Discretizations::Elements::Element,
+                                   public Marmot::Discretizations::Elements::GeometryInterfaceElement< nDim, nNodes > {
 
   public:
     /**
@@ -98,7 +99,7 @@ namespace Marmot::Elements {
     /// Number of components of the local traction and jump of the cohesive material, for every nDim.
     static constexpr int nMaterialComponents = 3;
 
-    using ParentGeometryElement = MarmotGeometryInterfaceElement< nDim, nNodes >;
+    using ParentGeometryElement = Marmot::Discretizations::Elements::GeometryInterfaceElement< nDim, nNodes >;
 
     using XiSized          = typename ParentGeometryElement::XiSized;
     using VectorDim        = typename ParentGeometryElement::VectorDim;
@@ -135,7 +136,7 @@ namespace Marmot::Elements {
        * The traction and the jump are stored in the local frame, with nDim components; the energies per unit area
        * of the interface.
        */
-      class QPStateVarManager : public MarmotStateVarVectorManager {
+      class QPStateVarManager : public Marmot::Utilities::StateVarVectorManager {
 
         inline const static auto layout = makeLayout( {
           { .name = "traction", .length = nDim },
@@ -165,7 +166,7 @@ namespace Marmot::Elements {
          * @param[in] nStateVars number of state variables of the quadrature point, including the material state
          */
         QPStateVarManager( double* theStateVarVector, int nStateVars )
-          : MarmotStateVarVectorManager( theStateVarVector, layout ),
+          : Marmot::Utilities::StateVarVectorManager( theStateVarVector, layout ),
             traction( &find( "traction" ) ),
             jump( &find( "jump" ) ),
             elasticEnergyDensity( find( "elastic energy density" ) ),
@@ -202,7 +203,7 @@ namespace Marmot::Elements {
      *
      * The material carries no per-quadrature-point data: the state variables are passed in by pointer.
      */
-    std::unique_ptr< MarmotMaterialCohesive > material;
+    std::unique_ptr< Marmot::Materials::MaterialCohesive > material;
 
     /**
      * @brief Construct a cohesive interface element.
@@ -211,9 +212,9 @@ namespace Marmot::Elements {
      * @param[in] integrationType Integration rule of the surface: nodal, or full or reduced Gauss.
      * @param[in] sectionType Interface section type.
      */
-    CohesiveInterfaceElement( int                                         elementID,
-                              FiniteElement::Quadrature::IntegrationTypes integrationType,
-                              SectionType                                 sectionType = SectionType::Interface );
+    CohesiveInterfaceElement( int                                                             elementID,
+                              Marmot::Discretizations::Elements::Quadrature::IntegrationTypes integrationType,
+                              SectionType sectionType = SectionType::Interface );
 
     int getNumberOfRequiredStateVars();
 
@@ -238,12 +239,12 @@ namespace Marmot::Elements {
     /**
      * @brief Assign element-level properties: the out-of-plane thickness for elements embedded in 2D.
      */
-    void assignProperty( const ElementProperties& marmotElementProperty );
+    void assignProperty( const Marmot::Discretizations::ElementProperties& marmotElementProperty );
 
     /**
-     * @brief Create the cohesive material of the section through the @ref MarmotLibrary::MarmotMaterialCohesiveFactory.
+     * @brief Create the cohesive material of the section through the @ref Marmot::Registry::MaterialCohesiveFactory.
      */
-    void assignProperty( const MarmotMaterialSection& marmotElementProperty );
+    void assignProperty( const Marmot::Discretizations::MaterialSection& marmotElementProperty );
 
     void assignNodeCoordinates( const double* coordinates );
 
@@ -255,14 +256,14 @@ namespace Marmot::Elements {
     void setInitialConditions( StateTypes state, const double* values );
 
     /** @brief Distributed loads are not available for interface elements; throws. */
-    void computeDistributedLoad( MarmotElement::DistributedLoadTypes loadType,
-                                 double*                             P,
-                                 double*                             K,
-                                 const int                           elementFace,
-                                 const double*                       load,
-                                 const double*                       QTotal,
-                                 double                              time,
-                                 double                              dT );
+    void computeDistributedLoad( Marmot::Discretizations::Elements::Element::DistributedLoadTypes loadType,
+                                 double*                                                          P,
+                                 double*                                                          K,
+                                 const int                                                        elementFace,
+                                 const double*                                                    load,
+                                 const double*                                                    QTotal,
+                                 double                                                           time,
+                                 double                                                           dT );
 
     /** @brief Body forces are not available for interface elements; throws. */
     void computeBodyForce( double* P, double* K, const double* load, const double* QTotal, double time, double dT );
@@ -303,7 +304,7 @@ namespace Marmot::Elements {
      * The quadrature point provides "traction" and "jump" (local frame, nDim components), "elastic energy density"
      * and "dissipation density" (per unit area); all other names are forwarded to the material.
      */
-    StateView getStateView( const std::string& stateName, int qpNumber )
+    Marmot::Utilities::StateView getStateView( const std::string& stateName, int qpNumber )
     {
       const auto& qp = qps[qpNumber];
 
@@ -334,15 +335,16 @@ namespace Marmot::Elements {
 
   template < int nDim, int nNodes >
   CohesiveInterfaceElement< nDim, nNodes >::CohesiveInterfaceElement(
-    int                                         elementID,
-    FiniteElement::Quadrature::IntegrationTypes integrationType,
-    SectionType                                 sectionType )
+    int                                                             elementID,
+    Marmot::Discretizations::Elements::Quadrature::IntegrationTypes integrationType,
+    SectionType                                                     sectionType )
     : ParentGeometryElement(),
       elementProperties( Eigen::Map< const Eigen::VectorXd >( nullptr, 0 ) ),
       elLabel( elementID ),
       sectionType( sectionType )
   {
-    for ( const auto& qpInfo : FiniteElement::Quadrature::getQuadraturePointInfo( this->shape, integrationType ) )
+    for ( const auto& qpInfo :
+          Marmot::Discretizations::Elements::Quadrature::getQuadraturePointInfo( this->shape, integrationType ) )
       qps.emplace_back( XiSized( qpInfo.xi ), qpInfo.weight );
   }
 
@@ -382,20 +384,22 @@ namespace Marmot::Elements {
   }
 
   template < int nDim, int nNodes >
-  void CohesiveInterfaceElement< nDim, nNodes >::assignProperty( const ElementProperties& elementPropertiesInfo )
+  void CohesiveInterfaceElement< nDim, nNodes >::assignProperty(
+    const Marmot::Discretizations::ElementProperties& elementPropertiesInfo )
   {
     new ( &elementProperties ) Eigen::Map< const Eigen::VectorXd >( elementPropertiesInfo.elementProperties,
                                                                     elementPropertiesInfo.nElementProperties );
   }
 
   template < int nDim, int nNodes >
-  void CohesiveInterfaceElement< nDim, nNodes >::assignProperty( const MarmotMaterialSection& section )
+  void CohesiveInterfaceElement< nDim, nNodes >::assignProperty(
+    const Marmot::Discretizations::MaterialSection& section )
   {
-    material = std::unique_ptr< MarmotMaterialCohesive >(
-      MarmotLibrary::MarmotMaterialCohesiveFactory::createMaterial( section.materialName,
-                                                                    section.materialProperties,
-                                                                    section.nMaterialProperties,
-                                                                    elLabel ) );
+    material = std::unique_ptr< Marmot::Materials::MaterialCohesive >(
+      Marmot::Registry::MaterialCohesiveFactory::createMaterial( section.materialName,
+                                                                 section.materialProperties,
+                                                                 section.nMaterialProperties,
+                                                                 elLabel ) );
   }
 
   template < int nDim, int nNodes >
@@ -448,15 +452,15 @@ namespace Marmot::Elements {
       const VectorDim displacementJumpLocal          = qp.NJumpLocal * QTotal;
       const VectorDim displacementJumpIncrementLocal = qp.NJumpLocal * dQ;
 
-      MarmotMaterialCohesive::Response        response{ toMaterial( qpState.traction ),
-                                                 qpState.materialStateVars.data(),
-                                                 qpState.elasticEnergyDensity,
-                                                 qpState.dissipationDensity };
-      MarmotMaterialCohesive::Tangents        tangents;
-      const MarmotMaterialCohesive::Increment increment{ toMaterial( displacementJumpLocal ),
-                                                         toMaterial( displacementJumpIncrementLocal ),
-                                                         time,
-                                                         dT };
+      Marmot::Materials::MaterialCohesive::Response        response{ toMaterial( qpState.traction ),
+                                                              qpState.materialStateVars.data(),
+                                                              qpState.elasticEnergyDensity,
+                                                              qpState.dissipationDensity };
+      Marmot::Materials::MaterialCohesive::Tangents        tangents;
+      const Marmot::Materials::MaterialCohesive::Increment increment{ toMaterial( displacementJumpLocal ),
+                                                                      toMaterial( displacementJumpIncrementLocal ),
+                                                                      time,
+                                                                      dT };
 
       material->computeTraction( response, tangents, increment );
 
@@ -477,7 +481,7 @@ namespace Marmot::Elements {
   void CohesiveInterfaceElement< nDim, nNodes >::setInitialConditions( StateTypes state, const double* values )
   {
     switch ( state ) {
-    case MarmotElement::MarmotMaterialInitialization: {
+    case Marmot::Discretizations::Elements::Element::MarmotMaterialInitialization: {
       for ( QuadraturePoint& qp : qps ) {
         material->initializeYourself( qp.managedStateVars->materialStateVars.data(),
                                       qp.managedStateVars->materialStateVars.size() );
@@ -486,24 +490,26 @@ namespace Marmot::Elements {
     }
 
     default:
-      throw std::invalid_argument( MakeString() << __PRETTY_FUNCTION__
-                                                << ": invalid initial condition for CohesiveInterfaceElement" );
+      throw std::invalid_argument( Marmot::Utilities::MakeString()
+                                   << __PRETTY_FUNCTION__
+                                   << ": invalid initial condition for CohesiveInterfaceElement" );
     }
   }
 
   template < int nDim, int nNodes >
-  void CohesiveInterfaceElement< nDim, nNodes >::computeDistributedLoad( MarmotElement::DistributedLoadTypes,
-                                                                         double*,
-                                                                         double*,
-                                                                         const int,
-                                                                         const double*,
-                                                                         const double*,
-                                                                         double,
-                                                                         double )
+  void CohesiveInterfaceElement< nDim, nNodes >::computeDistributedLoad(
+    Marmot::Discretizations::Elements::Element::DistributedLoadTypes,
+    double*,
+    double*,
+    const int,
+    const double*,
+    const double*,
+    double,
+    double )
   {
-    throw std::invalid_argument( MakeString() << __PRETTY_FUNCTION__
-                                              << ": distributed loads are not implemented for "
-                                                 "CohesiveInterfaceElement." );
+    throw std::invalid_argument( Marmot::Utilities::MakeString() << __PRETTY_FUNCTION__
+                                                                 << ": distributed loads are not implemented for "
+                                                                    "CohesiveInterfaceElement." );
   }
 
   template < int nDim, int nNodes >
@@ -514,8 +520,9 @@ namespace Marmot::Elements {
                                                                    double,
                                                                    double )
   {
-    throw std::invalid_argument( MakeString() << __PRETTY_FUNCTION__
-                                              << ": body forces are not implemented for CohesiveInterfaceElement." );
+    throw std::invalid_argument( Marmot::Utilities::MakeString()
+                                 << __PRETTY_FUNCTION__
+                                 << ": body forces are not implemented for CohesiveInterfaceElement." );
   }
 
   template < int nDim, int nNodes >
@@ -547,7 +554,8 @@ namespace Marmot::Elements {
 
     // the parametric center: the centroid of a triangle, the origin of the bi-unit line and quadrilateral
     XiSized centerXi = XiSized::Zero();
-    if constexpr ( ParentGeometryElement::getInterfaceElementShape() == FiniteElement::ElementShapes::Tri3 )
+    if constexpr ( ParentGeometryElement::getInterfaceElementShape() ==
+                   Marmot::Discretizations::Elements::ElementShapes::Tri3 )
       centerXi.setConstant( 1. / 3 );
 
     Eigen::Map< VectorDim >( coords.data() ) = this->NMatrix( this->N( centerXi ) ) *
@@ -580,4 +588,4 @@ namespace Marmot::Elements {
 
   ///@}
 
-} // namespace Marmot::Elements
+} // namespace Marmot::Discretizations::Elements

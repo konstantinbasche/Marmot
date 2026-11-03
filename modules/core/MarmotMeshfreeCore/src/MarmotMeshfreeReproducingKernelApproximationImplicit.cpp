@@ -29,36 +29,35 @@
 #include <Eigen/src/Core/Matrix.h>
 #include <cmath>
 
-namespace Marmot::Meshfree {
-  MarmotMeshfreeReproducingKernelApproximationImplicit::MarmotMeshfreeReproducingKernelApproximationImplicit(
-    int dim,
-    int completenessOrder )
-    : MarmotMeshfreeReproducingKernelApproximation( dim, completenessOrder )
+namespace Marmot::Discretizations::Meshfree {
+  ReproducingKernelApproximationImplicit::ReproducingKernelApproximationImplicit( int dim, int completenessOrder )
+    : ReproducingKernelApproximation( dim, completenessOrder )
   {
   }
 
-  void MarmotMeshfreeReproducingKernelApproximationImplicit::computeShapeFunctionGradients(
-    const double*                                             coord,
-    const std::vector< const MarmotMeshfreeKernelFunction* >& kernelFunctions,
-    double*                                                   shapeFunctionValueGradients ) const
+  void ReproducingKernelApproximationImplicit::computeShapeFunctionGradients(
+    const double*                               coord,
+    const std::vector< const KernelFunction* >& kernelFunctions,
+    double*                                     shapeFunctionValueGradients ) const
   {
     throw std::runtime_error( "Not implemented" );
   }
 
-  void MarmotMeshfreeReproducingKernelApproximationImplicit::computeShapeFunctionsAndGradients(
-    const double*                                             coord,
-    const std::vector< const MarmotMeshfreeKernelFunction* >& kernelFunctionCandidates,
-    double*                                                   shapeFunctionValues_,
-    double*                                                   shapeFunctionValueGradients_ ) const
+  void ReproducingKernelApproximationImplicit::computeShapeFunctionsAndGradients(
+    const double*                               coord,
+    const std::vector< const KernelFunction* >& kernelFunctionCandidates,
+    double*                                     shapeFunctionValues_,
+    double*                                     shapeFunctionValueGradients_ ) const
   {
 
     const auto coveringKernelFunctionIndices = findCoveringKernelFunctionIndices( coord, kernelFunctionCandidates );
 
-    std::vector< const MarmotMeshfreeKernelFunction* > coveringKernelFunctions;
+    std::vector< const KernelFunction* > coveringKernelFunctions;
     for ( const auto& idx : coveringKernelFunctionIndices )
       coveringKernelFunctions.push_back( kernelFunctionCandidates[idx] );
 
-    const auto correctedCompletenessOrder = getCorrectedCompletenessOrder( coveringKernelFunctionIndices.size() );
+    const auto correctedCompletenessOrder = getCorrectedCompletenessOrder(
+      static_cast< int >( coveringKernelFunctionIndices.size() ) );
 
     const auto sizeH = Math::computeSizeOfMonomialBasisVector( correctedCompletenessOrder, _dim );
 
@@ -80,7 +79,7 @@ namespace Marmot::Meshfree {
 
     // solve for b(x)
     // b = M^-1 * H0
-    const auto H0 = H0Vector( M.rows() );
+    const auto H0 = H0Vector( static_cast< int >( M.rows() ) );
 
     using namespace Eigen;
 
@@ -101,7 +100,10 @@ namespace Marmot::Meshfree {
             H0Mat( k, 1 + i ) = -1.0;
     }
 
-    const Eigen::MatrixXd bMat = factorizeMomentMatrix( M, coord, coveringKernelFunctionIndices.size() ).solve( H0Mat );
+    const Eigen::MatrixXd bMat = factorizeMomentMatrix( M,
+                                                        coord,
+                                                        static_cast< int >( coveringKernelFunctionIndices.size() ) )
+                                   .solve( H0Mat );
 
     const VectorXd b0    = bMat.col( 0 );
     const MatrixXd bGrad = bMat.block( 0, 1, M.rows(), _dim );
@@ -120,4 +122,4 @@ namespace Marmot::Meshfree {
     }
   }
 
-}; // namespace Marmot::Meshfree
+}; // namespace Marmot::Discretizations::Meshfree

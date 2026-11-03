@@ -34,23 +34,23 @@
 #include "Marmot/NewmarkBetaIntegrator.h"
 #include <vector>
 
-/// the displacement material point of dimension nDim: DisplacementMaterialPoint2D (plane strain) or
-/// DisplacementMaterialPoint3D
-template < int nDim >
-using MaterialPointType = std::conditional_t< nDim == 2,
-                                              Marmot::MaterialPoints::DisplacementMaterialPoint2D,
-                                              Marmot::MaterialPoints::DisplacementMaterialPoint3D >;
+namespace Marmot::Discretizations::Meshfree {
 
-namespace Marmot::Meshfree {
+  /// the displacement material point of dimension nDim: DisplacementMaterialPoint2D (plane strain) or
+  /// DisplacementMaterialPoint3D
+  template < int nDim >
+  using MaterialPointType = std::conditional_t< nDim == 2,
+                                                Marmot::Discretizations::MaterialPoints::DisplacementMaterialPoint2D,
+                                                Marmot::Discretizations::MaterialPoints::DisplacementMaterialPoint3D >;
 
   /**
-   * @class Marmot::Meshfree::DisplacementParticle
+   * @class Marmot::Discretizations::Meshfree::DisplacementParticle
    * @brief RKPM particle of the finite-strain displacement formulation, integrated at its center (direct nodal
    * integration); registered as "Displacement/PlaneStrain/Point".
    *
    * @details The particle owns one DisplacementMaterialPoint (see MaterialPointType), which carries the kinematics and
-   * the state of a MarmotMaterialFiniteStrain; configurations and deformation gradients are those of the material
-   * point:
+   * the state of a Marmot::Materials::MaterialFiniteStrain; configurations and deformation gradients are those of the
+   * material point:
    * @f$ \boldsymbol{X} @f$ undeformed, @f$ \boldsymbol{Y} @f$ intermediate (last accepted state), @f$ \boldsymbol{x}
    * @f$ current, @f$ \boldsymbol{F} = \Delta\boldsymbol{F}\,\boldsymbol{F}_n @f$. The dofs @f$ \Delta q_{Bk} @f$ are
    * the increments of the current step at the nodes (kernel functions) of the particle. With the trial functions
@@ -81,7 +81,7 @@ namespace Marmot::Meshfree {
    * @tparam nDim Spatial dimension (2: plane strain, 3: 3D).
    */
   template < int nDim >
-  class DisplacementParticle : public Marmot::Meshfree::GenericParticle< nDim > {
+  class DisplacementParticle : public Marmot::Discretizations::Meshfree::GenericParticle< nDim > {
 
     using TensorD  = Fastor::Tensor< double, nDim >;       ///< vector of size nDim
     using TensorDD = Fastor::Tensor< double, nDim, nDim >; ///< second-order tensor of size nDim
@@ -154,11 +154,11 @@ namespace Marmot::Meshfree {
       return _supportedDistributedLoadTypes;
     };
 
-    static constexpr int nDofPerNodeU = nDim;            ///< dofs per node of the displacement field
+    static constexpr int nDofPerNodeU = nDim;                 ///< dofs per node of the displacement field
 
-    using Material = MarmotMaterialFiniteStrain;         ///< material interface consumed by the material point
+    using Material = Marmot::Materials::MaterialFiniteStrain; ///< material interface consumed by the material point
 
-    using ForceSized = Eigen::Matrix< double, nDim, 1 >; ///< a force vector
+    using ForceSized = Eigen::Matrix< double, nDim, 1 >;      ///< a force vector
 
     /**
      * @brief Sets all properties, in the order of getPropertyNames().
@@ -166,10 +166,11 @@ namespace Marmot::Meshfree {
      * @param[in] nProperties Number of values; must equal the number of property names.
      * @throws std::runtime_error if nProperties does not match.
      */
-    virtual void setProperties( const double* properties, int nProperties ) override
+    void setProperties( const double* properties, int nProperties ) override
     {
       // Combine property names from base and derived
-      std::vector< std::string > allPropertyNames = Marmot::Meshfree::GenericParticle< nDim >::getPropertyNames();
+      std::vector< std::string >
+        allPropertyNames = Marmot::Discretizations::Meshfree::GenericParticle< nDim >::getPropertyNames();
       allPropertyNames.insert( allPropertyNames.end(), _validProperties.begin(), _validProperties.end() );
 
       if ( nProperties != static_cast< int >( allPropertyNames.size() ) ) {
@@ -194,7 +195,7 @@ namespace Marmot::Meshfree {
      * @param[in] property Its value.
      * @throws std::runtime_error (from GenericParticle) for an unknown name.
      */
-    virtual void setProperty( const std::string& propertyName, const double* property ) override
+    void setProperty( const std::string& propertyName, const double* property ) override
     {
       if ( propertyName == "newmark-beta beta" ) {
         _newmark_beta = property[0];
@@ -204,7 +205,7 @@ namespace Marmot::Meshfree {
       }
       else {
         // If not a DisplacementParticle specific property, try the base class
-        Marmot::Meshfree::GenericParticle< nDim >::setProperty( propertyName, property );
+        Marmot::Discretizations::Meshfree::GenericParticle< nDim >::setProperty( propertyName, property );
       }
     };
 
@@ -212,9 +213,9 @@ namespace Marmot::Meshfree {
      * @brief Names of the properties.
      * @return "VCI order", "newmark-beta beta", "newmark-beta gamma".
      */
-    virtual std::vector< std::string > getPropertyNames() const override
+    std::vector< std::string > getPropertyNames() const override
     {
-      std::vector< std::string > names = Marmot::Meshfree::GenericParticle< nDim >::getPropertyNames();
+      std::vector< std::string > names = Marmot::Discretizations::Meshfree::GenericParticle< nDim >::getPropertyNames();
       names.insert( names.end(), _validProperties.begin(), _validProperties.end() );
       return names;
     };
@@ -223,7 +224,7 @@ namespace Marmot::Meshfree {
      * @brief Number of state variables: those of the material point, including the material state.
      * @return The number of state variables.
      */
-    virtual int getNumberOfRequiredStateVars() const override { return _mp->getNumberOfRequiredStateVars(); };
+    int getNumberOfRequiredStateVars() const override { return _mp->getNumberOfRequiredStateVars(); };
 
     /**
      * @brief Assigns the state vector to the material point.
@@ -239,13 +240,13 @@ namespace Marmot::Meshfree {
      * @brief Number of dofs per node.
      * @return nDim.
      */
-    virtual int getNBaseDof() const { return nDofPerNodeU; }
+    int getNBaseDof() const override { return nDofPerNodeU; }
 
     /**
      * @brief Node fields.
      * @return "displacement".
      */
-    virtual const std::vector< std::string >& getFields() const override
+    const std::vector< std::string >& getFields() const override
     {
       static const std::vector< std::string > nodeFields = { "displacement" };
       return nodeFields;
@@ -263,14 +264,14 @@ namespace Marmot::Meshfree {
      * @param[in] approximation The meshfree approximation for the shape functions.
      * @throws std::invalid_argument for a wrong number of coordinates or an unknown material.
      */
-    DisplacementParticle( int                                elementID,
-                          const double*                      nodeCoordinates,
-                          int                                nNodeCoordiantes,
-                          double                             volume,
-                          const std::string&                 materialName,
-                          const double*                      materialProperties,
-                          int                                nMaterialProperties,
-                          const MarmotMeshfreeApproximation& approximation );
+    DisplacementParticle( int                                                     elementID,
+                          const double*                                           nodeCoordinates,
+                          int                                                     nNodeCoordiantes,
+                          double                                                  volume,
+                          const std::string&                                      materialName,
+                          const double*                                           materialProperties,
+                          int                                                     nMaterialProperties,
+                          const Marmot::Discretizations::Meshfree::Approximation& approximation );
 
     /**
      * @brief Initializes the material point.
@@ -281,7 +282,7 @@ namespace Marmot::Meshfree {
      * @brief Accepts the increment: updates the material point, the intermediate volume
      * @f$ V_Y = V_0 \det\boldsymbol{F}_n @f$ and position, and the VCI monomial basis at the new position.
      */
-    virtual void acceptStateAndPosition() override
+    void acceptStateAndPosition() override
     {
       _mp->acceptStateAndPosition();
       _mp->prepareYourself( 0, 0 );
@@ -303,11 +304,7 @@ namespace Marmot::Meshfree {
      * @param[in] timeNew Time at the end of the increment.
      * @param[in] dT Time increment.
      */
-    virtual void computePhysicsKernels( const double* dQ,
-                                        double*       fInt,
-                                        double*       dFInt_ddQ,
-                                        double        timeNew,
-                                        double        dT ) override;
+    void computePhysicsKernels( const double* dQ, double* fInt, double* dFInt_ddQ, double timeNew, double dT ) override;
 
     /**
      * @brief Body load: a body force @f$ \boldsymbol{b} @f$ per unit undeformed volume (dead load),
@@ -321,12 +318,8 @@ namespace Marmot::Meshfree {
      * @param[in] dT Time increment.
      * @throws std::invalid_argument for another load type.
      */
-    virtual void computeBodyLoad( int           type,
-                                  const double* load,
-                                  double*       fExt,
-                                  double*       dExt_dQ,
-                                  double        timeNew,
-                                  double        dT ) const override;
+    void computeBodyLoad( int type, const double* load, double* fExt, double* dExt_dQ, double timeNew, double dT )
+      const override;
 
     /**
      * @brief Distributed load: a point particle has no faces, so there is none (see
@@ -340,25 +333,25 @@ namespace Marmot::Meshfree {
      * @param[in] timeNew Time at the end of the increment.
      * @param[in] dT Time increment.
      */
-    virtual void computeDistributedLoad( int           type,
-                                         int           surfaceID,
-                                         const double* load,
-                                         double*       fExt,
-                                         double*       dExt_dQ,
-                                         double        timeNew,
-                                         double        dT ) const override;
+    void computeDistributedLoad( int           type,
+                                 int           surfaceID,
+                                 const double* load,
+                                 double*       fExt,
+                                 double*       dExt_dQ,
+                                 double        timeNew,
+                                 double        dT ) const override;
 
     /**
      * @brief Lumped mass, @f$ m_{Ai} \mathrel{+}= \rho_0\,T_A\,V_0 @f$.
      * @param[in,out] mLumped Lumped mass vector (nDim values per node), the contribution is added.
      */
-    virtual void computeLumpedInertia( double* mLumped ) const override;
+    void computeLumpedInertia( double* mLumped ) const override;
 
     /**
      * @brief Lumped momentum, @f$ p_{Ai} \mathrel{+}= \rho_0\,T_A\,V_0\,v_i @f$.
      * @param[in,out] mLumped Lumped momentum vector (nDim values per node), the contribution is added.
      */
-    virtual void computeLumpedMomentum( double* mLumped ) const override;
+    void computeLumpedMomentum( double* mLumped ) const override;
 
     /**
      * @brief State of the material point (see DisplacementMaterialPoint::getStateView()).
@@ -366,7 +359,7 @@ namespace Marmot::Meshfree {
      * @param[in] qp Evaluation point (not used; the particle has a single material point).
      * @return The view on the state.
      */
-    virtual StateView getStateView( const std::string& stateName, int qp ) const override;
+    Marmot::Utilities::StateView getStateView( const std::string& stateName, int qp ) const override;
 
     // VCI methods are now in GenericParticle, but vci_compute_Test_P_BoundaryIntegral needs override
     // because it depends on dY_dX() which is physics-specific.
@@ -379,9 +372,9 @@ namespace Marmot::Meshfree {
      * @param[in] boundarySurfaceVector Boundary surface vector @f$ \boldsymbol{N}\,dA_0 @f$ (nDim values).
      * @param[in] boundaryFaceID Face ID (not used).
      */
-    virtual void vci_compute_Test_P_BoundaryIntegral( double*       R_AiC_RowMajor,
-                                                      const double* boundarySurfaceVector,
-                                                      int           boundaryFaceID ) override
+    void vci_compute_Test_P_BoundaryIntegral( double*       R_AiC_RowMajor,
+                                              const double* boundarySurfaceVector,
+                                              int           boundaryFaceID ) override
     {
       using namespace Fastor;
 
@@ -404,7 +397,7 @@ namespace Marmot::Meshfree {
      * @brief Volume in the undeformed configuration.
      * @return @f$ V_0 @f$ of the material point.
      */
-    virtual double getVolumeUndeformed() const { return _mp->getVolumeUndeformed(); };
+    double getVolumeUndeformed() const override { return _mp->getVolumeUndeformed(); };
 
     /**
      * @brief Initial conditions are forwarded to the material point, which supports none.
@@ -412,7 +405,7 @@ namespace Marmot::Meshfree {
      * @param[in] value Its values.
      * @throws std::invalid_argument always (from DisplacementMaterialPoint::setInitialCondition()).
      */
-    virtual void setInitialCondition( const std::string& conditionName, const double* value ) override
+    void setInitialCondition( const std::string& conditionName, const double* value ) override
     {
       _mp->setInitialCondition( conditionName, value );
     };
@@ -439,26 +432,26 @@ namespace Marmot::Meshfree {
   };
 
   template < int nDim >
-  StateView DisplacementParticle< nDim >::getStateView( const std::string& stateName, int qp ) const
+  Marmot::Utilities::StateView DisplacementParticle< nDim >::getStateView( const std::string& stateName, int qp ) const
   {
     return _mp->getStateView( stateName );
   }
 
   template < int nDim >
   DisplacementParticle< nDim >::DisplacementParticle(
-    int                                                  elementID,
-    const double*                                        centerCoordinates0,
-    int                                                  sizeCenterCoordinates0,
-    double                                               volume,
-    const std::string&                                   materialName,
-    const double*                                        materialProperties,
-    int                                                  nMaterialProperties,
-    const Marmot::Meshfree::MarmotMeshfreeApproximation& approximation )
-    : Marmot::Meshfree::GenericParticle< nDim >( elementID,
-                                                 centerCoordinates0,
-                                                 sizeCenterCoordinates0,
-                                                 volume,
-                                                 approximation ), // Call virtual base constructor
+    int                                                     elementID,
+    const double*                                           centerCoordinates0,
+    int                                                     sizeCenterCoordinates0,
+    double                                                  volume,
+    const std::string&                                      materialName,
+    const double*                                           materialProperties,
+    int                                                     nMaterialProperties,
+    const Marmot::Discretizations::Meshfree::Approximation& approximation )
+    : Marmot::Discretizations::Meshfree::GenericParticle< nDim >( elementID,
+                                                                  centerCoordinates0,
+                                                                  sizeCenterCoordinates0,
+                                                                  volume,
+                                                                  approximation ), // Call virtual base constructor
       _mp( std::make_unique< MaterialPointType< nDim > >( elementID,
                                                           Eigen::Map< const Eigen::Matrix< double, nDim, 1 > >(
                                                             centerCoordinates0 )
@@ -468,7 +461,7 @@ namespace Marmot::Meshfree {
       _newmark_beta( 0. ),
       _newmark_gamma( 0. )
   {
-    MarmotMaterialSection section( materialName, materialProperties, nMaterialProperties );
+    Marmot::Discretizations::MaterialSection section( materialName, materialProperties, nMaterialProperties );
 
     _mp->assignMaterial( section );
   }
@@ -481,7 +474,7 @@ namespace Marmot::Meshfree {
                                                             double        dT )
   {
 
-    using namespace Marmot::FastorIndices;
+    using namespace Marmot::Math::Tensors::FastorIndices;
     using namespace Fastor;
     using to_jk = Fastor::OIndex< j_, k_ >;
 
@@ -518,13 +511,13 @@ namespace Marmot::Meshfree {
     auto a = _mp->getAcceleration();
 
     Tensor< double, nDim, nDim > da_ddu( 0.0 );
-    Marmot::TimeIntegration::newmarkBetaIntegration< nDim >( du.data(),
-                                                             v.data(),
-                                                             a.data(),
-                                                             dT,
-                                                             this->_newmark_beta,
-                                                             this->_newmark_gamma,
-                                                             da_ddu.data() );
+    Marmot::ContinuumMechanics::TimeIntegration::newmarkBetaIntegration< nDim >( du.data(),
+                                                                                 v.data(),
+                                                                                 a.data(),
+                                                                                 dT,
+                                                                                 this->_newmark_beta,
+                                                                                 this->_newmark_gamma,
+                                                                                 da_ddu.data() );
     _mp->setVelocity( v );
     _mp->setAcceleration( a );
 
@@ -596,7 +589,7 @@ namespace Marmot::Meshfree {
                                                              double        timeNew,
                                                              double        dT ) const
   {
-    throw std::invalid_argument( MakeString()
+    throw std::invalid_argument( Marmot::Utilities::MakeString()
                                  << __PRETTY_FUNCTION__ << ": a point particle has no faces for a distributed load" );
   }
 
@@ -616,7 +609,9 @@ namespace Marmot::Meshfree {
           fExt[nDofPerNodeU * A + i] -= this->_T( A ) * load[i] * V0;
       break;
     }
-    default: throw std::invalid_argument( MakeString() << __PRETTY_FUNCTION__ << ": invalid body load type" );
+    default:
+      throw std::invalid_argument( Marmot::Utilities::MakeString()
+                                   << __PRETTY_FUNCTION__ << ": invalid body load type" );
     }
   }
 
@@ -653,4 +648,4 @@ namespace Marmot::Meshfree {
     }
   }
 
-} // namespace Marmot::Meshfree
+} // namespace Marmot::Discretizations::Meshfree

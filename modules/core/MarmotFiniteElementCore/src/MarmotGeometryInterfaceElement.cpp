@@ -16,9 +16,10 @@ using namespace Eigen;
  * @return the two shape functions of the line
  */
 template <>
-MarmotGeometryInterfaceElement< 2, 4 >::NSized MarmotGeometryInterfaceElement< 2, 4 >::N( const XiSized& xi ) const
+Marmot::Discretizations::Elements::GeometryInterfaceElement< 2, 4 >::NSized Marmot::Discretizations::Elements::
+  GeometryInterfaceElement< 2, 4 >::N( const XiSized& xi ) const
 {
-  return Marmot::FiniteElement::Spatial1D::Bar2::N( xi( 0 ) );
+  return Marmot::Discretizations::Elements::Spatial1D::Bar2::N( xi( 0 ) );
 }
 
 // IQuad4:
@@ -31,9 +32,10 @@ MarmotGeometryInterfaceElement< 2, 4 >::NSized MarmotGeometryInterfaceElement< 2
  * @return the four shape functions of the quadrilateral
  */
 template <>
-MarmotGeometryInterfaceElement< 3, 8 >::NSized MarmotGeometryInterfaceElement< 3, 8 >::N( const XiSized& xi ) const
+Marmot::Discretizations::Elements::GeometryInterfaceElement< 3, 8 >::NSized Marmot::Discretizations::Elements::
+  GeometryInterfaceElement< 3, 8 >::N( const XiSized& xi ) const
 {
-  return Marmot::FiniteElement::Spatial2D::Quad4::N( xi );
+  return Marmot::Discretizations::Elements::Spatial2D::Quad4::N( xi );
 }
 
 // ITri3:
@@ -46,9 +48,10 @@ MarmotGeometryInterfaceElement< 3, 8 >::NSized MarmotGeometryInterfaceElement< 3
  * @return the three shape functions of the triangle
  */
 template <>
-MarmotGeometryInterfaceElement< 3, 6 >::NSized MarmotGeometryInterfaceElement< 3, 6 >::N( const XiSized& xi ) const
+Marmot::Discretizations::Elements::GeometryInterfaceElement< 3, 6 >::NSized Marmot::Discretizations::Elements::
+  GeometryInterfaceElement< 3, 6 >::N( const XiSized& xi ) const
 {
-  return Marmot::FiniteElement::Spatial2D::Tri3::N( xi );
+  return Marmot::Discretizations::Elements::Spatial2D::Tri3::N( xi );
 }
 
 /* -------------------------------------------------------------------------- */
@@ -64,10 +67,10 @@ MarmotGeometryInterfaceElement< 3, 6 >::NSized MarmotGeometryInterfaceElement< 3
  * @return the derivatives of the two shape functions with respect to the line coordinate
  */
 template <>
-MarmotGeometryInterfaceElement< 2, 4 >::dNdXiSized MarmotGeometryInterfaceElement< 2, 4 >::dNdXi(
-  const XiSized& xi ) const
+Marmot::Discretizations::Elements::GeometryInterfaceElement< 2, 4 >::dNdXiSized Marmot::Discretizations::Elements::
+  GeometryInterfaceElement< 2, 4 >::dNdXi( const XiSized& xi ) const
 {
-  return Marmot::FiniteElement::Spatial1D::Bar2::dNdXi( xi( 0 ) );
+  return Marmot::Discretizations::Elements::Spatial1D::Bar2::dNdXi( xi( 0 ) );
 }
 
 // IQuad4:
@@ -79,10 +82,10 @@ MarmotGeometryInterfaceElement< 2, 4 >::dNdXiSized MarmotGeometryInterfaceElemen
  * @return the derivatives of the four shape functions with respect to the surface coordinates
  */
 template <>
-MarmotGeometryInterfaceElement< 3, 8 >::dNdXiSized MarmotGeometryInterfaceElement< 3, 8 >::dNdXi(
-  const XiSized& xi ) const
+Marmot::Discretizations::Elements::GeometryInterfaceElement< 3, 8 >::dNdXiSized Marmot::Discretizations::Elements::
+  GeometryInterfaceElement< 3, 8 >::dNdXi( const XiSized& xi ) const
 {
-  return Marmot::FiniteElement::Spatial2D::Quad4::dNdXi( xi );
+  return Marmot::Discretizations::Elements::Spatial2D::Quad4::dNdXi( xi );
 }
 
 // ITri3:
@@ -94,16 +97,16 @@ MarmotGeometryInterfaceElement< 3, 8 >::dNdXiSized MarmotGeometryInterfaceElemen
  * @return the derivatives of the three shape functions with respect to the surface coordinates
  */
 template <>
-MarmotGeometryInterfaceElement< 3, 6 >::dNdXiSized MarmotGeometryInterfaceElement< 3, 6 >::dNdXi(
-  const XiSized& xi ) const
+Marmot::Discretizations::Elements::GeometryInterfaceElement< 3, 6 >::dNdXiSized Marmot::Discretizations::Elements::
+  GeometryInterfaceElement< 3, 6 >::dNdXi( const XiSized& xi ) const
 {
-  return Marmot::FiniteElement::Spatial2D::Tri3::dNdXi( xi );
+  return Marmot::Discretizations::Elements::Spatial2D::Tri3::dNdXi( xi );
 }
 
 /* -------------------------------------------------------------------------- */
 /* Explicit template instantiation                                            */
 /* -------------------------------------------------------------------------- */
 
-template class MarmotGeometryInterfaceElement< 2, 4 >;
-template class MarmotGeometryInterfaceElement< 3, 8 >;
-template class MarmotGeometryInterfaceElement< 3, 6 >;
+template class Marmot::Discretizations::Elements::GeometryInterfaceElement< 2, 4 >;
+template class Marmot::Discretizations::Elements::GeometryInterfaceElement< 3, 8 >;
+template class Marmot::Discretizations::Elements::GeometryInterfaceElement< 3, 6 >;

@@ -14,7 +14,7 @@
 
 using namespace Marmot;
 using namespace Marmot::Testing;
-using namespace Marmot::Elements;
+using namespace Marmot::Discretizations::Elements;
 
 namespace {
 
@@ -23,10 +23,10 @@ namespace {
    * The element holds ONE material for all quadrature points, so the length of the current point
    * has to be installed before each evaluation; this material makes that observable.
    */
-  class LengthRecordingInterfaceMaterial : public MarmotInterfaceMaterialHypoElastic {
+  class LengthRecordingInterfaceMaterial : public Marmot::Materials::InterfaceMaterialHypoElastic {
   public:
     LengthRecordingInterfaceMaterial()
-      : MarmotInterfaceMaterialHypoElastic( "LINEARELASTIC", materialProperties.data(), 3, 0 )
+      : Marmot::Materials::InterfaceMaterialHypoElastic( "LINEARELASTIC", materialProperties.data(), 3, 0 )
     {
     }
 
@@ -38,22 +38,23 @@ namespace {
                         const TimeIncrement& timeIncrement ) override
     {
       seenLengths.push_back( characteristicElementLength );
-      MarmotInterfaceMaterialHypoElastic::computeStress( state, tangents, deformation, timeIncrement );
+      Marmot::Materials::InterfaceMaterialHypoElastic::computeStress( state, tangents, deformation, timeIncrement );
     }
 
   private:
     inline static const std::array< double, 3 > materialProperties = { 4000.0, 0.3, 0.01 };
   };
 
-  class FailingInterfaceMaterial : public MarmotInterfaceMaterialHypoElastic {
+  class FailingInterfaceMaterial : public Marmot::Materials::InterfaceMaterialHypoElastic {
   public:
-    FailingInterfaceMaterial() : MarmotInterfaceMaterialHypoElastic( "LINEARELASTIC", materialProperties.data(), 3, 0 )
+    FailingInterfaceMaterial()
+      : Marmot::Materials::InterfaceMaterialHypoElastic( "LINEARELASTIC", materialProperties.data(), 3, 0 )
     {
     }
 
     void computeStress( State&, Tangents&, const Deformation&, const TimeIncrement& ) override
     {
-      throw Marmot::StressUpdateFailed( "Deliberate interface-material update failure." );
+      throw Marmot::Utilities::StressUpdateFailed( "Deliberate interface-material update failure." );
     }
 
   private:
@@ -79,7 +80,7 @@ namespace {
     constexpr int nNodes = 8;
 
     const int  elId    = 3;
-    const auto intType = FiniteElement::Quadrature::IntegrationTypes::FullIntegration;
+    const auto intType = Marmot::Discretizations::Elements::Quadrature::IntegrationTypes::FullIntegration;
     const auto secType = InterfaceFiniteElement< nDim, nNodes >::SectionType::Interface;
 
     auto element = std::make_unique< InterfaceFiniteElement< nDim, nNodes > >( elId, intType, secType );
@@ -93,12 +94,14 @@ namespace {
     };
     element->assignNodeCoordinates( coordinates.data() );
 
-    static std::array< double, 1 > elPropsVec = { 1.0 };
-    ElementProperties              elProps( elPropsVec.data(), static_cast< int >( elPropsVec.size() ) );
+    static std::array< double, 1 >             elPropsVec = { 1.0 };
+    Marmot::Discretizations::ElementProperties elProps( elPropsVec.data(), static_cast< int >( elPropsVec.size() ) );
     element->assignProperty( elProps );
 
     static std::array< double, 8 > materialProperties = { 4000.0, 0.30, 0.01, 1.06e-3, 0.334, 12, 1.0e-2, 1 };
-    element->assignMaterial( "LINEARVISCOELASTICPOWERLAW", materialProperties.data(), materialProperties.size() );
+    element->assignMaterial( "LINEARVISCOELASTICPOWERLAW",
+                             materialProperties.data(),
+                             static_cast< int >( materialProperties.size() ) );
     return element;
   }
 
@@ -108,7 +111,7 @@ namespace {
     constexpr int nNodes = 4;
 
     const int  elId    = 2;
-    const auto intType = FiniteElement::Quadrature::IntegrationTypes::FullIntegration;
+    const auto intType = Marmot::Discretizations::Elements::Quadrature::IntegrationTypes::FullIntegration;
     const auto secType = InterfaceFiniteElement< nDim, nNodes >::SectionType::Interface;
 
     auto element = std::make_unique< InterfaceFiniteElement< nDim, nNodes > >( elId, intType, secType );
@@ -125,12 +128,14 @@ namespace {
     };
     element->assignNodeCoordinates( coordinates.data() );
 
-    static std::array< double, 1 > elPropsVec = { 1.0 };
-    ElementProperties              elProps( elPropsVec.data(), static_cast< int >( elPropsVec.size() ) );
+    static std::array< double, 1 >             elPropsVec = { 1.0 };
+    Marmot::Discretizations::ElementProperties elProps( elPropsVec.data(), static_cast< int >( elPropsVec.size() ) );
     element->assignProperty( elProps );
 
     static std::array< double, 3 > materialProperties = { 1000.0, 0.25, 0.1 };
-    element->assignMaterial( "LINEARELASTIC", materialProperties.data(), materialProperties.size() );
+    element->assignMaterial( "LINEARELASTIC",
+                             materialProperties.data(),
+                             static_cast< int >( materialProperties.size() ) );
 
     return element;
   }
@@ -141,7 +146,7 @@ namespace {
     stateVars.assign( element.getNumberOfRequiredStateVars(), 0.0 );
     element.assignStateVars( stateVars.data(), static_cast< int >( stateVars.size() ) );
     element.initializeYourself();
-    element.setInitialConditions( MarmotElement::MarmotMaterialInitialization, nullptr );
+    element.setInitialConditions( Marmot::Discretizations::Elements::Element::MarmotMaterialInitialization, nullptr );
   }
 
   void TestMaterialInitializationResetsMaterialState()
@@ -149,7 +154,7 @@ namespace {
     constexpr int nDim   = 3;
     constexpr int nNodes = 8;
 
-    const auto intType = FiniteElement::Quadrature::IntegrationTypes::FullIntegration;
+    const auto intType = Marmot::Discretizations::Elements::Quadrature::IntegrationTypes::FullIntegration;
     auto       element = std::make_unique< InterfaceFiniteElement< nDim, nNodes > >( 3, intType );
 
     static std::array< double, nDim* nNodes > coordinates = {
@@ -158,21 +163,24 @@ namespace {
     };
     element->assignNodeCoordinates( coordinates.data() );
 
-    static std::array< double, 1 > elementProperties = { 1.0 };
-    ElementProperties              properties( elementProperties.data(), elementProperties.size() );
+    static std::array< double, 1 >             elementProperties = { 1.0 };
+    Marmot::Discretizations::ElementProperties properties( elementProperties.data(),
+                                                           static_cast< int >( elementProperties.size() ) );
     element->assignProperty( properties );
 
     static std::array< double, 8 > materialProperties = { 4000.0, 0.30, 0.01, 1.06e-3, 0.334, 12, 1.0e-2, 1 };
-    element->assignMaterial( "LINEARVISCOELASTICPOWERLAW", materialProperties.data(), materialProperties.size() );
+    element->assignMaterial( "LINEARVISCOELASTICPOWERLAW",
+                             materialProperties.data(),
+                             static_cast< int >( materialProperties.size() ) );
 
     std::vector< double > stateVars( element->getNumberOfRequiredStateVars(), 0.0 );
-    element->assignStateVars( stateVars.data(), stateVars.size() );
+    element->assignStateVars( stateVars.data(), static_cast< int >( stateVars.size() ) );
 
     for ( auto& qp : element->qps ) {
       qp.managedStateVars->materialStateVars.setOnes();
     }
 
-    element->setInitialConditions( MarmotElement::MarmotMaterialInitialization, nullptr );
+    element->setInitialConditions( Marmot::Discretizations::Elements::Element::MarmotMaterialInitialization, nullptr );
 
     for ( const auto& qp : element->qps ) {
       throwExceptionOnFailure( qp.managedStateVars->materialStateVars.isZero(),
@@ -186,7 +194,7 @@ namespace {
     constexpr int nNodes       = 8;
     constexpr int nElementDofs = nDim * nNodes;
 
-    const auto intType = FiniteElement::Quadrature::IntegrationTypes::FullIntegration;
+    const auto intType = Marmot::Discretizations::Elements::Quadrature::IntegrationTypes::FullIntegration;
     auto       element = std::make_unique< InterfaceFiniteElement< nDim, nNodes > >( 3, intType );
 
     std::array< double, nElementDofs * nElementDofs > consistentInertia{};
@@ -219,7 +227,7 @@ namespace {
     auto element = makeSingleInputFileInterfaceElement();
 
     std::vector< double > stateVars( element->getNumberOfRequiredStateVars(), 0.0 );
-    element->assignStateVars( stateVars.data(), stateVars.size() );
+    element->assignStateVars( stateVars.data(), static_cast< int >( stateVars.size() ) );
     element->initializeYourself();
 
     element->material = std::make_unique< FailingInterfaceMaterial >();
@@ -234,11 +242,12 @@ namespace {
     try {
       element->computeKernels( QTotal.data(), dQ.data(), Pe.data(), Ke.data(), time[0], 1.0 );
     }
-    catch ( const Marmot::StressUpdateFailed& ) {
+    catch ( const Marmot::Utilities::StressUpdateFailed& ) {
       stressUpdateFailed = true;
     }
 
-    throwExceptionOnFailure( stressUpdateFailed, "InterfaceFiniteElement did not propagate StressUpdateFailed." );
+    throwExceptionOnFailure( stressUpdateFailed,
+                             "InterfaceFiniteElement did not propagate Marmot::Utilities::StressUpdateFailed." );
   }
 
   template < typename QuadraturePointType >
@@ -276,9 +285,19 @@ namespace {
 
       const int nTensor = static_cast< int >( Bside.rows() );
 
+#if defined( __GNUC__ ) && !defined( __clang__ )
+// GCC's -Warray-bounds misfires on Eigen's AVX packet loops over a runtime-sized block of a small
+// fixed-size operand: the out-of-range packet lanes are dead at runtime, but GCC cannot prove it
+// (observed with GCC 14 at x86-64-v3).
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Warray-bounds"
+#endif
       Eigen::VectorXd dUGp( 2 * nDim );
       dUGp.segment( 0, nDim )    = Nside * dU.segment( halfNDof, halfNDof );
       dUGp.segment( nDim, nDim ) = Nside * dU.segment( 0, halfNDof );
+#if defined( __GNUC__ ) && !defined( __clang__ )
+#  pragma GCC diagnostic pop
+#endif
 
       Eigen::VectorXd dSurfaceStrainGp( 2 * nTensor );
       dSurfaceStrainGp.segment( 0, nTensor )       = Bside * dU.segment( halfNDof, halfNDof );
@@ -292,7 +311,7 @@ namespace {
       Eigen::MatrixXd H   = Eigen::MatrixXd::Zero( nDim, nTensor );
       Eigen::MatrixXd Y   = Eigen::MatrixXd::Zero( nTensor, nTensor );
 
-      using Material = MarmotInterfaceMaterialHypoElastic;
+      using Material = Marmot::Materials::InterfaceMaterialHypoElastic;
 
       Material::State         state{ Material::Tensor3d( force.data() ),
                              Material::Tensor33d( surfaceStress.data() ),
@@ -307,12 +326,12 @@ namespace {
       Material::TimeIncrement timeIncrement{ time[0], dT };
       element.material->computeStress( state, tangents, deformation, timeIncrement );
 
-      force         = mapEigenToFastor( state.force );
+      force         = Marmot::Math::Tensors::mapEigenToFastor( state.force );
       surfaceStress = Eigen::Map< const Eigen::VectorXd >( state.surfaceStress.data(), surfaceStress.size() );
-      Qij           = mapEigenToFastor( tangents.Q_ij );
-      Z             = mapEigenToFastor( tangents.Z_ijkl );
-      H             = mapEigenToFastor( tangents.H_ijk );
-      Y             = mapEigenToFastor( tangents.Y_ijkl );
+      Qij           = Marmot::Math::Tensors::mapEigenToFastor( tangents.Q_ij );
+      Z             = Marmot::Math::Tensors::mapEigenToFastor( tangents.Z_ijkl );
+      H             = Marmot::Math::Tensors::mapEigenToFastor( tangents.H_ijk );
+      Y             = Marmot::Math::Tensors::mapEigenToFastor( tangents.Y_ijkl );
 
       const double J0xW = integrationWeight( qp );
 
@@ -430,7 +449,7 @@ void TestSurfaceGradientOperatorProjectsOnlyGradientDirection()
 
   // BSurfaceMatrix must build grad_s u = grad(u) . T: the GRADIENT DIRECTION is projected onto the
   // tangent plane, the DISPLACEMENT COMPONENT is not. That keeps the in-plane derivative of the normal
-  // displacement, which MarmotInterfaceMaterialHypoElastic needs for the thin-layer gradient
+  // displacement, which Marmot::Materials::InterfaceMaterialHypoElastic needs for the thin-layer gradient
   // grad(u) = (1/h) [u] (x) n + <grad_s u>. The same formula must hold for every nDim, so that a
   // plane-strain model and its 3D extrusion see the same surface strain.
   auto checkOperator = [&]( const auto& element, int nDim, int nInterfaceNodes, const std::string& label ) {
@@ -491,14 +510,15 @@ void TestSurfaceGradientOperatorProjectsOnlyGradientDirection()
 
     auto element = std::make_unique<
       InterfaceFiniteElement< nDim, nNodes > >( 1,
-                                                FiniteElement::Quadrature::IntegrationTypes::FullIntegration,
+                                                Marmot::Discretizations::Elements::Quadrature::IntegrationTypes::
+                                                  FullIntegration,
                                                 InterfaceFiniteElement< nDim, nNodes >::SectionType::Interface );
 
     static std::array< double, nDim* nNodes > nodeCoordsVec = { 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0 };
     element->assignNodeCoordinates( nodeCoordsVec.data() );
 
-    static std::array< double, 1 > elPropsVec = { 1.0 };
-    ElementProperties              elProps( elPropsVec.data(), static_cast< int >( elPropsVec.size() ) );
+    static std::array< double, 1 >             elPropsVec = { 1.0 };
+    Marmot::Discretizations::ElementProperties elProps( elPropsVec.data(), static_cast< int >( elPropsVec.size() ) );
     element->assignProperty( elProps );
 
     element->initializeYourself();
@@ -817,7 +837,7 @@ void TestTwoDimensionalInterfaceElementComputesWithEmbeddedMaterial()
 
     std::vector< double > materialStateVars( qp.managedStateVars->materialStateVars.size(), 0.0 );
 
-    using Material = MarmotInterfaceMaterialHypoElastic;
+    using Material = Marmot::Materials::InterfaceMaterialHypoElastic;
 
     Material::State         materialState{ Material::Tensor3d( force3d.data() ),
                                    Material::Tensor33d( surfaceStress3d.data() ),
@@ -832,12 +852,12 @@ void TestTwoDimensionalInterfaceElementComputesWithEmbeddedMaterial()
     Material::TimeIncrement materialTimeIncrement{ time, dT };
     element->material->computeStress( materialState, materialTangents, materialDeformation, materialTimeIncrement );
 
-    force3d         = mapEigenToFastor( materialState.force );
+    force3d         = Marmot::Math::Tensors::mapEigenToFastor( materialState.force );
     surfaceStress3d = Eigen::Map< const Eigen::Matrix< double, 9, 1 > >( materialState.surfaceStress.data() );
-    Q3d             = mapEigenToFastor( materialTangents.Q_ij );
-    Z3d             = mapEigenToFastor( materialTangents.Z_ijkl );
-    H3d             = mapEigenToFastor( materialTangents.H_ijk );
-    Y3d             = mapEigenToFastor( materialTangents.Y_ijkl );
+    Q3d             = Marmot::Math::Tensors::mapEigenToFastor( materialTangents.Q_ij );
+    Z3d             = Marmot::Math::Tensors::mapEigenToFastor( materialTangents.Z_ijkl );
+    H3d             = Marmot::Math::Tensors::mapEigenToFastor( materialTangents.H_ijk );
+    Y3d             = Marmot::Math::Tensors::mapEigenToFastor( materialTangents.Y_ijkl );
 
     Eigen::Matrix< double, nDim, 1 >                           force2d;
     Eigen::Matrix< double, nTensor, 1 >                        surfaceStress2d;
@@ -918,7 +938,7 @@ void TestAngledInterfaceKinematics()
   constexpr int nNodes = 4;
 
   const int  elId    = 1;
-  const auto intType = FiniteElement::Quadrature::IntegrationTypes::FullIntegration;
+  const auto intType = Marmot::Discretizations::Elements::Quadrature::IntegrationTypes::FullIntegration;
   const auto secType = InterfaceFiniteElement< nDim, nNodes >::SectionType::Interface;
 
   auto element = std::make_unique< InterfaceFiniteElement< nDim, nNodes > >( elId, intType, secType );
@@ -927,8 +947,8 @@ void TestAngledInterfaceKinematics()
 
   element->assignNodeCoordinates( nodeCoordsVec.data() );
 
-  static std::array< double, 1 > elPropsVec = { 1.0 };
-  ElementProperties              elProps( elPropsVec.data(), static_cast< int >( elPropsVec.size() ) );
+  static std::array< double, 1 >             elPropsVec = { 1.0 };
+  Marmot::Discretizations::ElementProperties elProps( elPropsVec.data(), static_cast< int >( elPropsVec.size() ) );
   element->assignProperty( elProps );
 
   element->initializeYourself();
@@ -958,7 +978,8 @@ void TestSharedMaterialSeesEachQuadraturePointCharacteristicLength()
   // update. This trapezoid makes sqrtDetG vary across the points.
   auto element = std::make_unique<
     InterfaceFiniteElement< nDim, nNodes > >( 7,
-                                              FiniteElement::Quadrature::IntegrationTypes::FullIntegration,
+                                              Marmot::Discretizations::Elements::Quadrature::IntegrationTypes::
+                                                FullIntegration,
                                               InterfaceFiniteElement< nDim, nNodes >::SectionType::Interface );
 
   static std::array< double, nDim* nNodes > coordinates = {
@@ -968,17 +989,19 @@ void TestSharedMaterialSeesEachQuadraturePointCharacteristicLength()
   };
   element->assignNodeCoordinates( coordinates.data() );
 
-  static std::array< double, 1 > elPropsVec = { 1.0 };
-  ElementProperties              elProps( elPropsVec.data(), static_cast< int >( elPropsVec.size() ) );
+  static std::array< double, 1 >             elPropsVec = { 1.0 };
+  Marmot::Discretizations::ElementProperties elProps( elPropsVec.data(), static_cast< int >( elPropsVec.size() ) );
   element->assignProperty( elProps );
 
   static std::array< double, 3 > materialProperties = { 4000.0, 0.3, 0.01 };
-  element->assignMaterial( "LINEARELASTIC", materialProperties.data(), materialProperties.size() );
+  element->assignMaterial( "LINEARELASTIC",
+                           materialProperties.data(),
+                           static_cast< int >( materialProperties.size() ) );
 
   std::vector< double > stateVars( element->getNumberOfRequiredStateVars(), 0.0 );
   element->assignStateVars( stateVars.data(), static_cast< int >( stateVars.size() ) );
   element->initializeYourself();
-  element->setInitialConditions( MarmotElement::MarmotMaterialInitialization, nullptr );
+  element->setInitialConditions( Marmot::Discretizations::Elements::Element::MarmotMaterialInitialization, nullptr );
 
   std::vector< double > expectedLengths;
   for ( const auto& qp : element->qps )
@@ -1045,7 +1068,8 @@ void TestElementShapeKeywordsAreEnSightNames()
 
     auto element = std::make_unique<
       InterfaceFiniteElement< nDim, nNodes > >( 1,
-                                                FiniteElement::Quadrature::IntegrationTypes::FullIntegration,
+                                                Marmot::Discretizations::Elements::Quadrature::IntegrationTypes::
+                                                  FullIntegration,
                                                 InterfaceFiniteElement< nDim, nNodes >::SectionType::Interface );
 
     throwExceptionOnFailure( element->getElementShape() == "quad4",
@@ -1139,11 +1163,16 @@ void checkUnsupportedOperationsThrow( ElementType& element )
     return false;
   };
 
-  throwExceptionOnFailure( throwsInvalidArgument(
-                             [&] { element.setInitialConditions( MarmotElement::MarmotMaterialStateVars, nullptr ); } ),
+  throwExceptionOnFailure( throwsInvalidArgument( [&] {
+                             element.setInitialConditions( Marmot::Discretizations::Elements::Element::
+                                                             MarmotMaterialStateVars,
+                                                           nullptr );
+                           } ),
                            "Setting material state variables through the element must be rejected." );
-  throwExceptionOnFailure( throwsInvalidArgument(
-                             [&] { element.setInitialConditions( MarmotElement::GeostaticStress, nullptr ); } ),
+  throwExceptionOnFailure( throwsInvalidArgument( [&] {
+                             element.setInitialConditions( Marmot::Discretizations::Elements::Element::GeostaticStress,
+                                                           nullptr );
+                           } ),
                            "A geostatic stress state is not an interface initial condition." );
 
   const int                     nDofs = element.getNDofPerElement();
@@ -1152,7 +1181,7 @@ void checkUnsupportedOperationsThrow( ElementType& element )
   const std::array< double, 3 > load = { 0., 0., 0. };
 
   throwExceptionOnFailure( throwsInvalidArgument( [&] {
-                             element.computeDistributedLoad( MarmotElement::Pressure,
+                             element.computeDistributedLoad( Marmot::Discretizations::Elements::Element::Pressure,
                                                              P.data(),
                                                              K.data(),
                                                              1,
@@ -1195,14 +1224,18 @@ template < int nDim, int nNodes >
 void checkMaterialAssignmentThroughSection( const std::array< double, nDim * nNodes >& coordinates )
 {
   auto element = std::make_unique<
-    InterfaceFiniteElement< nDim, nNodes > >( 7, FiniteElement::Quadrature::IntegrationTypes::FullIntegration );
+    InterfaceFiniteElement< nDim, nNodes > >( 7,
+                                              Marmot::Discretizations::Elements::Quadrature::IntegrationTypes::
+                                                FullIntegration );
   element->assignNodeCoordinates( coordinates.data() );
 
   throwExceptionOnFailure( element->getNumberOfRequiredStateVars() > 0,
                            "The state-variable count must be available before a material is assigned." );
 
-  const std::array< double, 8 > properties = { 4000.0, 0.30, 0.01, 1.06e-3, 0.334, 12, 1.0e-2, 1 };
-  const MarmotMaterialSection   section( "LINEARVISCOELASTICPOWERLAW", properties.data(), properties.size() );
+  const std::array< double, 8 >                  properties = { 4000.0, 0.30, 0.01, 1.06e-3, 0.334, 12, 1.0e-2, 1 };
+  const Marmot::Discretizations::MaterialSection section( "LINEARVISCOELASTICPOWERLAW",
+                                                          properties.data(),
+                                                          static_cast< int >( properties.size() ) );
   element->assignProperty( section );
 
   throwExceptionOnFailure( element->material != nullptr, "A material section must create the interface material." );
@@ -1277,7 +1310,8 @@ void TestFactoryCreatesRegisteredInterfaceElements()
 
   const std::pair< std::string, std::string > registered[] = { { "IQUAD4", "hexa8" }, { "ILINE2", "quad4" } };
   for ( const auto& [name, shape] : registered ) {
-    std::unique_ptr< MarmotElement > element( MarmotLibrary::MarmotElementFactory::createElement( name, 1 ) );
+    std::unique_ptr< Marmot::Discretizations::Elements::Element > element(
+      Marmot::Registry::ElementFactory::createElement( name, 1 ) );
     throwExceptionOnFailure( element != nullptr, name + " is not registered with the element factory." );
     throwExceptionOnFailure( element->getElementShape() == shape,
                              name + " reports the wrong result-file shape: " + element->getElementShape() );

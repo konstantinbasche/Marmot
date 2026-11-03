@@ -5,7 +5,7 @@
 
 using namespace Marmot;
 using namespace Marmot::Testing;
-using namespace Marmot::FiniteElement;
+using namespace Marmot::Discretizations::Elements;
 
 // ---------------------------------------------------------------------------------------------
 // getElementShapeByMetric()
@@ -59,11 +59,11 @@ void testGetElementShapeByMetricThrowsForInvalidCombinations()
 
 void testDynamicNBMatchesTemplatedNBForQuad4()
 {
-  MarmotGeometryElement< 2, 4 > geo;
-  const auto                    N = geo.N( Eigen::Vector2d( 0.2, 0.3 ) ); // NSized = Matrix<double,1,4>
+  Marmot::Discretizations::Elements::GeometryElement< 2, 4 > geo;
+  const auto N = geo.N( Eigen::Vector2d( 0.2, 0.3 ) ); // NSized = Matrix<double,1,4>
 
-  const auto templatedResult = Marmot::FiniteElement::NB< 2, 4 >( N );
-  const auto dynamicResult   = Marmot::FiniteElement::NB( Eigen::VectorXd( N.transpose() ), 2 );
+  const auto templatedResult = Marmot::Discretizations::Elements::NB< 2, 4 >( N );
+  const auto dynamicResult   = Marmot::Discretizations::Elements::NB( Eigen::VectorXd( N.transpose() ), 2 );
 
   throwExceptionOnFailure( checkIfEqual( Eigen::MatrixXd( dynamicResult ), Eigen::MatrixXd( templatedResult ), 1e-12 ),
                            "The dynamic NB() must match the templated NB<nDim,nNodes>() for the same input." );
@@ -73,7 +73,7 @@ void testDynamicJacobianMatchesTemplatedJacobianForQuad4()
 {
   const std::vector< double > nodeCoordsVec = { 0.0, 0.0, 2.0, 0.0, 3.0, 2.0, 0.0, 1.0 }; // general quadrilateral
 
-  MarmotGeometryElement< 2, 4 > geo;
+  Marmot::Discretizations::Elements::GeometryElement< 2, 4 > geo;
   geo.assignNodeCoordinates( nodeCoordsVec.data() );
 
   const Eigen::Vector2d xi( 0.2, 0.3 );
@@ -83,7 +83,7 @@ void testDynamicJacobianMatchesTemplatedJacobianForQuad4()
 
   const Eigen::MatrixXd dynamicDNdXi = dNdXi;
   const Eigen::VectorXd dynamicCoords( Eigen::Map< const Eigen::VectorXd >( nodeCoordsVec.data(), 8 ) );
-  const Eigen::MatrixXd dynamicJ = Marmot::FiniteElement::Jacobian( dynamicDNdXi, dynamicCoords );
+  const Eigen::MatrixXd dynamicJ = Marmot::Discretizations::Elements::Jacobian( dynamicDNdXi, dynamicCoords );
 
   throwExceptionOnFailure( checkIfEqual( dynamicJ, Eigen::MatrixXd( templatedJ ), 1e-12 ),
                            "The dynamic Jacobian() must match the templated Jacobian<nDim,nNodes>() for the same "
@@ -99,7 +99,7 @@ void testDynamicJacobianMatchesTemplatedJacobianForQuad4()
 
 void testGetGaussPointInfoReducedIntegrationBranches()
 {
-  using namespace Marmot::FiniteElement::Quadrature;
+  using namespace Marmot::Discretizations::Elements::Quadrature;
 
   throwExceptionOnFailure( getGaussPointInfo( Bar2, ReducedIntegration ).size() == 1,
                            "Bar2 reduced integration must use the 1-point rule." );
@@ -111,7 +111,7 @@ void testGetGaussPointInfoReducedIntegrationBranches()
 
 void testGetGaussPointInfoTetrahedralShapes()
 {
-  using namespace Marmot::FiniteElement::Quadrature;
+  using namespace Marmot::Discretizations::Elements::Quadrature;
 
   // Tetra4/Tetra10 quadrature rules don't distinguish integration type; both calls must succeed
   // and return a non-empty rule.
@@ -123,7 +123,7 @@ void testGetGaussPointInfoTetrahedralShapes()
 
 void testGetGaussPointInfoThrowsForUnsupportedShape()
 {
-  using namespace Marmot::FiniteElement::Quadrature;
+  using namespace Marmot::Discretizations::Elements::Quadrature;
 
   bool threw = false;
   try {
@@ -137,7 +137,7 @@ void testGetGaussPointInfoThrowsForUnsupportedShape()
 
 void testTriangleAndNodalRulesIntegratePolynomialsExactly()
 {
-  using namespace Marmot::FiniteElement::Quadrature;
+  using namespace Marmot::Discretizations::Elements::Quadrature;
 
   // integral over the reference triangle of 1, x and x*y: 1/2, 1/6 and 1/24
   auto integrate = []( const std::vector< QuadraturePointInfo >& rule, auto f ) {
@@ -178,13 +178,15 @@ void testTriangleAndNodalRulesIntegratePolynomialsExactly()
 
   for ( size_t i = 0; i < 3; i++ ) {
     const Eigen::Vector2d xi = getQuadraturePointInfo( Tri3, NodalIntegration )[i].xi;
-    const auto            N  = FiniteElement::Spatial2D::Tri3::N( xi );
+    const auto            N  = Marmot::Discretizations::Elements::Spatial2D::Tri3::N( xi );
     throwExceptionOnFailure( checkIfEqual( N( i ), 1.0, 1e-15 ) && checkIfEqual( N.sum(), 1.0, 1e-15 ),
                              "The Tri3 nodal rule must list the nodes in node order." );
   }
   for ( size_t i = 0; i < 4; i++ ) {
     const Eigen::Vector2d xi = getQuadraturePointInfo( Quad4, NodalIntegration )[i].xi;
-    throwExceptionOnFailure( checkIfEqual( FiniteElement::Spatial2D::Quad4::N( xi )( i ), 1.0, 1e-15 ),
+    throwExceptionOnFailure( checkIfEqual( Marmot::Discretizations::Elements::Spatial2D::Quad4::N( xi )( i ),
+                                           1.0,
+                                           1e-15 ),
                              "The Quad4 nodal rule must list the nodes in node order." );
   }
 
@@ -207,22 +209,25 @@ void testTri3ShapeFunctionDerivatives()
   for ( int j = 0; j < 2; j++ ) {
     Eigen::Vector2d dXi            = Eigen::Vector2d::Zero();
     dXi( j )                       = h;
-    const Eigen::RowVector3d dNNum = ( FiniteElement::Spatial2D::Tri3::N( xi + dXi ) -
-                                       FiniteElement::Spatial2D::Tri3::N( xi - dXi ) ) /
+    const Eigen::RowVector3d dNNum = ( Marmot::Discretizations::Elements::Spatial2D::Tri3::N( xi + dXi ) -
+                                       Marmot::Discretizations::Elements::Spatial2D::Tri3::N( xi - dXi ) ) /
                                      ( 2 * h );
     throwExceptionOnFailure( checkIfEqual< double >( Eigen::MatrixXd( dNNum ),
                                                      Eigen::MatrixXd(
-                                                       FiniteElement::Spatial2D::Tri3::dNdXi( xi ).row( j ) ),
+                                                       Marmot::Discretizations::Elements::Spatial2D::Tri3::dNdXi( xi )
+                                                         .row( j ) ),
                                                      1e-8 ),
                              "Tri3 shape function derivatives must match central differences." );
   }
-  throwExceptionOnFailure( checkIfEqual( FiniteElement::Spatial2D::Tri3::N( xi ).sum(), 1.0, 1e-15 ),
+  throwExceptionOnFailure( checkIfEqual( Marmot::Discretizations::Elements::Spatial2D::Tri3::N( xi ).sum(),
+                                         1.0,
+                                         1e-15 ),
                            "Tri3 shape functions must form a partition of unity." );
 }
 
 void testGetQuadraturePointInfoSelectsTheRule()
 {
-  using namespace Marmot::FiniteElement::Quadrature;
+  using namespace Marmot::Discretizations::Elements::Quadrature;
 
   // Gauss integration is delegated to the very same tables as getGaussPointInfo()
   for ( auto shape : { Bar2, Quad4, Tri3, Hexa8 } )
@@ -248,7 +253,7 @@ void testGetQuadraturePointInfoSelectsTheRule()
 
 void testGetNumGaussPointsMatchesGaussPointInfoSize()
 {
-  using namespace Marmot::FiniteElement::Quadrature;
+  using namespace Marmot::Discretizations::Elements::Quadrature;
 
   throwExceptionOnFailure( getNumGaussPoints( Hexa8, FullIntegration ) ==
                              static_cast< int >( getGaussPointInfo( Hexa8, FullIntegration ).size() ),

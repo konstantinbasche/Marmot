@@ -84,7 +84,7 @@ Elements
      - As ``CILINE2``, ``CITRI3`` and ``CIQUAD4``, but with full Gauss integration (2, 3 and 2×2 points)
 
 The class is a template in the spatial dimension and the number of nodes; all sizes follow from these two
-parameters, so that a further interpolation of ``MarmotGeometryInterfaceElement`` only needs to be registered.
+parameters, so that a further interpolation of ``GeometryInterfaceElement`` only needs to be registered.
 
 Properties
 ----------
@@ -103,5 +103,5 @@ component each), followed by the state variables of the cohesive material.
 Implementation
 --------------
 
-.. doxygenclass:: Marmot::Elements::CohesiveInterfaceElement
+.. doxygenclass:: Marmot::Discretizations::Elements::CohesiveInterfaceElement
    :allow-dot-graphs:

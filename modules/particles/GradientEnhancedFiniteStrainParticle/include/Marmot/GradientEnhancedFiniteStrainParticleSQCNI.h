@@ -29,13 +29,21 @@
 #include "Marmot/MarmotMeshfreeQuadHexCell.h"
 #include <Eigen/Core>
 #include <Eigen/Dense>
+/* Fastor/Fastor.h ends with `#pragma warning( default : ... )`; scope it so it neither overrides the build's warning
+ * flags nor leaks into consumers. */
+#ifdef _MSC_VER
+#  pragma warning( push )
+#endif
 #include <Fastor/Fastor.h>
+#ifdef _MSC_VER
+#  pragma warning( pop )
+#endif
 #include <cmath>
 
-namespace Marmot::Meshfree {
+namespace Marmot::Discretizations::Meshfree {
 
   /**
-   * @class Marmot::Meshfree::GradientEnhancedFiniteStrainParticleSQCNI
+   * @class Marmot::Discretizations::Meshfree::GradientEnhancedFiniteStrainParticleSQCNI
    * @brief Stabilized quasi-conforming nodal integration (SQCNI / SNNI) particle for gradient-enhanced finite-strain
    *        materials without a micropolar continuum.
    *
@@ -83,9 +91,9 @@ namespace Marmot::Meshfree {
     };
 
   protected:
-    using LagrangeCellType = MarmotLagrangeCell< nDim, nVertices >; ///< geometry of the smoothing domain
+    using LagrangeCellType = LagrangeCell< nDim, nVertices >;   ///< geometry of the smoothing domain
 
-    const SmoothingDomainUpdateType _smoothingVolumeUpdateType;     ///< update type of the smoothing domain
+    const SmoothingDomainUpdateType _smoothingVolumeUpdateType; ///< update type of the smoothing domain
 
     const Eigen::Matrix< double, nDim, nVertices > _vertexCoordinates_Undeformed; ///< undeformed vertex coordinates
 
@@ -115,13 +123,13 @@ namespace Marmot::Meshfree {
      * @brief Vertex coordinates of the smoothing domain: undeformed coordinates plus `vertex displacements`.
      * @param[out] coordinates Coordinates, vertex by vertex (nDim x nVertices).
      */
-    virtual void getVertexCoordinates( double* coordinates ) const override;
+    void getVertexCoordinates( double* coordinates ) const override;
 
     /**
      * @brief Vertex coordinates for visualization, identical to getVertexCoordinates().
      * @param[out] coordinates Coordinates, vertex by vertex.
      */
-    virtual void getVisualizationVertexCoordinates( double* coordinates ) const override
+    void getVisualizationVertexCoordinates( double* coordinates ) const override
     {
       getVertexCoordinates( coordinates );
     };
@@ -130,13 +138,13 @@ namespace Marmot::Meshfree {
      * @brief Number of vertices.
      * @return nVertices.
      */
-    virtual int getNumberOfVertices() const override { return nVertices; };
+    int getNumberOfVertices() const override { return nVertices; };
 
     /**
      * @brief Shape of the particle.
      * @return Shape name of the undeformed smoothing domain cell.
      */
-    virtual std::string getParticleShape() const override { return _makeUndeformedCell().getCellShape(); }
+    std::string getParticleShape() const override { return _makeUndeformedCell().getCellShape(); }
 
     /**
      * @brief Construct the particle from its vertices.
@@ -148,21 +156,21 @@ namespace Marmot::Meshfree {
      * @param[in] nodeCoordinates           Undeformed vertex coordinates, vertex by vertex.
      * @param[in] nNodeCoordiantes          Number of coordinates (unused).
      * @param[in] volume                    Volume (unused, computed from the vertices).
-     * @param[in] materialName              Name of a MarmotMaterialGradientEnhancedFiniteStrain material.
+     * @param[in] materialName              Name of a Marmot::Materials::MaterialGradientEnhancedFiniteStrain material.
      * @param[in] materialProperties        Material properties.
      * @param[in] sizeMaterialProperties    Number of material properties.
      * @param[in] approximation             Meshfree approximation used for the shape functions.
      * @param[in] smoothingVolumeUpdateType Update type of the smoothing domain.
      */
-    GradientEnhancedFiniteStrainParticleSQCNI( int                                elementID,
-                                               const double*                      nodeCoordinates,
-                                               int                                nNodeCoordiantes,
-                                               double                             volume,
-                                               const std::string&                 materialName,
-                                               const double*                      materialProperties,
-                                               int                                sizeMaterialProperties,
-                                               const MarmotMeshfreeApproximation& approximation,
-                                               const SmoothingDomainUpdateType    smoothingVolumeUpdateType );
+    GradientEnhancedFiniteStrainParticleSQCNI( int                             elementID,
+                                               const double*                   nodeCoordinates,
+                                               int                             nNodeCoordiantes,
+                                               double                          volume,
+                                               const std::string&              materialName,
+                                               const double*                   materialProperties,
+                                               int                             sizeMaterialProperties,
+                                               const Approximation&            approximation,
+                                               const SmoothingDomainUpdateType smoothingVolumeUpdateType );
 
     /**
      * @brief Assign the kernel functions and compute the smoothed shape function gradients.
@@ -173,8 +181,7 @@ namespace Marmot::Meshfree {
      *
      * @param[in] kernelFunctions Kernel functions of the nodes that support the particle.
      */
-    virtual void assignMeshfreeKernelFunctions(
-      const std::vector< const MarmotMeshfreeKernelFunction* >& kernelFunctions ) override;
+    void assignMeshfreeKernelFunctions( const std::vector< const KernelFunction* >& kernelFunctions ) override;
 
     /// \brief Get the smoothing volume of the particle
     /// \return The smoothing volume of the particle
@@ -188,10 +195,7 @@ namespace Marmot::Meshfree {
      * @brief Center coordinates: the material point position of the last accepted state.
      * @param[out] coordinates Coordinates (nDim values).
      */
-    virtual void getCenterCoordinates( double* coordinates ) const override
-    {
-      this->_mp.getCoordinatesAtCenter( coordinates );
-    }
+    void getCenterCoordinates( double* coordinates ) const override { this->_mp.getCoordinatesAtCenter( coordinates ); }
 
     /**
      * @brief Centroid of a cell spanned by given vertices.
@@ -239,7 +243,7 @@ namespace Marmot::Meshfree {
      * @brief Number of state variables: those of the point particle plus the vertex displacements.
      * @return Required size of the state variable vector.
      */
-    virtual int getNumberOfRequiredStateVars() const override
+    int getNumberOfRequiredStateVars() const override
     {
       return GradientEnhancedFiniteStrainParticle< nDim >::getNumberOfRequiredStateVars() + nDim * nVertices;
     };
@@ -261,7 +265,7 @@ namespace Marmot::Meshfree {
      * @param[in] qp        Evaluation point (unused).
      * @return View on the state variable.
      */
-    virtual StateView getStateView( const std::string& stateName, int qp ) const override
+    Marmot::Utilities::StateView getStateView( const std::string& stateName, int qp ) const override
     {
       if ( stateName == "vertex displacements" ) {
         return { _vertexDisplacements_SmoothingDomain, nDim * nVertices };
@@ -300,13 +304,13 @@ namespace Marmot::Meshfree {
      * @param[in]     dT        Time increment (unused).
      * @throws std::invalid_argument for an unknown load type.
      */
-    virtual void computeDistributedLoad( int           type,
-                                         int           surfaceID,
-                                         const double* load,
-                                         double*       fExt,
-                                         double*       dExt_dQ,
-                                         double        timeNew,
-                                         double        dT ) const override;
+    void computeDistributedLoad( int           type,
+                                 int           surfaceID,
+                                 const double* load,
+                                 double*       fExt,
+                                 double*       dExt_dQ,
+                                 double        timeNew,
+                                 double        dT ) const override;
 
     /**
      * @brief Surface vector and center of a face in the intermediate reference configuration.
@@ -332,9 +336,9 @@ namespace Marmot::Meshfree {
      * @param[in]     boundarySurfaceVector Unused.
      * @param[in]     boundaryFaceID        Face id (1-based).
      */
-    virtual void vci_compute_Test_P_BoundaryIntegral( double*       R_AiC_RowMajor,
-                                                      const double* boundarySurfaceVector,
-                                                      int           boundaryFaceID )
+    void vci_compute_Test_P_BoundaryIntegral( double*       R_AiC_RowMajor,
+                                              const double* boundarySurfaceVector,
+                                              int           boundaryFaceID ) override
     {
       using namespace Fastor;
 
@@ -360,7 +364,7 @@ namespace Marmot::Meshfree {
      * @brief Coordinates of the evaluation points: the face centers of the smoothing domain.
      * @param[out] coordinates Coordinates, face by face (nDim x number of faces).
      */
-    virtual void getEvaluationCoordinates( double* coordinates ) const
+    void getEvaluationCoordinates( double* coordinates ) const override
     {
       const auto cell = _makeSmoothingDomainCell();
 
@@ -377,7 +381,7 @@ namespace Marmot::Meshfree {
      * @param[in]  faceID      Face id (1-based).
      * @param[out] coordinates Face center (nDim values).
      */
-    virtual void getFaceCoordinates( int faceID, double* coordinates ) const
+    void getFaceCoordinates( int faceID, double* coordinates ) const override
     {
       Eigen::Map< Eigen::Matrix< double, nDim, 1 > > faceCenter( coordinates );
       faceCenter = _makeSmoothingDomainCell().getFaceCenterCoordinates( faceID );
@@ -387,7 +391,7 @@ namespace Marmot::Meshfree {
      * @brief Number of evaluation points.
      * @return Number of faces of the smoothing domain.
      */
-    virtual int getNumberOfEvaluationPoints() const { return _makeUndeformedCell().getNumberOfFaces(); };
+    int getNumberOfEvaluationPoints() const override { return _makeUndeformedCell().getNumberOfFaces(); };
 
   private:
     /// @brief Update the vertex displacements of the smoothing domain from @f$ \boldsymbol{F}_n @f$ and the particle
@@ -395,7 +399,7 @@ namespace Marmot::Meshfree {
     void _updateVertexDisplacementsFromMaterialPointDeformation();
 
     /// @brief Update the smoothing domain, then set the center to the accepted material point position.
-    virtual void updateParticlePositionToReferenceIntermediate() override
+    void updateParticlePositionToReferenceIntermediate() override
     {
       _updateVertexDisplacementsFromMaterialPointDeformation();
 
@@ -405,15 +409,15 @@ namespace Marmot::Meshfree {
 
   template < int nDim, int nVertices >
   GradientEnhancedFiniteStrainParticleSQCNI< nDim, nVertices >::GradientEnhancedFiniteStrainParticleSQCNI(
-    int                                                  elementID,
-    const double*                                        vertexCoordinates,
-    int                                                  nVertexCoordinates,
-    double                                               volume,
-    const std::string&                                   materialName,
-    const double*                                        materialProperties,
-    int                                                  sizeMaterialProperties,
-    const Marmot::Meshfree::MarmotMeshfreeApproximation& approximation,
-    const SmoothingDomainUpdateType                      smoothingVolumeUpdateType )
+    int                                                     elementID,
+    const double*                                           vertexCoordinates,
+    int                                                     nVertexCoordinates,
+    double                                                  volume,
+    const std::string&                                      materialName,
+    const double*                                           materialProperties,
+    int                                                     sizeMaterialProperties,
+    const Marmot::Discretizations::Meshfree::Approximation& approximation,
+    const SmoothingDomainUpdateType                         smoothingVolumeUpdateType )
     : GradientEnhancedFiniteStrainParticle< nDim >( elementID,
                                                     getCenterFromVertices(
                                                       Eigen::Map< const Eigen::Matrix< double, nDim, nVertices > >(
@@ -459,7 +463,7 @@ namespace Marmot::Meshfree {
       Eigen::Map< Eigen::MatrixXd > K( dFExt_ddQ, _nNodes * nodeBlockSize, _nNodes * nodeBlockSize );
 
       using namespace Fastor;
-      using namespace FastorIndices;
+      using namespace Math::Tensors::FastorIndices;
 
       Tensor< double, nDim, nDim > Eye;
       Eye.eye();
@@ -604,7 +608,8 @@ namespace Marmot::Meshfree {
       break;
     }
     default: {
-      throw std::invalid_argument( MakeString() << __PRETTY_FUNCTION__ << ": invalid DistributedLoad type specified" );
+      throw std::invalid_argument( Marmot::Utilities::MakeString()
+                                   << __PRETTY_FUNCTION__ << ": invalid DistributedLoad type specified" );
     }
     }
   }
@@ -674,7 +679,7 @@ namespace Marmot::Meshfree {
                                                   nVertices >::_updateVertexDisplacementsFromMaterialPointDeformation()
   {
 
-    Eigen::Matrix< double, nDim, nDim > F;
+    Eigen::Matrix< double, nDim, nDim > F = Eigen::Matrix< double, nDim, nDim >::Identity();
 
     switch ( _smoothingVolumeUpdateType ) {
 
@@ -739,12 +744,13 @@ namespace Marmot::Meshfree {
 
   template < int nDim, int nVertices >
   void GradientEnhancedFiniteStrainParticleSQCNI< nDim, nVertices >::assignMeshfreeKernelFunctions(
-    const std::vector< const MarmotMeshfreeKernelFunction* >& kernelFunctions )
+    const std::vector< const KernelFunction* >& kernelFunctions )
   {
 
     ParentPointParticle::_assignedKernelFunctions = kernelFunctions;
 
-    ParentPointParticle::_nNodes = GradientEnhancedFiniteStrainParticle< nDim >::_assignedKernelFunctions.size();
+    ParentPointParticle::_nNodes = static_cast< int >(
+      GradientEnhancedFiniteStrainParticle< nDim >::_assignedKernelFunctions.size() );
 
     Eigen::Matrix< double, nDim, 1 > coords;
     ParentPointParticle::_mp.getCoordinatesAtCenter( coords.data() );
@@ -778,4 +784,4 @@ namespace Marmot::Meshfree {
     ParentPointParticle::_dT_dY = ParentPointParticle::_dN_dY;
   }
 
-} // namespace Marmot::Meshfree
+} // namespace Marmot::Discretizations::Meshfree

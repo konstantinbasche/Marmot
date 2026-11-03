@@ -41,7 +41,7 @@ message(STATUS "")
 # a Fortran compiler is not required.
 # The release this source tree is (or leads up to), as in the release tag (v26.11 -> 26.11.0); set to the next release
 # right after tagging. The conda workflow refuses a tag that does not match it.
-project(Marmot VERSION 26.11.0 LANGUAGES CXX)
+project(Marmot VERSION 27.05.0 LANGUAGES CXX)
 
 # avoid in-source compilation
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
@@ -67,6 +67,18 @@ include(GNUInstallDirs)
 # Optimization/debug flags (-O3, -g, ...) come from CMake's per-configuration defaults.
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     add_compile_options(-Wall -Wextra -Wno-unused-parameter -Wno-long-long -pedantic)
+    # No FMA contraction: keeps results bitwise reproducible across -march settings (x86-64-v3 runners,
+    # MARMOT_MARCH_NATIVE) and consistent with MSVC's default /fp:precise. Exact-cancellation tests
+    # (e.g. dPsi_dC == 0 for F = I) rely on it.
+    add_compile_options(-ffp-contract=off)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        # Third-party headers are found via plain -I paths on some platforms (e.g. /usr/local/include is not
+        # an implicit system directory for Apple clang), where their warnings would not be suppressed.
+        # Treat them as system headers by name instead.
+        add_compile_options(--system-header-prefix=Eigen/ --system-header-prefix=eigen3/
+                            --system-header-prefix=unsupported/ --system-header-prefix=Fastor/
+                            --system-header-prefix=autodiff/ --system-header-prefix=nanobind/)
+    endif()
 elseif(MSVC)
     if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
         string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
@@ -77,6 +89,17 @@ elseif(MSVC)
     # /permissive-: standard-conforming two-phase lookup, as GCC/Clang do.
     # /Zc:__cplusplus: report the real language level in __cplusplus, which Eigen and Fastor check.
     add_compile_options(/bigobj /permissive- /Zc:__cplusplus)
+    # Like -Wno-unused-parameter above: unused parameters are common in the interface implementations (C4100).
+    # /external:W0 silences warnings from the headers of imported targets (Eigen, autodiff, Fastor), which CMake
+    # passes with /external:I.
+    add_compile_options(/wd4100 /external:W0)
+    # C4702 (unreachable code) is a code-generation warning that /external:W0 does not cover; it is reported
+    # for every translation unit instantiating Fastor's matmul and SIMD kernels, which we cannot change.
+    # C4701 (potentially uninitialized local) is likewise reported inside Fastor's nd tensor views
+    # (tensor_views_nd.h, the index array of the strided assignment loops).
+    # Both are global, so MSVC does not report them for Marmot code either; GCC's -Wmaybe-uninitialized and
+    # clang's -Wsometimes-uninitialized in the Ubuntu and macOS pipelines still cover uninitialized locals.
+    add_compile_options(/wd4702 /wd4701)
     # Keep MSVC's secure-CRT deprecation warnings (C4996 for std::getenv, sscanf, ...) out of the /W4 output.
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 endif()
@@ -102,6 +125,16 @@ endif()
 # add_compile_definitions(EIGEN_DONT_PARALLELIZE)                     # for Eigen
 # add_compile_definitions(BLAZE_USE_SHARED_MEMORY_PARALLELIZATION=0)  # for Blaze
 
+# Fastor's SIMD load/store paths assume FASTOR_MEMORY_ALIGNMENT_VALUE-aligned data (32 bytes with AVX), but
+# Marmot maps Fastor tensors (TensorMap) onto host-provided state-variable arrays at arbitrary offsets, which
+# only carry the allocator's fundamental alignment. With an AVX default baseline (e.g. the x86-64-v3
+# ubuntu-26.04 runners), the aligned 32-byte stores then fault (SIGSEGV in Fastor::trivial_assign).
+# Unaligned SIMD instructions carry no penalty on data that happens to be aligned on AVX2-era CPUs.
+# The definition also changes Fastor::Tensor's alignment, i.e. the ABI, so every translation unit that
+# includes Marmot's headers must agree on it: it is exported to consumers as an INTERFACE definition on the
+# Marmot target below.
+add_compile_definitions(FASTOR_DONT_ALIGN)
+
 ## find Eigen, autodiff and Fastor as imported targets (Eigen3::Eigen, autodiff::autodiff, Fastor::Fastor).
 ## The same file is installed and used by MarmotConfig.cmake, so consumers resolve them alike.
 include(cmake/MarmotDependencies.cmake)
@@ -109,6 +142,19 @@ if(NOT MARMOT_DEPENDENCIES_FOUND)
     message(FATAL_ERROR "${MARMOT_DEPENDENCIES_MESSAGE}")
 endif()
 message("--> found Eigen ${Eigen3_VERSION}")
+
+# MSVC: hand the dependencies' header directories to the compiler as external includes explicitly, so that
+# /external:W0 (above) silences their warnings (e.g. C4702 in Fastor) whatever the generator does with SYSTEM.
+if(MSVC)
+    foreach(_dep_target Eigen3::Eigen autodiff::autodiff Fastor::Fastor)
+        get_target_property(_dep_include_dirs ${_dep_target} INTERFACE_INCLUDE_DIRECTORIES)
+        foreach(_dep_include_dir IN LISTS _dep_include_dirs)
+            if(_dep_include_dir AND NOT _dep_include_dir MATCHES "\\$<")
+                add_compile_options("/external:I${_dep_include_dir}")
+            endif()
+        endforeach()
+    endforeach()
+endif()
 
 # Testing: include(CTest) provides the standard BUILD_TESTING option (default ON) and calls enable_testing().
 # Configure with -DBUILD_TESTING=OFF to skip the test executables, e.g. for install-only builds.
@@ -258,6 +304,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Marmot's headers need these MSVC options in every translation unit that includes them (Eigen and Fastor check
 # __cplusplus, which MSVC only reports correctly with /Zc:__cplusplus), so consumers of Marmot::Marmot get them too.
 target_compile_options(${PROJECT_NAME} INTERFACE "$<$<CXX_COMPILER_ID:MSVC>:/bigobj;/permissive-;/Zc:__cplusplus>")
+
+# FASTOR_DONT_ALIGN (see above) changes Fastor::Tensor's alignment, so consumers of Marmot::Marmot must
+# compile with it as well.
+target_compile_definitions(${PROJECT_NAME} INTERFACE FASTOR_DONT_ALIGN)
 
 # Include-directory strategy:
 #   BUILD_INTERFACE  – source-tree paths, for targets of this build linking ${PROJECT_NAME} (e.g. the bindings).

@@ -4,155 +4,154 @@
 
 using namespace Eigen;
 
-namespace Marmot {
-  namespace FiniteElement {
-    namespace Spatial2D {
-      namespace Quad4 {
+namespace Marmot::Discretizations::Elements {
+  namespace Spatial2D {
+    namespace Quad4 {
 
-        NSized N( const Vector2d& xi )
-        {
-          /*
-           *   Shape functions
-           *    (3) _______(2)
-           *       |       |
-           *       |       |
-           *       |_______|
-           *    (0)        (1)
-           */
+      NSized N( const Vector2d& xi )
+      {
+        /*
+         *   Shape functions
+         *    (3) _______(2)
+         *       |       |
+         *       |       |
+         *       |_______|
+         *    (0)        (1)
+         */
 
-          NSized N_;
-          // clang-format off
+        NSized N_;
+        // clang-format off
                     N_ <<   1./4 * (1.-xi (0)) * (1.-xi (1)),
                             1./4 * (1.+xi (0)) * (1.-xi (1)),
                             1./4 * (1.+xi (0)) * (1.+xi (1)),
                             1./4 * (1.-xi (0)) * (1.+xi (1));
-          // clang-format on
-          return N_;
-        }
+        // clang-format on
+        return N_;
+      }
 
-        dNdXiSized dNdXi( const Vector2d& xi )
-        {
+      dNdXiSized dNdXi( const Vector2d& xi )
+      {
 
-          dNdXiSized result;
+        dNdXiSized result;
 
-          // clang-format off
+        // clang-format off
                     result <<   /*          (0)                 (1)                 (2)                 (3) */
                            /* ,xi1 */ -1./4* (1-xi (1)), +1./4* (1-xi (1)),  +1./4* (1+xi (1)),    -1./4* (1+xi (1)),
                            /*, xi2 */ -1./4* (1-xi (0)), -1./4* (1+xi (0)),  +1./4* (1+xi (0)),    +1./4* (1-xi (0));
-          // clang-format on
-          return result;
+        // clang-format on
+        return result;
+      }
+
+      Vector2i getBoundaryElementIndices( int faceID )
+      {
+        /*
+         *               face 3
+         *           (3) _______(2)
+         *              |       |
+         *       face 4 |       | face 2
+         *              |_______|
+         *           (0)        (1)
+         *               face 1
+         * */
+        switch ( faceID ) {
+        case 1: {
+          return ( Vector2i() << 0, 1 ).finished();
         }
-
-        Vector2i getBoundaryElementIndices( int faceID )
-        {
-          /*
-           *               face 3
-           *           (3) _______(2)
-           *              |       |
-           *       face 4 |       | face 2
-           *              |_______|
-           *           (0)        (1)
-           *               face 1
-           * */
-          switch ( faceID ) {
-          case 1: {
-            return ( Vector2i() << 0, 1 ).finished();
-          }
-          case 2: {
-            return ( Vector2i() << 1, 2 ).finished();
-          }
-          case 3: {
-            return ( Vector2i() << 2, 3 ).finished();
-          }
-          case 4: {
-            return ( Vector2i() << 3, 0 ).finished();
-          }
-          default: {
-            throw std::invalid_argument( "Quad4: invalid face ID specifed" );
-          }
-          }
+        case 2: {
+          return ( Vector2i() << 1, 2 ).finished();
         }
-
-      } // end of namespace Quad4
-
-      namespace Tri3 {
-
-        NSized N( const Vector2d& xi )
-        {
-          /*
-           *   Shape functions
-           *    (2)
-           *     |\
-           *     | \
-           *     |__\
-           *    (0)  (1)
-           */
-
-          NSized N_;
-          N_ << 1. - xi( 0 ) - xi( 1 ), xi( 0 ), xi( 1 );
-          return N_;
+        case 3: {
+          return ( Vector2i() << 2, 3 ).finished();
         }
+        case 4: {
+          return ( Vector2i() << 3, 0 ).finished();
+        }
+        default: {
+          throw std::invalid_argument( "Quad4: invalid face ID specifed" );
+        }
+        }
+      }
 
-        dNdXiSized dNdXi( const Vector2d& )
-        {
-          dNdXiSized result;
-          // clang-format off
+    } // end of namespace Quad4
+
+    namespace Tri3 {
+
+      NSized N( const Vector2d& xi )
+      {
+        /*
+         *   Shape functions
+         *    (2)
+         *     |\
+         *     | \
+         *     |__\
+         *    (0)  (1)
+         */
+
+        NSized N_;
+        N_ << 1. - xi( 0 ) - xi( 1 ), xi( 0 ), xi( 1 );
+        return N_;
+      }
+
+      dNdXiSized dNdXi( const Vector2d& )
+      {
+        dNdXiSized result;
+        // clang-format off
           result << /*          (0)   (1)   (2) */
                     /* ,xi1 */ -1.,   1.,   0.,
                     /* ,xi2 */ -1.,   0.,   1.;
-          // clang-format on
-          return result;
+        // clang-format on
+        return result;
+      }
+
+      Vector2i getBoundaryElementIndices( int faceID )
+      {
+        /*
+         *    (2)
+         *     |\
+         *     | \ face 2
+         *  face 3 \
+         *     |___\
+         *    (0)   (1)
+         *    face 1
+         *
+         * counter-clockwise, as for Quad4, so that the area vector of the boundary element points outward
+         * */
+        switch ( faceID ) {
+        case 1: {
+          return ( Vector2i() << 0, 1 ).finished();
         }
-
-        Vector2i getBoundaryElementIndices( int faceID )
-        {
-          /*
-           *    (2)
-           *     |\
-           *     | \ face 2
-           *  face 3 \
-           *     |___\
-           *    (0)   (1)
-           *    face 1
-           *
-           * counter-clockwise, as for Quad4, so that the area vector of the boundary element points outward
-           * */
-          switch ( faceID ) {
-          case 1: {
-            return ( Vector2i() << 0, 1 ).finished();
-          }
-          case 2: {
-            return ( Vector2i() << 1, 2 ).finished();
-          }
-          case 3: {
-            return ( Vector2i() << 2, 0 ).finished();
-          }
-          default: {
-            throw std::invalid_argument( "Tri3: invalid face ID specifed" );
-          }
-          }
+        case 2: {
+          return ( Vector2i() << 1, 2 ).finished();
         }
+        case 3: {
+          return ( Vector2i() << 2, 0 ).finished();
+        }
+        default: {
+          throw std::invalid_argument( "Tri3: invalid face ID specifed" );
+        }
+        }
+      }
 
-      } // end of namespace Tri3
-      namespace Quad8 {
-        NSized N( const Vector2d& xi )
-        {
-          /* Shape functions
-           *
-           *         (6)
-           *   (3) _______(2)
-           *      |       |
-           *  (7) |       | (5)
-           *      |_______|
-           *   (0)        (1)
-           *         (4)
-           *
-           * */
+    } // end of namespace Tri3
+    namespace Quad8 {
+      NSized N( const Vector2d& xi )
+      {
+        /* Shape functions
+         *
+         *         (6)
+         *   (3) _______(2)
+         *      |       |
+         *  (7) |       | (5)
+         *      |_______|
+         *   (0)        (1)
+         *         (4)
+         *
+         * */
 
-          const double                xi0 = xi( 0 );
-          const double                xi1 = xi( 1 );
-          Matrix< double, nNodes, 1 > N_;
-          // clang-format off
+        const double                xi0 = xi( 0 );
+        const double                xi1 = xi( 1 );
+        Matrix< double, nNodes, 1 > N_;
+        // clang-format off
                     N_ <<   (1.-xi0 ) * (1.-xi1 ) * (-1-xi0-xi1 ) /4,
                             (1.+xi0 ) * (1.-xi1 ) * (-1+xi0-xi1 ) /4,
                             (1.+xi0 ) * (1.+xi1 ) * (-1+xi0+xi1 ) /4,
@@ -162,18 +161,18 @@ namespace Marmot {
                             (1-xi0*xi0 )       * (1+xi1     ) /2,
                             (1-xi0      )     * (1-xi1*xi1 ) /2;
 
-          // clang-format on
-          return N_;
-        }
+        // clang-format on
+        return N_;
+      }
 
-        dNdXiSized dNdXi( const Vector2d& xi )
-        {
+      dNdXiSized dNdXi( const Vector2d& xi )
+      {
 
-          Matrix< double, nDim, nNodes > result;
+        Matrix< double, nDim, nNodes > result;
 
-          const double xi0 = xi( 0 );
-          const double xi1 = xi( 1 );
-          // clang-format off
+        const double xi0 = xi( 0 );
+        const double xi1 = xi( 1 );
+        // clang-format off
                     result <<
                            /*                  1                           2                           3                           4
                             *                  5                           6                           7                           8 */
@@ -183,59 +182,56 @@ namespace Marmot {
                             *                  5                           6                           7                           8*/
                            /* ,Xi2 */     (1-xi0) * (xi0+2*xi1) /4,      - (1+xi0) * (xi0-2*xi1) /4,     (1+xi0) * (xi0+2*xi1) /4,      (1-xi0) * (-xi0+2*xi1) /4,
                            /* ,Xi2 */     - (1-xi0*xi0) /2,             -xi1* (1+xi0),               + (1-xi0*xi0) /2,             -xi1* (1-xi0);
-          // clang-format on
+        // clang-format on
 
-          return result;
-        }
+        return result;
+      }
 
-        Vector3i getBoundaryElementIndices( int faceID )
-        {
-          switch ( faceID ) {
-          case 1: {
-            return ( Vector3i() << 0, 1, 4 ).finished();
-          }
-          case 2: {
-            return ( Vector3i() << 1, 2, 5 ).finished();
-          }
-          case 3: {
-            return ( Vector3i() << 2, 3, 6 ).finished();
-          }
-          case 4: {
-            return ( Vector3i() << 3, 0, 7 ).finished();
-          }
-          default: {
-            throw std::invalid_argument( "Quad8: invalid face ID specifed" );
-          }
-          }
-        }
-
-      } // end of namespace Quad8
-
-    }   // end of namespace Spatial2D
-  }     // end of namespace FiniteElement
-
-  // Declared under Marmot::FiniteElement::Quadrature::Spatial2D (see MarmotFiniteElement.h); this
-  // definition previously lived one namespace level too shallow (Marmot::FiniteElement::Spatial2D,
-  // missing the Quadrature level), so it could never actually be linked against its own
-  // declaration -- and, with no callers anywhere in the codebase, nothing noticed.
-  namespace FiniteElement::Quadrature {
-    namespace Spatial2D {
-      void modifyCharElemLengthAbaqusLike( double& charElemLength, int intPoint )
+      Vector3i getBoundaryElementIndices( int faceID )
       {
-        switch ( intPoint ) {
-        case 0: // central node
-          charElemLength *= 2. / 3.;
-          break;
-        case 1: // corner nodes
-        case 2:
-        case 3:
-        case 4: charElemLength *= 5. / 12; break;
-        case 5: // middle nodes
-        case 6:
-        case 7:
-        case 8: charElemLength *= std::sqrt( 5. / 18. ); break;
+        switch ( faceID ) {
+        case 1: {
+          return ( Vector3i() << 0, 1, 4 ).finished();
+        }
+        case 2: {
+          return ( Vector3i() << 1, 2, 5 ).finished();
+        }
+        case 3: {
+          return ( Vector3i() << 2, 3, 6 ).finished();
+        }
+        case 4: {
+          return ( Vector3i() << 3, 0, 7 ).finished();
+        }
+        default: {
+          throw std::invalid_argument( "Quad8: invalid face ID specifed" );
+        }
         }
       }
-    } // namespace Spatial2D
-  }   // namespace FiniteElement::Quadrature
-} // end of namespace Marmot
+
+    } // end of namespace Quad8
+
+  }   // end of namespace Spatial2D
+
+  // Declared under Marmot::Discretizations::Elements::Quadrature::Spatial2D (see MarmotFiniteElement.h); this
+  // definition previously lived one namespace level too shallow (Marmot::Discretizations::Elements::Spatial2D,
+  // missing the Quadrature level), so it could never actually be linked against its own
+  // declaration -- and, with no callers anywhere in the codebase, nothing noticed.
+  namespace Quadrature::Spatial2D {
+    void modifyCharElemLengthAbaqusLike( double& charElemLength, int intPoint )
+    {
+      switch ( intPoint ) {
+      case 0: // central node
+        charElemLength *= 2. / 3.;
+        break;
+      case 1: // corner nodes
+      case 2:
+      case 3:
+      case 4: charElemLength *= 5. / 12; break;
+      case 5: // middle nodes
+      case 6:
+      case 7:
+      case 8: charElemLength *= std::sqrt( 5. / 18. ); break;
+      }
+    }
+  } // namespace Quadrature::Spatial2D
+} // namespace Marmot::Discretizations::Elements

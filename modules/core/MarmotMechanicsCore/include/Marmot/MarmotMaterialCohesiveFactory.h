@@ -32,22 +32,24 @@
 #include <string>
 #include <unordered_map>
 
-namespace MarmotLibrary {
+namespace Marmot::Registry {
 
   /**
-   * @class MarmotMaterialCohesiveFactory
-   * @brief Factory for cohesive traction-separation laws (@ref MarmotMaterialCohesive).
+   * @class Marmot::Registry::MaterialCohesiveFactory
+   * @brief Factory for cohesive traction-separation laws (@ref Marmot::Materials::MaterialCohesive).
    *
    * Cohesive materials register themselves by name, and cohesive interface elements create them from the name of
    * their material section.
    */
-  class MARMOT_API MarmotMaterialCohesiveFactory {
+  class MARMOT_API MaterialCohesiveFactory {
   public:
     /// Function signature for material factory functions registered in the map.
     using materialFactoryFunction = std::function<
-      MarmotMaterialCohesive*( const double* materialProperties, int nMaterialProperties, int materialNumber ) >;
+      Marmot::Materials::MaterialCohesive*( const double* materialProperties,
+                                            int           nMaterialProperties,
+                                            int           materialNumber ) >;
 
-    MarmotMaterialCohesiveFactory() = delete;
+    MaterialCohesiveFactory() = delete;
 
     /**
      * @brief Create a material instance based on its name and properties.
@@ -58,10 +60,10 @@ namespace MarmotLibrary {
      * @return Pointer to the created material instance.
      * @throws std::invalid_argument if no material is registered under @p materialName.
      */
-    static MarmotMaterialCohesive* createMaterial( const std::string& materialName,
-                                                   const double*      materialProperties,
-                                                   int                nMaterialProperties,
-                                                   int                materialNumber );
+    static Marmot::Materials::MaterialCohesive* createMaterial( const std::string& materialName,
+                                                                const double*      materialProperties,
+                                                                int                nMaterialProperties,
+                                                                int                materialNumber );
 
     /**
      * @brief Register a material with its name and an auto-generated factory function.
@@ -75,8 +77,9 @@ namespace MarmotLibrary {
 
       assert( map.find( materialName ) == map.end() && "Material already registered!" );
 
-      map[materialName] =
-        []( const double* materialProperties, int nMaterialProperties, int materialNumber ) -> MarmotMaterialCohesive* {
+      map[materialName] = []( const double* materialProperties,
+                              int           nMaterialProperties,
+                              int           materialNumber ) -> Marmot::Materials::MaterialCohesive* {
         return new T( materialProperties, nMaterialProperties, materialNumber );
       };
       return true;
@@ -86,4 +89,4 @@ namespace MarmotLibrary {
     using MaterialFactoryMap = std::unordered_map< std::string, materialFactoryFunction >;
     static MaterialFactoryMap& materialFactoryFunctionByName();
   };
-} // namespace MarmotLibrary
+} // namespace Marmot::Registry

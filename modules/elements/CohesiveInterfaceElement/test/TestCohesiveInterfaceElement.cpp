@@ -17,15 +17,15 @@
 
 using namespace Marmot;
 using namespace Marmot::Testing;
-using namespace Marmot::Elements;
+using namespace Marmot::Discretizations::Elements;
 
 namespace {
 
   /// Linear penalty law t' = diag(kn, ks, ks) [[u]]', to check the element kinematics exactly.
-  class LinearPenaltyCohesive : public MarmotMaterialCohesive {
+  class LinearPenaltyCohesive : public Marmot::Materials::MaterialCohesive {
   public:
     LinearPenaltyCohesive( const double* props, int nProps, int number )
-      : MarmotMaterialCohesive( props, nProps, number )
+      : Marmot::Materials::MaterialCohesive( props, nProps, number )
     {
       stateLayout.add( "calls", 1 );
       stateLayout.finalize();
@@ -42,7 +42,7 @@ namespace {
   };
 
   const static bool
-    linearPenaltyIsRegistered = MarmotLibrary::MarmotMaterialCohesiveFactory::registerMaterial< LinearPenaltyCohesive >(
+    linearPenaltyIsRegistered = Marmot::Registry::MaterialCohesiveFactory::registerMaterial< LinearPenaltyCohesive >(
       "TESTLINEARPENALTYCOHESIVE" );
 
   /// The cohesive-frictional law with the parameters of Gudzulic & Meschke (2025), Table 2, but a softer penalty.
@@ -56,11 +56,11 @@ namespace {
   bool cohesiveFrictionalCrackIsAvailable()
   {
     try {
-      std::unique_ptr< MarmotMaterialCohesive > material(
-        MarmotLibrary::MarmotMaterialCohesiveFactory::createMaterial( "COHESIVEFRICTIONALCRACK",
-                                                                      cohesiveFrictionalProperties.data(),
-                                                                      cohesiveFrictionalProperties.size(),
-                                                                      1 ) );
+      std::unique_ptr< Marmot::Materials::MaterialCohesive > material(
+        Marmot::Registry::MaterialCohesiveFactory::createMaterial( "COHESIVEFRICTIONALCRACK",
+                                                                   cohesiveFrictionalProperties.data(),
+                                                                   cohesiveFrictionalProperties.size(),
+                                                                   1 ) );
       return material != nullptr;
     }
     catch ( const std::exception& ) {
@@ -190,11 +190,11 @@ namespace {
     std::unique_ptr< Element > element;
     std::vector< double >      stateVars;
 
-    ElementFixture(
-      const G&                                    geometry,
-      const std::string&                          materialName,
-      std::vector< double >                       props,
-      FiniteElement::Quadrature::IntegrationTypes integrationType = FiniteElement::Quadrature::NodalIntegration )
+    ElementFixture( const G&                                                        geometry,
+                    const std::string&                                              materialName,
+                    std::vector< double >                                           props,
+                    Marmot::Discretizations::Elements::Quadrature::IntegrationTypes integrationType =
+                      Marmot::Discretizations::Elements::Quadrature::NodalIntegration )
       : coordinates( geometry.coordinates() ),
         elementProperties( geometry.elementProperties ),
         materialProperties( std::move( props ) ),
@@ -202,13 +202,16 @@ namespace {
     {
       element->assignNodeCoordinates( coordinates.data() );
       if ( !elementProperties.empty() )
-        element->assignProperty( ElementProperties( elementProperties.data(), elementProperties.size() ) );
-      element->assignProperty(
-        MarmotMaterialSection( materialName, materialProperties.data(), materialProperties.size() ) );
+        element->assignProperty(
+          Marmot::Discretizations::ElementProperties( elementProperties.data(), elementProperties.size() ) );
+      element->assignProperty( Marmot::Discretizations::MaterialSection( materialName,
+                                                                         materialProperties.data(),
+                                                                         materialProperties.size() ) );
       stateVars.resize( element->getNumberOfRequiredStateVars() );
       element->assignStateVars( stateVars.data(), stateVars.size() );
       element->initializeYourself();
-      element->setInitialConditions( MarmotElement::MarmotMaterialInitialization, nullptr );
+      element->setInitialConditions( Marmot::Discretizations::Elements::Element::MarmotMaterialInitialization,
+                                     nullptr );
     }
 
     /// Internal force and tangent for a total displacement, starting from the current history.
@@ -225,7 +228,7 @@ namespace {
   template < class G >
   void testFactory( const G& g )
   {
-    using namespace FiniteElement::Quadrature;
+    using namespace Marmot::Discretizations::Elements::Quadrature;
 
     // the CI* elements are integrated with the nodal rule, the CI*G elements with full Gauss integration
     const auto shape = G::Element::ParentGeometryElement::getInterfaceElementShape();
@@ -233,7 +236,8 @@ namespace {
           { std::pair{ g.name, G::nFaceNodes },
             std::pair{ g.name + "G", int( getQuadraturePointInfo( shape, FullIntegration ).size() ) } } ) {
 
-      std::unique_ptr< MarmotElement > element( MarmotLibrary::MarmotElementFactory::createElement( name, 1 ) );
+      std::unique_ptr< Marmot::Discretizations::Elements::Element > element(
+        Marmot::Registry::ElementFactory::createElement( name, 1 ) );
       throwExceptionOnFailure( element != nullptr, name + " is not registered with the element factory." );
       throwExceptionOnFailure( element->getElementShape() == g.shape,
                                name + " must be written as the EnSight cell " + g.shape + "." );
@@ -245,7 +249,8 @@ namespace {
                                name + " node fields are wrong." );
       throwExceptionOnFailure( dynamic_cast< typename G::Element& >( *element ).getNumberOfQuadraturePoints() ==
                                  nQuadraturePoints,
-                               MakeString() << name << " must have " << nQuadraturePoints << " integration points." );
+                               Marmot::Utilities::MakeString()
+                                 << name << " must have " << nQuadraturePoints << " integration points." );
     }
   }
 
@@ -270,8 +275,9 @@ namespace {
     throwExceptionOnFailure( isClose( f.element->qps[0].R.row( 1 ).transpose(), g.firstEdge, 1e-14 ),
                              g.name + ": the second local axis must follow the first edge." );
     throwExceptionOnFailure( checkIfEqual( weightSum, g.measure, 1e-14 ),
-                             MakeString() << g.name << ": the weights sum to " << weightSum
-                                          << " instead of the measure " << g.measure << " of the face." );
+                             Marmot::Utilities::MakeString()
+                               << g.name << ": the weights sum to " << weightSum << " instead of the measure "
+                               << g.measure << " of the face." );
 
     const auto qpCoords = f.element->getCoordinatesAtQuadraturePoints();
     for ( int A = 0; A < G::nFaceNodes; A++ )
@@ -359,7 +365,7 @@ namespace {
       throwExceptionOnFailure( isClose( P.template segment< G::nDim >( G::nDim * ( G::nFaceNodes + A ) ),
                                         nodalForce,
                                         1e-9 ),
-                               MakeString()
+                               Marmot::Utilities::MakeString()
                                  << g.name << ": wrong force at top node " << A << ": "
                                  << P.template segment< G::nDim >( G::nDim * ( G::nFaceNodes + A ) ).transpose() );
       throwExceptionOnFailure( isClose( P.template segment< G::nDim >( G::nDim * A ), -nodalForce, 1e-9 ),
@@ -394,7 +400,7 @@ namespace {
   template < class G >
   void testStiffnessMatchesNumericalDifferentiation( const G& g )
   {
-    using namespace FiniteElement::Quadrature;
+    using namespace Marmot::Discretizations::Elements::Quadrature;
 
     for ( auto integrationType : { NodalIntegration, FullIntegration } ) {
       ElementFixture f( g, "COHESIVEFRICTIONALCRACK", cohesiveFrictionalProperties, integrationType );
@@ -431,8 +437,9 @@ namespace {
 
       const double err = ( K - KNum ).template lpNorm< Eigen::Infinity >() / K.template lpNorm< Eigen::Infinity >();
       throwExceptionOnFailure( err < 1e-6,
-                               MakeString() << g.name << " (integration type " << integrationType
-                                            << "): the stiffness differs from numerical differentiation: " << err );
+                               Marmot::Utilities::MakeString()
+                                 << g.name << " (integration type " << integrationType
+                                 << "): the stiffness differs from numerical differentiation: " << err );
     }
   }
 
@@ -483,8 +490,9 @@ namespace {
 
       f.element->computeInternalEnergy( internalEnergy );
       throwExceptionOnFailure( checkIfEqual( internalEnergy, work, 1e-10 * work ),
-                               MakeString() << g.name << ", waypoint " << w << ": the internal energy "
-                                            << internalEnergy << " differs from the work " << work << "." );
+                               Marmot::Utilities::MakeString()
+                                 << g.name << ", waypoint " << w << ": the internal energy " << internalEnergy
+                                 << " differs from the work " << work << "." );
     }
 
     for ( int q = 0; q < G::nFaceNodes; q++ ) {
@@ -502,7 +510,7 @@ namespace {
   template < class G >
   void testGaussIntegrationCouplesNodePairs( const G& g )
   {
-    using namespace FiniteElement::Quadrature;
+    using namespace Marmot::Discretizations::Elements::Quadrature;
 
     const double   kn = 1e6, ks = 3e5, delta = 2e-4;
     ElementFixture fNodal( g, "TESTLINEARPENALTYCOHESIVE", { kn, ks }, NodalIntegration );
@@ -557,12 +565,16 @@ namespace {
     std::vector< double > dummy( G::nDof * G::nDof );
     expectThrow( [&] { f.element->computeBodyForce( dummy.data(), dummy.data(), dummy.data(), dummy.data(), 0, 1 ); },
                  "computeBodyForce" );
-    expectThrow( [&] { f.element->setInitialConditions( MarmotElement::GeostaticStress, dummy.data() ); },
-                 "an unsupported initial condition" );
+    expectThrow(
+      [&] {
+        f.element->setInitialConditions( Marmot::Discretizations::Elements::Element::GeostaticStress, dummy.data() );
+      },
+      "an unsupported initial condition" );
     expectThrow(
       [&] {
         const std::vector< double > props = { 1.0 };
-        f.element->assignProperty( MarmotMaterialSection( "NOTACOHESIVEMATERIAL", props.data(), 1 ) );
+        f.element->assignProperty(
+          Marmot::Discretizations::MaterialSection( "NOTACOHESIVEMATERIAL", props.data(), 1 ) );
       },
       "an unknown cohesive material" );
   }
@@ -657,18 +669,19 @@ void TestLineMatchesExtrudedQuadrilateral()
 
     const double scale = std::max( PLine.lpNorm< Eigen::Infinity >(), 1e-30 );
     throwExceptionOnFailure( isClose( PLine, T.transpose() * PStrip, 1e-12 * scale ),
-                             MakeString()
+                             Marmot::Utilities::MakeString()
                                << "Step " << step << ": the CILINE2 force differs from the extruded CIQUAD4:\n"
                                << PLine.transpose() << "\n"
                                << ( T.transpose() * PStrip ).transpose() );
     throwExceptionOnFailure( isClose( KLine,
                                       Eigen::Matrix< double, 8, 8 >( T.transpose() * KStrip * T ),
                                       1e-12 * KLine.lpNorm< Eigen::Infinity >() ),
-                             MakeString()
+                             Marmot::Utilities::MakeString()
                                << "Step " << step << ": the CILINE2 stiffness differs from the extruded CIQUAD4." );
     for ( int m = 0; m < 8; m++ )
       throwExceptionOnFailure( std::abs( PStrip( 3 * m + 2 ) ) <= 1e-12 * scale,
-                               MakeString() << "Step " << step << ": the extruded CIQUAD4 has an out-of-plane force." );
+                               Marmot::Utilities::MakeString()
+                                 << "Step " << step << ": the extruded CIQUAD4 has an out-of-plane force." );
   }
 }
 

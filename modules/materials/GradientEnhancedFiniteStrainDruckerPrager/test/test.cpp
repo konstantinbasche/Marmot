@@ -17,8 +17,8 @@
 
 using namespace Marmot::Testing;
 using namespace Marmot::Materials;
-using namespace Marmot::FastorStandardTensors;
-using namespace Marmot::FastorIndices;
+using namespace Marmot::Math::Tensors::FastorTensors;
+using namespace Marmot::Math::Tensors::FastorIndices;
 
 using Mat = GradientEnhancedFiniteStrainDruckerPrager;
 
@@ -62,7 +62,7 @@ namespace {
   std::vector< double > freshState( Mat& mat )
   {
     std::vector< double > state( mat.getNumberOfRequiredStateVars() );
-    mat.initializeYourself( state.data(), state.size() );
+    mat.initializeYourself( state.data(), static_cast< int >( state.size() ) );
     return state;
   }
 
@@ -114,7 +114,7 @@ namespace {
 void testElasticRangeIsCompressibleNeoHooke()
 {
   const auto props = properties( 1e6, 30., 10. ); // never yields
-  Mat        mat( props.data(), props.size(), 1 );
+  Mat        mat( props.data(), static_cast< int >( props.size() ), 1 );
 
   CompressibleNeoHooke                            reference( props.data(), 2, 1 );
   CompressibleNeoHooke::ConstitutiveResponse< 3 > r( Tensor33d( 0.0 ), 0., 0., nullptr );
@@ -136,7 +136,7 @@ void testConsistencyAndFlowRule()
 
   for ( double psi : { 0.0, 10.0, 30.0 } ) {
     const auto props = properties( c0, phi, psi, H );
-    Mat        mat( props.data(), props.size(), 1 );
+    Mat        mat( props.data(), static_cast< int >( props.size() ), 1 );
     const auto res = evaluate( mat, testF( 0.1 ), 0.0, freshState( mat ) );
 
     const double alphaP = stateValue( mat, res.state, "alphaP" );
@@ -144,7 +144,8 @@ void testConsistencyAndFlowRule()
 
     const double f = yieldFunction( res.tau, alphaP, c0, phi, H );
     throwExceptionOnFailure( std::abs( f ) < 1e-8 * c0,
-                             MakeString() << "the returned state is not on the yield surface, f = " << f << where );
+                             Marmot::Utilities::MakeString()
+                               << "the returned state is not on the yield surface, f = " << f << where );
 
     // exponential map: ln det Fp is the volumetric plastic log strain = etaBar dLambda = (etaBar / xi) alphaP
     const Tensor33d Fp( mat.getStateView( "Fp", const_cast< double* >( res.state.data() ) ).stateLocation );
@@ -153,7 +154,8 @@ void testConsistencyAndFlowRule()
     const double    xi        = Mat::outerConeParameters( phi ).second;
     const double    predicted = etaBar / xi * alphaP;
     throwExceptionOnFailure( std::abs( lnJp - predicted ) < 1e-10,
-                             MakeString() << "flow rule: ln det Fp = " << lnJp << ", expected " << predicted << where );
+                             Marmot::Utilities::MakeString()
+                               << "flow rule: ln det Fp = " << lnJp << ", expected " << predicted << where );
 
     // the local damage variable is the dilatant plastic strain: without dilatancy, L and dL/dF vanish together
     double normdL_dF = 0.0;
@@ -171,7 +173,7 @@ void testApexReturn()
 {
   const double c0 = 5., phi = 30., psi = 20., H = 100.;
   const auto   props = properties( c0, phi, psi, H );
-  Mat          mat( props.data(), props.size(), 1 );
+  Mat          mat( props.data(), static_cast< int >( props.size() ), 1 );
 
   // hydrostatic tension far beyond the apex
   const auto res = evaluate( mat, stretch( 1.01, 1.01, 1.01 ), 0.0, freshState( mat ) );
@@ -190,7 +192,7 @@ void testApexReturn()
 void testObjectivity()
 {
   const auto props = properties( 5., 30., 10. );
-  Mat        mat( props.data(), props.size(), 1 );
+  Mat        mat( props.data(), static_cast< int >( props.size() ), 1 );
 
   const auto      ref = evaluate( mat, testF( 0.1 ), 0.0, freshState( mat ) );
   const Tensor33d Fp0( mat.getStateView( "Fp", const_cast< double* >( ref.state.data() ) ).stateLocation );
@@ -239,13 +241,14 @@ void checkTangents( const Mat&                   mat,
         for ( int j = 0; j < 3; j++ ) {
           const double num = ( rp.tau( i, j ) - rm.tau( i, j ) ) / ( 2 * h );
           throwExceptionOnFailure( std::abs( res.t.dTau_dF( i, j, k, l ) - num ) < tol( num, scaleTau ),
-                                   MakeString() << branch << ": dTau_dF(" << i << j << k << l
-                                                << ") = " << res.t.dTau_dF( i, j, k, l ) << " vs " << num << where );
+                                   Marmot::Utilities::MakeString()
+                                     << branch << ": dTau_dF(" << i << j << k << l
+                                     << ") = " << res.t.dTau_dF( i, j, k, l ) << " vs " << num << where );
         }
       const double numL = ( rp.L - rm.L ) / ( 2 * h );
       throwExceptionOnFailure( std::abs( res.t.dL_dF( k, l ) - numL ) < tol( numL, scaleL ),
-                               MakeString() << branch << ": dL_dF(" << k << l << ") = " << res.t.dL_dF( k, l ) << " vs "
-                                            << numL << where );
+                               Marmot::Utilities::MakeString() << branch << ": dL_dF(" << k << l << ") = "
+                                                               << res.t.dL_dF( k, l ) << " vs " << numL << where );
     }
 
   const double hN = 1e-7;
@@ -266,7 +269,7 @@ void testTangentInThePlasticBranch()
 {
   // plasticity AND damage active
   const auto props = properties( 5., 30., 10., 100., 0.05, 0.5 );
-  Mat        mat( props.data(), props.size(), 1 );
+  Mat        mat( props.data(), static_cast< int >( props.size() ), 1 );
   checkTangents( mat, testF( 0.1 ), 2e-3, freshState( mat ), "cone" );
 
   // from a plastic, damaged state (Fp != I)
@@ -277,7 +280,7 @@ void testTangentInThePlasticBranch()
 void testTangentAtTheApex()
 {
   const auto props = properties( 5., 30., 20., 100., 0.05, 0.5 );
-  Mat        mat( props.data(), props.size(), 1 );
+  Mat        mat( props.data(), static_cast< int >( props.size() ), 1 );
   const auto state0 = freshState( mat );
 
   // a tension trial state beyond the apex, with a small deviatoric part
@@ -296,7 +299,7 @@ void testNearTheVertex()
   // lies on the cone with a small deviator. The apex state here would violate its subdifferential condition, and a
   // return that falls back to it makes the response discontinuous in F.
   const std::array< double, 11 > props = { K, G, 5.0, 30.0, 10.0, 0.0, 0.005, 0.99, 2.0, 1.5, 1.0 };
-  Mat                            mat( props.data(), props.size(), 1 );
+  Mat                            mat( props.data(), static_cast< int >( props.size() ), 1 );
   Tensor33d                      F = stretch( 1.0056742731167041, 0.99934189820798636, 1.0 );
   F( 0, 1 )                        = -0.0045365520453929751;
   F( 1, 0 )                        = -0.0055641206783383192;
@@ -305,7 +308,8 @@ void testNearTheVertex()
   const Eigen::Matrix3d tau = toEigen( res.tau );
   const double          dev = ( tau - tau.trace() / 3.0 * Eigen::Matrix3d::Identity() ).norm();
   throwExceptionOnFailure( dev > 1e-2,
-                           MakeString() << "the state must stay on the cone, |dev tau| = " << dev << where );
+                           Marmot::Utilities::MakeString()
+                             << "the state must stay on the cone, |dev tau| = " << dev << where );
   throwExceptionOnFailure( std::abs( yieldFunction( res.tau, stateValue( mat, res.state, "alphaP" ), 5., 30., 0.0 ) ) <
                              1e-8,
                            "on the cone" + where );
@@ -317,7 +321,7 @@ void testLargeIncrement()
   // a far-off iterate of a global Newton scheme (from an MPM run): a plastic increment of order one, beyond the
   // range of the plain series of the tensor exponential. The return must still end on the cone.
   const auto props = properties( 5., 30., 10., 0.0 );
-  Mat        mat( props.data(), props.size(), 1 );
+  Mat        mat( props.data(), static_cast< int >( props.size() ), 1 );
   Tensor33d  F                                              = stretch( 1.6491543352545375, 0.67203941841161841, 1.0 );
   F( 0, 1 )                                                 = 0.0029042753684767816;
   F( 1, 0 )                                                 = 0.17121287455412429;
@@ -334,8 +338,9 @@ void testLargeIncrement()
   throwExceptionOnFailure( std::abs( res.tau( 0, 0 ) + 66.70672101670 ) < 1e-8 &&
                              std::abs( res.tau( 1, 1 ) + 400.5796457121 ) < 1e-8 &&
                              std::abs( alphaP - 0.9634808934576 ) < 1e-11,
-                           MakeString() << "large increment: tau_xx " << res.tau( 0, 0 ) << ", tau_yy "
-                                        << res.tau( 1, 1 ) << ", alphaP " << alphaP << where );
+                           Marmot::Utilities::MakeString()
+                             << "large increment: tau_xx " << res.tau( 0, 0 ) << ", tau_yy " << res.tau( 1, 1 )
+                             << ", alphaP " << alphaP << where );
   throwExceptionOnFailure( std::abs( yieldFunction( res.tau, alphaP, 5., 30., 0.0 ) ) < 1e-8,
                            "a large increment must still return to the cone" + where );
 }
@@ -344,7 +349,7 @@ void testGradientEnhancedDamage()
 {
   const double c0 = 5., phi = 30., psi = 20., H = 100., epsF = 0.05;
   const auto   props = properties( c0, phi, psi, H, epsF, 0.5 );
-  Mat          mat( props.data(), props.size(), 1 );
+  Mat          mat( props.data(), static_cast< int >( props.size() ), 1 );
 
   // the local variable grows with the dilatant plastic flow and is exported as the source L
   const auto res = evaluate( mat, testF( 0.1 ), 1e-2, freshState( mat ) );
@@ -357,7 +362,7 @@ void testGradientEnhancedDamage()
 
   // damage scales the effective stress
   const auto props0 = properties( c0, phi, psi, H, 1e10, 0.5 );
-  Mat        undamaged( props0.data(), props0.size(), 1 );
+  Mat        undamaged( props0.data(), static_cast< int >( props0.size() ), 1 );
   const auto res0 = evaluate( undamaged, testF( 0.1 ), 1e-2, freshState( undamaged ) );
   throwExceptionOnFailure( checkIfEqual( res.tau, Tensor33d( ( 1. - omega ) * res0.tau ), 1e-9 * norm( res0.tau ) ),
                            "tau != (1 - omega) tau_eff" + where );
@@ -373,7 +378,7 @@ void testGradientEnhancedDamage()
 void testElasticUnloading()
 {
   const auto props = properties( 5., 30., 10. );
-  Mat        mat( props.data(), props.size(), 1 );
+  Mat        mat( props.data(), static_cast< int >( props.size() ), 1 );
 
   const auto   loaded   = evaluate( mat, testF( 0.1 ), 0.0, freshState( mat ) );
   const double alphaP   = stateValue( mat, loaded.state, "alphaP" );
@@ -386,7 +391,7 @@ void testElasticUnloading()
 void testCumulativeDissipation()
 {
   const auto props = properties( 5., 30., 10., 100., 0.05, 0.5 );
-  Mat        mat( props.data(), props.size(), 1 );
+  Mat        mat( props.data(), static_cast< int >( props.size() ), 1 );
 
   // the incoming dissipation is carried over and incremented by a plastic, damaging step ...
   const double carried = 3.0;
@@ -402,10 +407,13 @@ void testCumulativeDissipation()
 
 void testFactoryAndValidation()
 {
-  const auto                                                    props = properties( 5., 30., 10. );
-  std::unique_ptr< MarmotMaterialGradientEnhancedFiniteStrain > mat(
-    MarmotLibrary::MarmotMaterialGradientEnhancedFiniteStrainFactory::
-      createMaterial( "GRADIENTENHANCEDFINITESTRAINDRUCKERPRAGER", props.data(), props.size(), 1 ) );
+  const auto                                                                 props = properties( 5., 30., 10. );
+  std::unique_ptr< Marmot::Materials::MaterialGradientEnhancedFiniteStrain > mat(
+    Marmot::Registry::MaterialGradientEnhancedFiniteStrainFactory::
+      createMaterial( "GRADIENTENHANCEDFINITESTRAINDRUCKERPRAGER",
+                      props.data(),
+                      static_cast< int >( props.size() ),
+                      1 ) );
   throwExceptionOnFailure( mat != nullptr, "factory" + where );
   throwExceptionOnFailure( mat->getNumberOfRequiredStateVars() == 13,
                            "state layout: Fp, alphaP, alphaD, kappa, omega" + where );
@@ -414,7 +422,7 @@ void testFactoryAndValidation()
   bool threw = false;
   try {
     const auto bad = properties( 5., 20., 30. ); // dilatancy above friction
-    Mat        m( bad.data(), bad.size(), 1 );
+    Mat        m( bad.data(), static_cast< int >( bad.size() ), 1 );
   }
   catch ( const std::invalid_argument& ) {
     threw = true;
@@ -424,7 +432,7 @@ void testFactoryAndValidation()
   auto rejects = [&]( std::vector< double > p, const std::string& what ) {
     bool thrown = false;
     try {
-      Mat m( p.data(), p.size(), 1 );
+      Mat m( p.data(), static_cast< int >( p.size() ), 1 );
     }
     catch ( const std::invalid_argument& ) {
       thrown = true;
@@ -454,14 +462,14 @@ void testFailurePaths()
   // a degenerate deformation gradient cannot be decomposed
   {
     const auto props = properties( 5., 30., 10. );
-    Mat        mat( props.data(), props.size(), 1 );
+    Mat        mat( props.data(), static_cast< int >( props.size() ), 1 );
     Tensor33d  F = stretch( 1.0, 1.0, 1.0 );
     F( 2, 0 ) = F( 2, 1 ) = F( 2, 2 ) = 0.0;
     bool threw                        = false;
     try {
       evaluate( mat, F, 0.0, freshState( mat ) );
     }
-    catch ( const Marmot::StressUpdateFailed& ) {
+    catch ( const Marmot::Utilities::StressUpdateFailed& ) {
       threw = true;
     }
     throwExceptionOnFailure( threw, "a singular F must raise StressUpdateFailed" + where );
@@ -470,12 +478,12 @@ void testFailurePaths()
   // without dilatancy there is no apex to return to: hydrostatic tension beyond the cone has no admissible state
   {
     const auto props = properties( 5., 30., 0.0 );
-    Mat        mat( props.data(), props.size(), 1 );
+    Mat        mat( props.data(), static_cast< int >( props.size() ), 1 );
     bool       threw = false;
     try {
       evaluate( mat, stretch( 1.01, 1.01, 1.01 ), 0.0, freshState( mat ) );
     }
-    catch ( const Marmot::StressUpdateFailed& ) {
+    catch ( const Marmot::Utilities::StressUpdateFailed& ) {
       threw = true;
     }
     throwExceptionOnFailure( threw, "a return map without solution must raise StressUpdateFailed" + where );
@@ -485,7 +493,7 @@ void testFailurePaths()
   // end on the apex
   {
     const auto props = properties( 5., 30., 20., 100. );
-    Mat        mat( props.data(), props.size(), 1 );
+    Mat        mat( props.data(), static_cast< int >( props.size() ), 1 );
     const auto res = evaluate( mat, stretch( 1.01, 1.01, 1.0101 ), 0.0, freshState( mat ) );
 
     const Eigen::Matrix3d tau = toEigen( res.tau );
@@ -517,7 +525,7 @@ const std::array< double, 11 > issue111Properties =
 
 void testNoGapBetweenApexAndCone()
 {
-  Mat mat( issue111Properties.data(), issue111Properties.size(), 1 );
+  Mat mat( issue111Properties.data(), static_cast< int >( issue111Properties.size() ), 1 );
   const auto [eta, xi] = Mat::outerConeParameters( 30. );
 
   // a committed apex state: hydrostatic tension beyond the apex
@@ -539,15 +547,15 @@ void testNoGapBetweenApexAndCone()
       try {
         res = evaluate( mat, F, 0.0, apex.state );
       }
-      catch ( const Marmot::StressUpdateFailed& e ) {
-        throw std::runtime_error( MakeString()
+      catch ( const Marmot::Utilities::StressUpdateFailed& ) {
+        throw std::runtime_error( Marmot::Utilities::MakeString()
                                   << "no return for a perturbation of " << eps << " of an apex state" << where );
       }
       // on or inside the yield surface (H = 0), with the effective stress
       const double omega = stateValue( mat, res.state, "omega" );
       const double f = yieldFunction( Tensor33d( res.tau / ( 1.0 - omega ) ), 0.0, issue111Properties[2], 30., 0.0 );
       throwExceptionOnFailure( f < 1e-6 * xi * issue111Properties[2],
-                               MakeString() << "outside the yield surface, f = " << f << where );
+                               Marmot::Utilities::MakeString() << "outside the yield surface, f = " << f << where );
     }
 }
 
@@ -555,7 +563,7 @@ void testConeWithAVanishingDeviator()
 {
   // from a committed plastic state, a trial state just above the apex pressure whose cone solution has a tiny
   // deviator (sqrt(J2) ~ 2e-4 with c0 = 20): formerly no return was found
-  Mat                   mat( issue111Properties.data(), issue111Properties.size(), 1 );
+  Mat                   mat( issue111Properties.data(), static_cast< int >( issue111Properties.size() ), 1 );
   std::vector< double > state = freshState( mat );
   const double          Fp[9] = { 1.061058648907552,
                                   -0.022238713166511867,
@@ -582,9 +590,10 @@ void testConeWithAVanishingDeviator()
 
   const auto      res    = evaluate( mat, F, 0.0, state );
   const double    alphaP = stateValue( mat, res.state, "alphaP" );
-  const Tensor33d dev    = Marmot::deviatoric( res.tau );
+  const Tensor33d dev    = Marmot::Math::Tensors::deviatoric( res.tau );
   const double    q      = std::sqrt( 0.5 * inner( dev, dev ) );
-  throwExceptionOnFailure( q > 0.0 && q < 1e-3, MakeString() << "a cone solution near the vertex, q = " << q << where );
+  throwExceptionOnFailure( q > 0.0 && q < 1e-3,
+                           Marmot::Utilities::MakeString() << "a cone solution near the vertex, q = " << q << where );
   throwExceptionOnFailure( std::abs( yieldFunction( res.tau, alphaP, issue111Properties[2], 30., 0.0 ) ) < 1e-8,
                            "on the cone" + where );
   // the state is ~1e-7 (in strain) away from the vertex: the difference step must stay below that, and the central
@@ -610,12 +619,12 @@ void testApexReturnIsObjective()
 {
   // the apex return keeps the elastic rotation of the trial state: Fp does not see a superposed rotation
   const auto props = properties( 5., 30., 20., 100. );
-  Mat        mat( props.data(), props.size(), 1 );
+  Mat        mat( props.data(), static_cast< int >( props.size() ), 1 );
   Tensor33d  F        = stretch( 1.01, 1.012, 1.0105 );
   F( 0, 1 )           = 1e-4;
   const auto      ref = evaluate( mat, F, 0.0, freshState( mat ) );
   const Tensor33d Fp0( mat.getStateView( "Fp", const_cast< double* >( ref.state.data() ) ).stateLocation );
-  const Tensor33d dev = Marmot::deviatoric( ref.tau );
+  const Tensor33d dev = Marmot::Math::Tensors::deviatoric( ref.tau );
   throwExceptionOnFailure( std::sqrt( inner( dev, dev ) ) < 1e-9 * std::abs( trace( ref.tau ) ),
                            "the objectivity check must be at the apex" + where );
 
@@ -637,7 +646,7 @@ void testApexReturnIsObjective()
 void testOnlyStressUpdateFailedEscapes()
 {
   // large increments from plastic states: a failure must be a StressUpdateFailed (which makes the host cut back)
-  Mat mat( issue111Properties.data(), issue111Properties.size(), 1 );
+  Mat mat( issue111Properties.data(), static_cast< int >( issue111Properties.size() ), 1 );
 
   // a 30 % increment from a plastic state, for which ExponentialMapFailed (a plain std::exception) escaped
   {
@@ -666,10 +675,11 @@ void testOnlyStressUpdateFailedEscapes()
     try {
       evaluate( mat, Tensor33d( F ), 0.0, state );
     }
-    catch ( const Marmot::StressUpdateFailed& ) {
+    catch ( const Marmot::Utilities::StressUpdateFailed& ) {
     }
-    catch ( const std::exception& e ) {
-      throw std::runtime_error( MakeString() << "an exception other than StressUpdateFailed escaped" << where );
+    catch ( const std::exception& ) {
+      throw std::runtime_error( Marmot::Utilities::MakeString()
+                                << "an exception other than StressUpdateFailed escaped" << where );
     }
   }
 
@@ -685,10 +695,11 @@ void testOnlyStressUpdateFailedEscapes()
         try {
           evaluate( mat, Tensor33d( Tensor33d( Spatial3D::I + eps * A ) % F0 ), 0.0, committed.state );
         }
-        catch ( const Marmot::StressUpdateFailed& ) {
+        catch ( const Marmot::Utilities::StressUpdateFailed& ) {
         }
-        catch ( const std::exception& e ) {
-          throw std::runtime_error( MakeString() << "an exception other than StressUpdateFailed escaped" << where );
+        catch ( const std::exception& ) {
+          throw std::runtime_error( Marmot::Utilities::MakeString()
+                                    << "an exception other than StressUpdateFailed escaped" << where );
         }
       }
   }
