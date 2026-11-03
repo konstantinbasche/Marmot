@@ -1,4 +1,5 @@
 #include "Marmot/DisplacementFiniteElement.h"
+#include "Marmot/MarmotElementFactory.h"
 #include "Marmot/MarmotElementProperty.h"
 #include "Marmot/MarmotFiniteElement.h"
 #include "Marmot/MarmotNumericalDifferentiation.h"
@@ -7,6 +8,7 @@
 #include <algorithm>
 #include <cmath>
 #include <string>
+#include <tuple>
 
 using namespace Marmot;
 using namespace Marmot::Elements;
@@ -984,6 +986,182 @@ void testComputeKernelsSolid3DTangentMatchesNumericalDifferentiation()
                            "computeKernels() stiffness matrix does not match the numerical tangent (Solid, 3D)." );
 }
 
+void testComputeKernelsTetra4HomogeneousStrainAndTangent()
+{
+  // the linear tetrahedron C3D4 represents a homogeneous strain exactly, with the nodal forces V * sigma * grad N
+  std::unique_ptr< MarmotElement > element( MarmotLibrary::MarmotElementFactory::createElement( "C3D4", 1 ) );
+  throwExceptionOnFailure( element->getElementShape() == "tetra4", "C3D4 must be written as tetra4." );
+
+  const std::vector< double > nodeCoordsVec = { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0 };
+  element->assignNodeCoordinates( nodeCoordsVec.data() );
+
+  const std::vector< double > matProps = { 10000.0, 0.2 };
+  element->assignProperty( MarmotMaterialSection( "LINEARELASTIC", matProps.data(), matProps.size() ) );
+
+  std::vector< double > stateVars( element->getNumberOfRequiredStateVars(), 0.0 );
+  element->assignStateVars( stateVars.data(), stateVars.size() );
+  element->initializeYourself();
+
+  // u_x = eps * x
+  const double    eps = 1e-3;
+  Eigen::VectorXd Q   = Eigen::VectorXd::Zero( 12 );
+  Q( 3 )              = eps;
+
+  Eigen::VectorXd P = Eigen::VectorXd::Zero( 12 );
+  Eigen::MatrixXd K = Eigen::MatrixXd::Zero( 12, 12 );
+  element->computeKernels( Q.data(), Q.data(), P.data(), K.data(), 0.0, 1.0 );
+
+  const double E = 10000.0, nu = 0.2, V = 1. / 6;
+  const double sigmaXX = E * ( 1 - nu ) / ( ( 1 + nu ) * ( 1 - 2 * nu ) ) * eps;
+  const double sigmaYY = E * nu / ( ( 1 + nu ) * ( 1 - 2 * nu ) ) * eps;
+
+  Eigen::VectorXd PExpected = Eigen::VectorXd::Zero( 12 );
+  PExpected( 3 )            = V * sigmaXX;  // node 1, grad N = e_x
+  PExpected( 7 )            = V * sigmaYY;  // node 2, grad N = e_y
+  PExpected( 11 )           = V * sigmaYY;  // node 3, grad N = e_z
+  PExpected( 0 )            = -V * sigmaXX; // node 0, grad N = -(e_x + e_y + e_z)
+  PExpected( 1 )            = -V * sigmaYY;
+  PExpected( 2 )            = -V * sigmaYY;
+
+  throwExceptionOnFailure( ( P - PExpected ).norm() < 1e-12, "C3D4 nodal forces for a homogeneous strain." );
+  throwExceptionOnFailure( ( K * Q - P ).norm() < 1e-12, "C3D4 stiffness of a linear material." );
+  throwExceptionOnFailure( ( K - K.transpose() ).norm() < 1e-9, "C3D4 stiffness must be symmetric." );
+}
+
+void testComputeKernelsTri3HomogeneousStrainAndTangent()
+{
+  // the linear triangles CPS3 and CPE3 represent a homogeneous strain exactly, with the nodal forces
+  // t * A * sigma * grad N
+  const double E = 10000.0, nu = 0.2, t = 2.0, A = 0.5;
+
+  // in-plane stresses of the strain eps_xx = eps
+  const double eps          = 1e-3;
+  const double sigmaXXPlane = E / ( 1 - nu * nu ) * eps;
+  const double sigmaYYPlane = E * nu / ( 1 - nu * nu ) * eps;
+  const double sigmaXXSolid = E * ( 1 - nu ) / ( ( 1 + nu ) * ( 1 - 2 * nu ) ) * eps;
+  const double sigmaYYSolid = E * nu / ( ( 1 + nu ) * ( 1 - 2 * nu ) ) * eps;
+
+  for ( const auto& [name, sigmaXX, sigmaYY] : { std::make_tuple( "CPS3", sigmaXXPlane, sigmaYYPlane ),
+                                                 std::make_tuple( "CPE3", sigmaXXSolid, sigmaYYSolid ) } ) {
+    const std::string                elementName( name );
+    std::unique_ptr< MarmotElement > element( MarmotLibrary::MarmotElementFactory::createElement( elementName, 1 ) );
+    throwExceptionOnFailure( element->getElementShape() == "tria3", elementName + " must be written as tria3." );
+    throwExceptionOnFailure( element->getNumberOfQuadraturePoints() == 1, elementName + " uses one Gauss point." );
+
+    const std::vector< double > nodeCoordsVec = { 0.0, 0.0, 1.0, 0.0, 0.0, 1.0 };
+    element->assignNodeCoordinates( nodeCoordsVec.data() );
+
+    const std::vector< double > elPropsVec = { t };
+    element->assignProperty( ElementProperties( elPropsVec.data(), elPropsVec.size() ) );
+    const std::vector< double > matProps = { E, nu };
+    element->assignProperty( MarmotMaterialSection( "LINEARELASTIC", matProps.data(), matProps.size() ) );
+
+    std::vector< double > stateVars( element->getNumberOfRequiredStateVars(), 0.0 );
+    element->assignStateVars( stateVars.data(), stateVars.size() );
+    element->initializeYourself();
+
+    // u_x = eps * x
+    Eigen::VectorXd Q = Eigen::VectorXd::Zero( 6 );
+    Q( 2 )            = eps;
+
+    Eigen::VectorXd P = Eigen::VectorXd::Zero( 6 );
+    Eigen::MatrixXd K = Eigen::MatrixXd::Zero( 6, 6 );
+    element->computeKernels( Q.data(), Q.data(), P.data(), K.data(), 0.0, 1.0 );
+
+    Eigen::VectorXd PExpected = Eigen::VectorXd::Zero( 6 );
+    PExpected( 2 )            = t * A * sigmaXX;  // node 1, grad N = e_x
+    PExpected( 5 )            = t * A * sigmaYY;  // node 2, grad N = e_y
+    PExpected( 0 )            = -t * A * sigmaXX; // node 0, grad N = -(e_x + e_y)
+    PExpected( 1 )            = -t * A * sigmaYY;
+
+    throwExceptionOnFailure( ( P - PExpected ).norm() < 1e-12,
+                             elementName + " nodal forces for a homogeneous strain." );
+    throwExceptionOnFailure( ( K * Q - P ).norm() < 1e-12, elementName + " stiffness of a linear material." );
+    throwExceptionOnFailure( ( K - K.transpose() ).norm() < 1e-9, elementName + " stiffness must be symmetric." );
+  }
+}
+
+namespace {
+  /// nodal forces of a unit pressure on face @p face of a factory element with the given coordinates
+  Eigen::VectorXd pressureLoad( const std::string& name, const std::vector< double >& coordinates, int face )
+  {
+    std::unique_ptr< MarmotElement > element( MarmotLibrary::MarmotElementFactory::createElement( name, 1 ) );
+    element->assignNodeCoordinates( coordinates.data() );
+    const std::vector< double > elPropsVec = { 1.0 }; // thickness of the 2D elements
+    element->assignProperty( ElementProperties( elPropsVec.data(), elPropsVec.size() ) );
+
+    const int       nDofs = static_cast< int >( coordinates.size() );
+    Eigen::VectorXd P     = Eigen::VectorXd::Zero( nDofs );
+    Eigen::MatrixXd K     = Eigen::MatrixXd::Zero( nDofs, nDofs );
+    Eigen::VectorXd Q     = Eigen::VectorXd::Zero( nDofs );
+    const double    p     = 1.0;
+    element->computeDistributedLoad( MarmotElement::Pressure, P.data(), K.data(), face, &p, Q.data(), 0.0, 1.0 );
+    return P;
+  }
+} // namespace
+
+void testDistributedPressureOnLinearSimplices()
+{
+  // a pressure on face f loads the face nodes with -p * A * n / nFaceNodes, n the outward normal; the sign is that of
+  // the Hexa8 and Quad4 faces lying in the same plane, and a closed surface carries no resultant
+  struct Case {
+    std::string                       name;
+    int                               nDim;
+    std::vector< double >             coordinates;
+    std::vector< std::vector< int > > faceNodes; // Abaqus face definitions, 0-based
+    std::vector< Eigen::Vector3d >    areaVectors;
+    std::string                       reference;
+    std::vector< double >             referenceCoordinates;
+    int                               face;
+    double                            referenceAreaRatio; // area of `face` / area of the reference face
+  };
+
+  // clang-format off
+  const std::vector< Case > cases = {
+    { "C3D4", 3, { 0, 0, 0,  1, 0, 0,  0, 1, 0,  0, 0, 1 },
+      { { 0, 1, 2 }, { 0, 3, 1 }, { 1, 3, 2 }, { 2, 3, 0 } },
+      { { 0, 0, -0.5 }, { 0, -0.5, 0 }, { 0.5, 0.5, 0.5 }, { -0.5, 0, 0 } },
+      "C3D8", { 0, 0, 0,  1, 0, 0,  1, 1, 0,  0, 1, 0,  0, 0, 1,  1, 0, 1,  1, 1, 1,  0, 1, 1 }, 1, 0.5 },
+    { "CPS3", 2, { 0, 0,  1, 0,  0, 1 },
+      { { 0, 1 }, { 1, 2 }, { 2, 0 } },
+      { { 0, -1, 0 }, { 1, 1, 0 }, { -1, 0, 0 } },
+      "CPS4", { 0, 0,  1, 0,  1, 1,  0, 1 }, 1, 1.0 },
+  };
+  // clang-format on
+
+  for ( const auto& c : cases ) {
+    Eigen::VectorXd total = Eigen::VectorXd::Zero( c.nDim );
+
+    for ( size_t f = 0; f < c.faceNodes.size(); f++ ) {
+      const Eigen::VectorXd P      = pressureLoad( c.name, c.coordinates, f + 1 );
+      const int             nNodes = static_cast< int >( c.coordinates.size() ) / c.nDim;
+      const auto&           nodes  = c.faceNodes[f];
+
+      for ( int node = 0; node < nNodes; node++ ) {
+        Eigen::VectorXd expected = Eigen::VectorXd::Zero( c.nDim );
+        if ( std::find( nodes.begin(), nodes.end(), node ) != nodes.end() )
+          expected = -c.areaVectors[f].head( c.nDim ) / double( nodes.size() );
+        throwExceptionOnFailure( ( P.segment( node * c.nDim, c.nDim ) - expected ).norm() < 1e-12,
+                                 c.name + " pressure on face " + std::to_string( f + 1 ) + ", node " +
+                                   std::to_string( node ) );
+        total += P.segment( node * c.nDim, c.nDim );
+      }
+    }
+    throwExceptionOnFailure( total.norm() < 1e-12, c.name + " pressure on the closed surface has no resultant." );
+
+    // same sign convention as the existing elements: compare the resultants on a face in the same plane
+    const Eigen::VectorXd P    = pressureLoad( c.name, c.coordinates, c.face );
+    const Eigen::VectorXd PRef = pressureLoad( c.reference, c.referenceCoordinates, c.face );
+    Eigen::VectorXd       F = Eigen::VectorXd::Zero( c.nDim ), FRef = Eigen::VectorXd::Zero( c.nDim );
+    for ( int i = 0; i < P.size(); i += c.nDim )
+      F += P.segment( i, c.nDim );
+    for ( int i = 0; i < PRef.size(); i += c.nDim )
+      FRef += PRef.segment( i, c.nDim );
+    throwExceptionOnFailure( ( F - c.referenceAreaRatio * FRef ).norm() < 1e-12,
+                             c.name + " pressure has the sign convention of " + c.reference + "." );
+  }
+}
+
 void testComputeKernelsUniaxialStressTangentMatchesNumericalDifferentiation()
 {
   // 2-node bar (T2D2's underlying 1D element), production-used per
@@ -1929,6 +2107,9 @@ int main()
     testBulkViscosityRejectsNegativeCoefficients,
     testComputeKernelsPlaneStrainTangentMatchesNumericalDifferentiation,
     testComputeKernelsSolid3DTangentMatchesNumericalDifferentiation,
+    testComputeKernelsTetra4HomogeneousStrainAndTangent,
+    testComputeKernelsTri3HomogeneousStrainAndTangent,
+    testDistributedPressureOnLinearSimplices,
     testComputeKernelsUniaxialStressTangentMatchesNumericalDifferentiation,
     testComputeKernelsExplicitThrowsForUniaxialStress,
     testComputeKernelsExplicitMatchesImplicitResidualPlaneStrain,

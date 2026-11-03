@@ -16,6 +16,19 @@ namespace Marmot::Elements::Registration {
   using namespace MarmotLibrary;
   using namespace Marmot::FiniteElement::Quadrature;
 
+  // linear triangles: the strain is constant in the element, so a single Gauss point integrates them exactly
+  const static bool CPS3_isRegistered = MarmotElementFactory::
+    registerElement( "CPS3",
+                     makeFactoryFunction< DisplacementFiniteElement< 2, 3 >,
+                                          ReducedIntegration,
+                                          DisplacementFiniteElement< 2, 3 >::PlaneStress >() );
+
+  const static bool CPE3_isRegistered = MarmotElementFactory::
+    registerElement( "CPE3",
+                     makeFactoryFunction< DisplacementFiniteElement< 2, 3 >,
+                                          ReducedIntegration,
+                                          DisplacementFiniteElement< 2, 3 >::PlaneStrain >() );
+
   const static bool CPS4_isRegistered = MarmotElementFactory::
     registerElement( "CPS4",
                      makeFactoryFunction< DisplacementFiniteElement< 2, 4 >,
@@ -45,6 +58,12 @@ namespace Marmot::Elements::Registration {
                      makeFactoryFunction< DisplacementFiniteElement< 2, 8 >,
                                           FullIntegration,
                                           DisplacementFiniteElement< 2, 8 >::PlaneStrain >() );
+
+  const static bool C3D4_isRegistered = MarmotLibrary::MarmotElementFactory::
+    registerElement( "C3D4",
+                     makeFactoryFunction< DisplacementFiniteElement< 3, 4 >,
+                                          FullIntegration,
+                                          DisplacementFiniteElement< 3, 4 >::SectionType::Solid >() );
 
   const static bool C3D8_isRegistered = MarmotLibrary::MarmotElementFactory::
     registerElement( "C3D8",

@@ -36,6 +36,21 @@ MarmotGeometryInterfaceElement< 3, 8 >::NSized MarmotGeometryInterfaceElement< 3
   return Marmot::FiniteElement::Spatial2D::Quad4::N( xi );
 }
 
+// ITri3:
+// 3-node triangular interface surface embedded in 3D,
+// with 6 total interface element nodes.
+/**
+ * @brief Shape functions of the three-node triangular interface surface at a parametric point.
+ *
+ * @param[in] xi area coordinates on the surface
+ * @return the three shape functions of the triangle
+ */
+template <>
+MarmotGeometryInterfaceElement< 3, 6 >::NSized MarmotGeometryInterfaceElement< 3, 6 >::N( const XiSized& xi ) const
+{
+  return Marmot::FiniteElement::Spatial2D::Tri3::N( xi );
+}
+
 /* -------------------------------------------------------------------------- */
 /* Shape-function derivatives wrt interface coordinates                       */
 /* -------------------------------------------------------------------------- */
@@ -70,9 +85,25 @@ MarmotGeometryInterfaceElement< 3, 8 >::dNdXiSized MarmotGeometryInterfaceElemen
   return Marmot::FiniteElement::Spatial2D::Quad4::dNdXi( xi );
 }
 
+// ITri3:
+// derivatives wrt area coordinates xi, eta.
+/**
+ * @brief Derivatives of the shape functions of the three-node triangular interface surface.
+ *
+ * @param[in] xi area coordinates on the surface
+ * @return the derivatives of the three shape functions with respect to the surface coordinates
+ */
+template <>
+MarmotGeometryInterfaceElement< 3, 6 >::dNdXiSized MarmotGeometryInterfaceElement< 3, 6 >::dNdXi(
+  const XiSized& xi ) const
+{
+  return Marmot::FiniteElement::Spatial2D::Tri3::dNdXi( xi );
+}
+
 /* -------------------------------------------------------------------------- */
 /* Explicit template instantiation                                            */
 /* -------------------------------------------------------------------------- */
 
 template class MarmotGeometryInterfaceElement< 2, 4 >;
 template class MarmotGeometryInterfaceElement< 3, 8 >;
+template class MarmotGeometryInterfaceElement< 3, 6 >;

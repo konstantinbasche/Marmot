@@ -570,7 +570,7 @@ namespace Marmot::Elements {
     const double thickness = elementProperties.size() > 0 ? elementProperties[0] : 1.0;
 
     for ( QuadraturePoint& qp : qps ) {
-      const auto geom = this->evaluateAt( qp.xi, 0 );
+      const auto geom = this->evaluateAt( qp.xi, ParentGeometryElement::InterfaceSurface::Bottom );
 
       qp.N                 = geom.N;
       qp.dNdXi             = geom.dNdXi;
@@ -814,7 +814,7 @@ namespace Marmot::Elements {
     const auto Ncenter  = this->N( centerXi );
     const auto Nmat     = this->NMatrix( Ncenter );
 
-    const auto xSide = this->getSideCoordinates( 0 );
+    const auto xSide = this->getSideCoordinates( ParentGeometryElement::InterfaceSurface::Bottom );
 
     coordsMap = Nmat * xSide;
 
@@ -831,7 +831,7 @@ namespace Marmot::Elements {
 
       Eigen::Map< VectorDim > coordsMap( coords.data() );
 
-      const auto xSide = this->getSideCoordinates( 0 );
+      const auto xSide = this->getSideCoordinates( ParentGeometryElement::InterfaceSurface::Bottom );
       coordsMap        = qp.NmatSide * xSide;
 
       listedCoords.push_back( coords );

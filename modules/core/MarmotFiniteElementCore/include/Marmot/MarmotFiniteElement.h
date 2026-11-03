@@ -41,6 +41,7 @@ namespace Marmot {
     enum ElementShapes {
       Bar2,    ///< 1-D 2-node bar
       Bar3,    ///< 1-D 3-node bar
+      Tri3,    ///< 2-D 3-node triangle
       Quad4,   ///< 2-D 4-node quadrilateral
       Quad8,   ///< 2-D 8-node serendipity quadrilateral
       Quad9,   ///< 2-D 9-node quadrilateral
@@ -264,6 +265,22 @@ namespace Marmot {
         /// @brief Return the local node indices for boundary face @p faceID.
         Eigen::Vector3i getBoundaryElementIndices( int faceID );
       } // namespace Quad8
+
+      namespace Tri3 {
+        constexpr int nNodes = 3;                                          ///< Number of nodes for a Tri3 element.
+
+        using CoordinateSized = Eigen::Matrix< double, nNodes * nDim, 1 >; ///< Flat vector of nodal coordinates.
+        using NSized          = Eigen::Matrix< double, 1, nNodes >;        ///< Row vector of shape function values.
+        using dNdXiSized = Eigen::Matrix< double, nDim, nNodes >; ///< Matrix of shape function natural derivatives.
+
+        /// @brief Evaluate Tri3 shape functions at the area coordinates @p xi, with nodes at (0,0), (1,0), (0,1).
+        NSized N( const Eigen::Vector2d& xi );
+        /// @brief Evaluate Tri3 shape function natural derivatives at @p xi (constant over the element).
+        dNdXiSized dNdXi( const Eigen::Vector2d& xi );
+
+        /// @brief Return the local node indices for boundary face @p faceID.
+        Eigen::Vector2i getBoundaryElementIndices( int faceID );
+      } // namespace Tri3
 
     }   // end of namespace Spatial2D
 
@@ -570,11 +587,12 @@ namespace Marmot {
     constexpr double gp3 = 0.774596669241483;       ///< Gauss point abscissa for 3-point rule: @f$\sqrt{3/5}@f$.
 
     /**
-     * @brief Gauss quadrature integration order options.
+     * @brief Integration rule options.
      */
     enum IntegrationTypes {
-      FullIntegration,   ///< Full (exact) Gauss integration.
-      ReducedIntegration ///< Reduced integration (one order lower).
+      FullIntegration,    ///< Full (exact) Gauss integration.
+      ReducedIntegration, ///< Reduced integration (one order lower).
+      NodalIntegration,   ///< Closed Newton-Cotes rule with the nodes as integration points, in node order.
     };
 
     /**
@@ -591,6 +609,7 @@ namespace Marmot {
      * @param[in] integrationType Full or reduced integration.
      * @return Const reference to the corresponding vector of
      *         @ref Marmot::FiniteElement::Quadrature::QuadraturePointInfo entries.
+     * @throws std::invalid_argument For `NodalIntegration`, which is not a Gauss rule; use getQuadraturePointInfo().
      */
     const std::vector< QuadraturePointInfo >& getGaussPointInfo( Marmot::FiniteElement::ElementShapes shape,
                                                                  IntegrationTypes                     integrationType );
@@ -602,6 +621,26 @@ namespace Marmot {
      * @return Number of quadrature points.
      */
     int getNumGaussPoints( Marmot::FiniteElement::ElementShapes shape, IntegrationTypes integrationType );
+
+    /**
+     * @brief Return the quadrature rule for a given element shape and integration type, Gauss or nodal.
+     *
+     * For `FullIntegration` and `ReducedIntegration` this is the Gauss rule of getGaussPointInfo(). For
+     * `NodalIntegration` the integration points coincide with the element nodes and are listed in node order. For
+     * Bar2 and Quad4 the rule is the closed Newton-Cotes (trapezoidal) rule, which for two points per direction is
+     * identical to the Gauss-Lobatto rule. For Tri3 it is the closed Newton-Cotes (vertex) rule; Lobatto rules are
+     * only defined on intervals and their tensor products. All of them are exact for linear polynomials. Such rules
+     * are used for zero-thickness interface elements with a high penalty stiffness, where Gauss integration causes
+     * spurious traction oscillations. Only linear shapes are supported for the nodal rule.
+     *
+     * @param[in] shape           Element shape enumerator.
+     * @param[in] integrationType Full or reduced Gauss integration, or nodal integration (Bar2, Quad4 or Tri3).
+     * @return Const reference to the corresponding vector of
+     *         @ref Marmot::FiniteElement::Quadrature::QuadraturePointInfo entries.
+     * @throws std::invalid_argument For an unsupported combination of shape and integration type.
+     */
+    const std::vector< QuadraturePointInfo >& getQuadraturePointInfo( Marmot::FiniteElement::ElementShapes shape,
+                                                                      IntegrationTypes integrationType );
 
     namespace Spatial1D {
       constexpr int nDim = 1; ///< Number of spatial dimensions for 1-D quadrature.
@@ -623,6 +662,12 @@ namespace Marmot {
                 { ( Eigen::VectorXd ( 1 ) << -gp3 ).finished(),            5./9 },
                 { ( Eigen::VectorXd ( 1 ) << 0.   ).finished(),            8./9 },
                 { ( Eigen::VectorXd ( 1 ) << +gp3 ).finished(),            5./9 }
+            };
+
+            /// 2-point nodal rule for 1-D elements: closed Newton-Cotes (trapezoidal) = 2-point Gauss-Lobatto.
+            const inline std::vector< QuadraturePointInfo > nodalPointList2 = {
+                { ( Eigen::VectorXd ( 1 ) << -1. ).finished(),             1.0 },
+                { ( Eigen::VectorXd ( 1 ) << +1. ).finished(),             1.0 }
             };
       // clang-format on
 
@@ -656,6 +701,35 @@ namespace Marmot {
                 { ( Eigen::Vector2d () << gp3,      0.   ).finished(),   40./81},
                 { ( Eigen::Vector2d () << 0,        +gp3 ).finished(),   40./81},
                 { ( Eigen::Vector2d () << -gp3,     0.   ).finished(),   40./81},
+            };
+
+            /// 2×2 nodal rule for 2-D quadrilateral elements, in Quad4 node order: tensor product of the 2-point closed
+            /// Newton-Cotes (trapezoidal) = 2-point Gauss-Lobatto rule.
+            const inline std::vector< QuadraturePointInfo > nodalPointListQuad4 = {
+                { ( Eigen::Vector2d () << -1.,      -1.  ).finished(),   1.0 },
+                { ( Eigen::Vector2d () << +1.,      -1.  ).finished(),   1.0 },
+                { ( Eigen::Vector2d () << +1.,      +1.  ).finished(),   1.0 },
+                { ( Eigen::Vector2d () << -1.,      +1.  ).finished(),   1.0 }
+            };
+
+            /// 1-point rule for Tri3 elements.
+            const inline std::vector< QuadraturePointInfo > gaussPointListTri1 = {
+                { ( Eigen::Vector2d () << 1./3,     1./3 ).finished(),   1./2 }
+            };
+
+            /// 3-point rule for triangular elements (exact for quadratic polynomials).
+            const inline std::vector< QuadraturePointInfo > gaussPointListTri3 = {
+                { ( Eigen::Vector2d () << 1./6,     1./6 ).finished(),   1./6 },
+                { ( Eigen::Vector2d () << 2./3,     1./6 ).finished(),   1./6 },
+                { ( Eigen::Vector2d () << 1./6,     2./3 ).finished(),   1./6 }
+            };
+
+            /// 3-point nodal rule for Tri3 elements, in Tri3 node order: closed Newton-Cotes (vertex) rule; there is no
+            /// Lobatto counterpart on triangles.
+            const inline std::vector< QuadraturePointInfo > nodalPointListTri3 = {
+                { ( Eigen::Vector2d () << 0.,       0.   ).finished(),   1./6 },
+                { ( Eigen::Vector2d () << 1.,       0.   ).finished(),   1./6 },
+                { ( Eigen::Vector2d () << 0.,       1.   ).finished(),   1./6 }
             };
       // clang-format on
 

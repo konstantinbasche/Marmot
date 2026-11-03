@@ -17,6 +17,7 @@ namespace Marmot {
 
       case ( 2 ): {
         switch ( nNodes ) {
+        case 3: return ElementShapes::Tri3;
         case 4: return ElementShapes::Quad4;
         case 8: return ElementShapes::Quad8;
         case 9: return ElementShapes::Quad9;
@@ -100,6 +101,11 @@ namespace Marmot {
     const std::vector< QuadraturePointInfo >& getGaussPointInfo( Marmot::FiniteElement::ElementShapes shape,
                                                                  IntegrationTypes                     integrationType )
     {
+      // the shapes below fall back to the reduced rule for every type but FullIntegration
+      if ( integrationType == IntegrationTypes::NodalIntegration )
+        throw std::invalid_argument( "getGaussPointInfo() provides Gauss rules only; use getQuadraturePointInfo() for "
+                                     "nodal integration" );
+
       using Marmot::FiniteElement::ElementShapes;
       switch ( shape ) {
       case ( ElementShapes::Bar2 ): {
@@ -128,6 +134,13 @@ namespace Marmot {
           return Spatial2D::gaussPointList3x3;
         else
           return Spatial2D::gaussPointList2x2;
+      }
+
+      case ( ElementShapes::Tri3 ): {
+        if ( integrationType == IntegrationTypes::FullIntegration )
+          return Spatial2D::gaussPointListTri3;
+        else
+          return Spatial2D::gaussPointListTri1;
       }
 
       case ( ElementShapes::Tetra4 ): {
@@ -160,6 +173,31 @@ namespace Marmot {
     int getNumGaussPoints( Marmot::FiniteElement::ElementShapes shape, IntegrationTypes integrationType )
     {
       return getGaussPointInfo( shape, integrationType ).size();
+    }
+
+    const std::vector< QuadraturePointInfo >& getQuadraturePointInfo( Marmot::FiniteElement::ElementShapes shape,
+                                                                      IntegrationTypes integrationType )
+    {
+      using Marmot::FiniteElement::ElementShapes;
+
+      // no default, so that a new integration type is flagged by -Wswitch
+      switch ( integrationType ) {
+      case ( IntegrationTypes::FullIntegration ):
+      case ( IntegrationTypes::ReducedIntegration ): return getGaussPointInfo( shape, integrationType );
+
+      case ( IntegrationTypes::NodalIntegration ): {
+        switch ( shape ) {
+        case ( ElementShapes::Bar2 ): return Spatial1D::nodalPointList2;
+        case ( ElementShapes::Quad4 ): return Spatial2D::nodalPointListQuad4;
+        case ( ElementShapes::Tri3 ): return Spatial2D::nodalPointListTri3;
+        default: {
+          throw std::invalid_argument( "Nodal integration is only available for Bar2, Quad4 and Tri3" );
+        }
+        }
+      }
+      }
+
+      throw std::invalid_argument( "Invalid integration type" );
     }
 
   } // end of namespace FiniteElement::Quadrature

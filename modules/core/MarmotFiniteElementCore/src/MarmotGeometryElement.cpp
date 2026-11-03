@@ -16,6 +16,12 @@ MarmotGeometryElement< 1, 2 >::NSized MarmotGeometryElement< 1, 2 >::N( const Xi
 {
   return Marmot::FiniteElement::Spatial1D::Bar2::N( xi( 0 ) );
 }
+// Tri3
+template <>
+MarmotGeometryElement< 2, 3 >::NSized MarmotGeometryElement< 2, 3 >::N( const XiSized& xi ) const
+{
+  return Marmot::FiniteElement::Spatial2D::Tri3::N( xi );
+}
 // Quad4
 template <>
 MarmotGeometryElement< 2, 4 >::NSized MarmotGeometryElement< 2, 4 >::N( const XiSized& xi ) const
@@ -60,6 +66,12 @@ template <>
 MarmotGeometryElement< 1, 2 >::dNdXiSized MarmotGeometryElement< 1, 2 >::dNdXi( const XiSized& xi ) const
 {
   return Marmot::FiniteElement::Spatial1D::Bar2::dNdXi( xi( 0 ) );
+}
+// Tri3
+template <>
+MarmotGeometryElement< 2, 3 >::dNdXiSized MarmotGeometryElement< 2, 3 >::dNdXi( const XiSized& xi ) const
+{
+  return Marmot::FiniteElement::Spatial2D::Tri3::dNdXi( xi );
 }
 // Quad4
 template <>
@@ -114,6 +126,12 @@ template <>
 typename MarmotGeometryElement< 1, 2 >::BSized MarmotGeometryElement< 1, 2 >::B( const dNdXiSized& dNdX ) const
 {
   return dNdX;
+}
+// Tri3
+template <>
+typename MarmotGeometryElement< 2, 3 >::BSized MarmotGeometryElement< 2, 3 >::B( const dNdXiSized& dNdX ) const
+{
+  return Marmot::FiniteElement::Spatial2D::B< 3 >( dNdX );
 }
 // Quad4
 template <>
@@ -183,6 +201,13 @@ typename MarmotGeometryElement< 1, 2 >::BSized MarmotGeometryElement< 1, 2 >::BG
                                                                                       const JacobianSized& F ) const
 {
   return dNdX * F( 0, 0 );
+}
+// Tri3
+template <>
+typename MarmotGeometryElement< 2, 3 >::BSized MarmotGeometryElement< 2, 3 >::BGreen( const dNdXiSized&    dNdX,
+                                                                                      const JacobianSized& F ) const
+{
+  return Marmot::FiniteElement::Spatial2D::BGreen< 3 >( dNdX, F );
 }
 // Quad4
 template <>

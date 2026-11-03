@@ -77,6 +77,7 @@ public:
   {
     using namespace Marmot::FiniteElement;
     static std::map< ElementShapes, std::string > shapes = { { Bar2, "bar2" },
+                                                             { Tri3, "tria3" },
                                                              { Quad4, "quad4" },
                                                              { Quad8, "quad8" },
                                                              { Tetra4, "tetra4" },
