@@ -4,8 +4,8 @@
     <compoundname>/home/runner/work/Marmot/Marmot/modules/core/MarmotUtilitiesCore/include/Marmot</compoundname>
     <innerfile refid="_marmot_exceptions_8h">MarmotExceptions.h</innerfile>
     <innerfile refid="_marmot_journal_8h">MarmotJournal.h</innerfile>
+    <innerfile refid="_marmot_portability_8h">MarmotPortability.h</innerfile>
     <innerfile refid="_marmot_state_helpers_8h">MarmotStateHelpers.h</innerfile>
-    <innerfile refid="_marmot_testing_8h">MarmotTesting.h</innerfile>
     <innerfile refid="_marmot_utils_8h">MarmotUtils.h</innerfile>
     <briefdescription>
     </briefdescription>

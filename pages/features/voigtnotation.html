@@ -65,6 +65,7 @@
 <li class="toctree-l2"><a class="reference internal" href="solvers.html">Solvers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="materials.html">Material models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="elements.html">Finite elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="meshfree.html">Meshfree methods</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../documentation.html">Code documentation</a></li>
@@ -148,7 +149,7 @@ provided by the macro <code class="docutils literal notranslate"><span class="pr
   4 &amp; 5 &amp; 2
 \end{bmatrix}\end{split}\]</div>
 <p>and is available in both directions as <code class="docutils literal notranslate"><span class="pre">toVoigt&lt;nDim&gt;(i,</span> <span class="pre">j)</span></code> and <code class="docutils literal notranslate"><span class="pre">fromVoigt&lt;nDim&gt;(ij)</span></code> in the
-namespace <code class="docutils literal notranslate"><span class="pre">Marmot::ContinuumMechanics::TensorUtility::IndexNotation</span></code>. Prefer these helpers over
+namespace <code class="docutils literal notranslate"><span class="pre">Marmot::Math::Tensors::IndexNotation</span></code>. Prefer these helpers over
 hard-coded indices — code written against them stays correct if the ordering ever changes.</p>
 </section>
 <section id="stress-and-strain">
@@ -207,8 +208,8 @@ shear entries of an orthotropic stiffness matrix are the shear moduli themselves
 <p>using one-based matrix indices, i.e. entries <code class="docutils literal notranslate"><span class="pre">(3,3)</span></code>, <code class="docutils literal notranslate"><span class="pre">(4,4)</span></code> and <code class="docutils literal notranslate"><span class="pre">(5,5)</span></code> in the zero-based C++
 code. The corresponding compliance matrix holds <span class="math notranslate nohighlight">\(1/G_{12}\)</span>, <span class="math notranslate nohighlight">\(1/G_{13}\)</span> and
 <span class="math notranslate nohighlight">\(1/G_{23}\)</span> in the same positions.</p>
-<p>Conversion to and from the full fourth order tensor is available as <code class="docutils literal notranslate"><span class="pre">voigtToStiffness</span></code> (Eigen),
-<code class="docutils literal notranslate"><span class="pre">voigtToStiffnessFastor</span></code> (Fastor) and <code class="docutils literal notranslate"><span class="pre">stiffnessToVoigt</span></code>. These populate</p>
+<p>Conversion to and from the full fourth order tensor is available as <code class="docutils literal notranslate"><span class="pre">voigtToStiffness</span></code> and
+<code class="docutils literal notranslate"><span class="pre">stiffnessToVoigt</span></code>. These populate</p>
 <div class="math notranslate nohighlight">
 \[\Cel_{ijkl} = \Cel^\mathrm{Voigt}_{\,\mathrm{toVoigt}(i,j)\,,\,\mathrm{toVoigt}(k,l)},\]</div>
 <p>without halving the shear entries: summing over both <span class="math notranslate nohighlight">\(kl\)</span> and <span class="math notranslate nohighlight">\(lk\)</span> reproduces the factor
@@ -218,7 +219,7 @@ of two that the engineering shear strain carries in the Voigt product.</p>
 <h2>Coordinate transformations<a class="headerlink" href="#coordinate-transformations" title="Link to this heading"></a></h2>
 <p>Because stress and strain use different shear scalings, they also require different transformation
 matrices under a change of basis. Both are built from a local coordinate system in
-<code class="docutils literal notranslate"><span class="pre">Marmot::ContinuumMechanics::VoigtNotation::Transformations</span></code>:</p>
+<code class="docutils literal notranslate"><span class="pre">Marmot::ContinuumMechanics::Voigt::Transformations</span></code>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">transformationMatrixStressVoigt</span></code> — for stress-like Voigt vectors</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">transformationMatrixStrainVoigt</span></code> — for strain-like Voigt vectors; identical to the stress
@@ -268,7 +269,7 @@ restore a state in which <span class="math notranslate nohighlight">\(\sigma_{33
 </section>
 <section id="strain-displacement-operators">
 <h2>Strain-displacement operators<a class="headerlink" href="#strain-displacement-operators" title="Link to this heading"></a></h2>
-<p>The B-operators in <code class="docutils literal notranslate"><span class="pre">Marmot::FiniteElement</span></code> produce strain vectors in exactly this ordering. For the
+<p>The B-operators in <code class="docutils literal notranslate"><span class="pre">Marmot::Discretizations::Elements</span></code> produce strain vectors in exactly this ordering. For the
 3D case,</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\mathbf{B}_a = \begin{bmatrix}

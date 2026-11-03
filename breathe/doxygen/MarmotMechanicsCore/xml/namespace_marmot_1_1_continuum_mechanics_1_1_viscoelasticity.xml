@@ -3,11 +3,15 @@
   <compounddef id="namespace_marmot_1_1_continuum_mechanics_1_1_viscoelasticity" kind="namespace" language="C++">
     <compoundname>Marmot::ContinuumMechanics::Viscoelasticity</compoundname>
     <innernamespace refid="namespace_marmot_1_1_continuum_mechanics_1_1_viscoelasticity_1_1_compliance_functions">Marmot::ContinuumMechanics::Viscoelasticity::ComplianceFunctions</innernamespace>
+    <innernamespace refid="namespace_marmot_1_1_continuum_mechanics_1_1_viscoelasticity_1_1_discrete_spectrum">Marmot::ContinuumMechanics::Viscoelasticity::DiscreteSpectrum</innernamespace>
+    <innernamespace refid="namespace_marmot_1_1_continuum_mechanics_1_1_viscoelasticity_1_1_kelvin_chain">Marmot::ContinuumMechanics::Viscoelasticity::KelvinChain</innernamespace>
     <innernamespace refid="namespace_marmot_1_1_continuum_mechanics_1_1_viscoelasticity_1_1_prony_series">Marmot::ContinuumMechanics::Viscoelasticity::PronySeries</innernamespace>
+    <innernamespace refid="namespace_marmot_1_1_continuum_mechanics_1_1_viscoelasticity_1_1_relaxation_functions">Marmot::ContinuumMechanics::Viscoelasticity::RelaxationFunctions</innernamespace>
+    <innernamespace refid="namespace_marmot_1_1_continuum_mechanics_1_1_viscoelasticity_1_1_wiechert">Marmot::ContinuumMechanics::Viscoelasticity::Wiechert</innernamespace>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotViscoelasticity.h" line="33" column="5"/>
+    <location file="/home/runner/work/Marmot/Marmot/modules/core/MarmotMechanicsCore/include/Marmot/MarmotViscoelasticity.h" line="35" column="1"/>
   </compounddef>
 </doxygen>

@@ -6,6 +6,7 @@
     <innerfile refid="_marmot_material_general_gradient_enhanced_hypo_elastic_8h">MarmotMaterialGeneralGradientEnhancedHypoElastic.h</innerfile>
     <innerfile refid="_marmot_material_general_gradient_enhanced_hypo_elastic_factory_8h">MarmotMaterialGeneralGradientEnhancedHypoElasticFactory.h</innerfile>
     <innerfile refid="_marmot_phase_field_energy_degradation_8h">MarmotPhaseFieldEnergyDegradation.h</innerfile>
+    <innerfile refid="_marmot_wave_speed_contract_8h">MarmotWaveSpeedContract.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
