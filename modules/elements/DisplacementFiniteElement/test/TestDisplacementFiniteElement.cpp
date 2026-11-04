@@ -1211,6 +1211,46 @@ void testDistributedPressureOnLinearSimplices()
   }
 }
 
+void testLumpedInertiaAndCriticalTimeStepOfLinearSimplices()
+{
+  // a linear simplex is its own linear counterpart in the mass lumping: each node carries 1 / nNodes of the mass of a
+  // distorted element, too, and the stable increment is finite
+  const double density = 2.0;
+  // clang-format off
+  for ( const auto& [name, nDim, coordinates] : {
+          std::make_tuple( "CPS3", 2, std::vector< double >{ 0, 0,  2, 0,  0.5, 1 } ),
+          std::make_tuple( "C3D4", 3, std::vector< double >{ 0, 0, 0,  2, 0, 0,  0.5, 1, 0,  0, 0.5, 3 } ) } ) {
+    // clang-format on
+    std::unique_ptr< Marmot::Discretizations::Elements::Element > element(
+      Marmot::Registry::ElementFactory::createElement( name, 1 ) );
+    element->assignNodeCoordinates( coordinates.data() );
+
+    const std::vector< double > thickness = { 1.0 };
+    if ( nDim == 2 )
+      element->assignProperty( Marmot::Discretizations::ElementProperties( thickness.data(), thickness.size() ) );
+    const std::vector< double > matProps = { 10000.0, 0.2, density };
+    element->assignProperty(
+      Marmot::Discretizations::MaterialSection( "LINEARELASTIC", matProps.data(), matProps.size() ) );
+
+    std::vector< double > stateVars( element->getNumberOfRequiredStateVars(), 0.0 );
+    element->assignStateVars( stateVars.data(), stateVars.size() );
+    element->initializeYourself();
+
+    // both elements have the measure 1
+    const int       nNodes = nDim + 1;
+    Eigen::VectorXd M      = Eigen::VectorXd::Zero( element->getNDofPerElement() );
+    element->computeLumpedInertia( M.data() );
+    throwExceptionOnFailure( ( M.array() - density / nNodes ).abs().maxCoeff() < 1e-12,
+                             std::string( name ) + " lumped mass must be the mass / nNodes at each node." );
+
+    const Eigen::VectorXd QTotal           = Eigen::VectorXd::Zero( element->getNDofPerElement() );
+    double                criticalTimeStep = 0.0;
+    element->computeCriticalTimeStepForExplicitDynamics( criticalTimeStep, QTotal.data() );
+    throwExceptionOnFailure( std::isfinite( criticalTimeStep ) && criticalTimeStep > 0.0,
+                             std::string( name ) + " critical time step must be finite and positive." );
+  }
+}
+
 void testComputeKernelsUniaxialStressTangentMatchesNumericalDifferentiation()
 {
   // 2-node bar (T2D2's underlying 1D element), production-used per
@@ -2319,6 +2359,7 @@ int main()
     testComputeKernelsTetra4HomogeneousStrainAndTangent,
     testComputeKernelsTri3HomogeneousStrainAndTangent,
     testDistributedPressureOnLinearSimplices,
+    testLumpedInertiaAndCriticalTimeStepOfLinearSimplices,
     testComputeKernelsUniaxialStressTangentMatchesNumericalDifferentiation,
     testComputeKernelsExplicitThrowsForUniaxialStress,
     testComputeKernelsExplicitMatchesImplicitResidualPlaneStrain,

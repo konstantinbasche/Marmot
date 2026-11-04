@@ -87,7 +87,13 @@ namespace Marmot::Materials {
       return;
 
     // Compute stress increment
-    state.stress += dStressDDStrain * dStrain;
+    const Marmot::Math::Vector6d dStress = dStressDDStrain * dStrain;
+
+    // energy increment by the trapezoidal rule, exact for a linear stress-strain relation; linear elasticity does not
+    // dissipate, so the dissipation is unchanged
+    state.elasticEnergyDensity += ( state.stress + 0.5 * dStress ).dot( dStrain );
+
+    state.stress += dStress;
   }
 
   double LinearElastic::getDensity( const double* stateVars ) const

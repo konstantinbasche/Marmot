@@ -23,6 +23,11 @@ void Marmot::Materials::MaterialHypoElasticAD::computeStress( state3D&          
   const VectorXd               stateVarsOld = stateVars;
   const Marmot::Math::Vector6d SOld         = S;
 
+  // every evaluation below starts from the state at the beginning of the increment; the energy and dissipation of
+  // the last one are returned
+  double elasticEnergyDensity = state.elasticEnergyDensity;
+  double dissipation          = state.dissipation;
+
   Marmot::Math::mMatrix6d C( dStressDDStrain.data() );
   // ----------------------------------------
   // autodiff part
@@ -40,9 +45,15 @@ void Marmot::Materials::MaterialHypoElasticAD::computeStress( state3D&          
       // compute stress
       computeStressAD( stateAD, dE_, timeInfo );
 
+      elasticEnergyDensity = stateAD.elasticEnergyDensity;
+      dissipation          = stateAD.dissipation;
+
       Marmot::Math::Vector6dual res = stateAD.stress;
       return res;
     },
     dEps );
   // ----------------------------------------
+
+  state.elasticEnergyDensity = elasticEnergyDensity;
+  state.dissipation          = dissipation;
 }

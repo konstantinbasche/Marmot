@@ -112,12 +112,14 @@ namespace Marmot::Materials {
     virtual void computeTraction( Response& response, Tangents& tangents, const Increment& increment ) const = 0;
 
     /**
-     * @brief Compute the traction without the algorithmic tangent, e.g. for explicit time integration.
+     * Explicit version of @ref computeTraction for use in explicit time integration schemes.
+     * The algorithmic tangent is not needed in explicit schemes and will therefore not be computed.
      *
      * @param[in,out] response  traction, state variables and energies, old on entry and updated on exit
      * @param[in]     increment displacement jump and time of the increment
      *
-     * @note The default implementation calls @ref computeTraction and discards the tangent.
+     * @note The default implementation calls @ref computeTraction and ignores the algorithmic tangent.
+     * @note Derived classes may override this method for efficiency reasons.
      */
     virtual void computeTractionExplicit( Response& response, const Increment& increment ) const
     {
@@ -155,6 +157,31 @@ namespace Marmot::Materials {
         stateVars[i] = 0.0;
       }
     }
+
+    /**
+     * @brief Get the maximum stiffness of the material, e.g. for the critical time step of explicit time integration.
+     * @param[in] response Current traction, state variables and energies of the material point
+     * @param[in] jump     Current displacement jump in the local frame
+     * @return Maximum stiffness [stress / length]
+     * @details The default implementation computes the algorithmic tangent for a zero jump increment from a copy of
+     *          the state and returns the largest diagonal entry of
+     *          \f$ \partial \boldsymbol{t}' / \partial [\![ \boldsymbol{u} ]\!]' \f$. A solver that evaluates the
+     *          critical time step only once needs a bound over all states the material can reach: a material whose
+     *          stiffness may grow in the course of the analysis should override this method.
+     */
+    virtual double getMaximumStiffness( const Response& response, const Eigen::Vector3d& jump ) const;
+
+    /**
+     * @brief Get the mass per unit area of the interface, e.g. for explicit time integration.
+     * @param stateVars Pointer to the state variable array
+     * @return Mass per unit area of the interface [mass / area]
+     * @details The counterpart of the density of a bulk material (MaterialHypoElastic::getDensity) for a
+     *          zero-thickness interface, which has no volume. The mass is usually artificial: it gives the penalty
+     *          springs between the two faces a stable time increment of their own. As for the density, only the
+     *          inertia of the element asks for it, so a material may throw if no mass was given: implicit static
+     *          analyses never call it.
+     */
+    virtual double getMassPerArea( const double* stateVars ) const = 0;
   };
 
 } // namespace Marmot::Materials

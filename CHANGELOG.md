@@ -32,6 +32,16 @@ All notable changes to Marmot are documented in this file. The format follows
   base class and factory of cohesive traction-separation laws, `computeTraction( Response&, Tangents&,
   const Increment& )` with the recoverable and dissipated energy per unit area in the response; the element
   integrates them to its internal energy.
+- Explicit time integration for `elements/CohesiveInterfaceElement`: `computeKernelsExplicit`, lumped and
+  consistent inertia of an artificial interface mass (half on each face), and
+  `computeCriticalTimeStepForExplicitDynamics` from that mass and `MaterialCohesive::getMaximumStiffness()`. Two new
+  virtuals of the cohesive material base:
+  - `MaterialCohesive::getMaximumStiffness()`, the counterpart of `MaterialHypoElastic::getMaximumWaveSpeed()`: by
+    default the largest diagonal entry of the tangent at the current state, evaluated on a copy of it;
+  - `MaterialCohesive::getMassPerArea( stateVars )` (pure virtual), the counterpart of
+    `MaterialHypoElastic::getDensity()`: the mass per unit area of the interface. As for the bulk elements, the mass
+    comes from the material, not from an element property, and only the inertia asks for it, so implicit static
+    analyses need none.
 - `Tri3` shape functions and triangle Gauss rules, nodal (Newton-Cotes / Lobatto) quadrature rules for `Bar2`,
   `Quad4` and `Tri3` (`IntegrationTypes::NodalIntegration`), `getQuadraturePointInfo( shape, integrationType )`
   serving Gauss and nodal rules alike, and the triangular interface geometry
@@ -124,6 +134,21 @@ All notable changes to Marmot are documented in this file. The format follows
   point for `GC3D20R`); equal-order elements store the non-local shape functions once.
 
 ### Fixed
+- Lumped inertia and critical time step of the linear simplices `CPS3`, `CPE3` and `C3D4`: the manifold-based mass
+  lumping blended in the shape functions of a quadrilateral or hexahedron and wrote past the end of the nodal
+  vectors, which corrupted the heap of an explicit analysis. A linear simplex is now its own linear counterpart
+  (`MassLumping::nLinearNodes()`, also used by the finite-strain and the gradient-enhanced elements), with the
+  mass / nNodes at each node. **Results**
+- **Results:** elastic strain energy of `LinearElastic`, `ADLinearElastic` and every material on
+  `MaterialHypoElasticAD`. The fixes:
+  - `LinearElastic` did not compute the elastic energy density at all, so the internal energy of the elements was
+    zero.
+  - `ADLinearElastic` accumulated ½ Δε : Δσ without the stress at the start of the increment, so it was too small
+    by about the number of increments.
+  - `MaterialHypoElasticAD::computeStress` returned only the stress of `computeStressAD` and dropped its energy and
+    dissipation.
+  - Both linear elastic laws now integrate W by the trapezoidal rule, which is exact for linear elasticity.
+  - Tests compare W with ½ ε : C : ε after a non-proportional strain path in 3D and in plane stress.
 - Result-file keyword of 2D interface elements (`ILINE2`): `GeometryInterfaceElement` named the four-node
   element `bar2`, a two-node cell, so the EnSight geometry was invalid; it is now `quad4`, the cell spanning both
   faces, as `hexa8` and `penta6` for the 3D interfaces.

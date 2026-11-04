@@ -57,6 +57,47 @@ laws, Gauss integration causes spurious oscillations of the traction along the i
 avoids. The ``CI*G`` elements use full Gauss integration (``FullIntegration``), e.g. for comparison. Reduced Gauss
 integration is not registered, since a single integration point per face leaves zero-energy modes of the jump.
 
+Explicit time integration
+-------------------------
+
+``computeKernelsExplicit`` performs the update of ``computeKernels`` without the tangent, through
+``MaterialCohesive::computeTractionExplicit``. Since an explicit solver does not iterate, no Impl-Ex integration of
+the cohesive law is needed; the implicit update of the law at the given jump is cheap and robust.
+
+A zero-thickness interface has no volume and, by default, no mass: its nodes are carried by the adjacent bulk
+elements. Its stable time increment, however, is set by the penalty springs between the two faces, which only the
+element knows. As a bulk element takes its density from its material (``MaterialHypoElastic::getDensity``), the
+interface takes its mass per unit area :math:`\mu` from the cohesive material (``MaterialCohesive::getMassPerArea``;
+for ``COHESIVEFRICTIONALCRACK`` an optional material parameter). As for the density, only the inertia asks for it,
+so implicit static analyses run without it, while a material without one throws when the inertia is needed. With
+:math:`\mu > 0` the interface
+carries an artificial mass of its own, :math:`\mu / 2` per unit area on each face (lumped:
+:math:`\tfrac{\mu}{2} \int_\Gamma N_i\, dA` per node), and
+``computeCriticalTimeStepForExplicitDynamics`` bounds the largest eigenvalue of
+:math:`\mathbf{M}^{-1} \mathbf{K}` of the element, with
+:math:`\mathbf{K} = \int_\Gamma \mathbf{N}_{\mathrm{jump}}^\mathsf{T} K_{max} \mathbf{N}_{\mathrm{jump}}\, dA` and
+the maximum stiffness :math:`K_{max}` of the material (``MaterialCohesive::getMaximumStiffness``), by its Gershgorin
+row sums. By default, :math:`K_{max}` is the largest diagonal entry of the tangent at the current state of each
+quadrature point. A solver may evaluate the critical time step only once, at the start; a material whose stiffness
+can grow later, e.g. through contact or dilatancy, overrides it with a bound over all states, as
+``COHESIVEFRICTIONALCRACK`` does. For the nodal rule each node pair is an isolated spring, the bound is exact, and
+
+.. math::
+
+   \Delta t_{crit} = \sqrt{ \mu / K_{max} },
+
+independent of the element size. Like a bulk element, the interface uses its own mass and stiffness only. By the
+element eigenvalue theorem the minimum over all elements is then a lower bound of the critical time step of the
+assembled model, also where several interfaces and bulk elements share a node; a time step based on the mass of the
+adjacent bulk elements instead would count that mass twice and could overestimate the stable increment.
+
+The mass is artificial. A target increment :math:`\Delta t` requires :math:`\mu = K_{max} \Delta t^2`, which should
+be small compared to the mass per area :math:`\rho h` of the adjacent bulk elements, or acceptable as mass scaling
+in a quasi-static analysis. Both are governed by the penalty number :math:`\alpha = K_c h / E` of the cohesive law:
+even with the true nodal masses, the stable increment of the interface is roughly :math:`\Delta t_{bulk} /
+\sqrt{\alpha}`. A penalty stiffness chosen for implicit analyses, e.g. :math:`K_c = 1000 E` per mm, is far stiffer
+than needed for explicit ones; :math:`\alpha \approx 50` adds about 2 % to the compliance of the bulk elements.
+
 Elements
 --------
 
@@ -91,6 +132,9 @@ Properties
 
 The material of the section is created by the cohesive material factory. For elements embedded in 2D, the first
 (optional) element property is the out-of-plane thickness; it defaults to 1.
+
+The element has no named properties. The mass per unit area :math:`\mu`, required for explicit time integration
+(see above), is a property of the cohesive material, as the density is one of a bulk material.
 
 State variables
 ---------------

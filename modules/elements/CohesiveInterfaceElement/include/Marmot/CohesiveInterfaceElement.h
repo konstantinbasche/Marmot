@@ -41,8 +41,10 @@
 #include "Marmot/MarmotStateVarVectorManager.h"
 
 #include <Eigen/Dense>
+#include <cmath>
 #include <memory>
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 namespace Marmot::Discretizations::Elements {
@@ -81,6 +83,21 @@ namespace Marmot::Discretizations::Elements {
    *
    * Every quadrature point stores the recoverable and the dissipated energy per unit area of the material; their
    * integral over the interface is the internal energy of the element, i.e. the work done on it.
+   *
+   * @par Explicit time integration
+   * A zero-thickness interface has no volume, and by default no mass: its nodes are carried by the adjacent bulk
+   * elements. Its stable time increment, however, is set by the penalty springs between the two faces, which only
+   * the element knows. As a bulk element takes its density from its material, the interface takes its mass per unit
+   * area \f$ \mu \f$ from the cohesive material (MaterialCohesive::getMassPerArea). With \f$ \mu > 0 \f$ it carries
+   * a mass of its own, half on each face, and computes its critical time step from that mass and its own stiffness,
+   * as a bulk element does; then the minimum over all elements is a safe bound for the assembled model. For the
+   * nodal rule each node pair is an isolated spring and
+   *
+   * \f[ \Delta t_{crit} = \sqrt{ \mu / K_{max} }, \f]
+   *
+   * with the maximum stiffness \f$ K_{max} \f$ of the material, independent of the element size. The mass is
+   * artificial: a target increment \f$ \Delta t \f$ needs \f$ \mu = K_{max} \Delta t^2 \f$, which should stay small
+   * compared to the mass per area \f$ \rho h \f$ of the adjacent bulk elements.
    */
   template < int nDim, int nNodes >
   class CohesiveInterfaceElement : public Marmot::Discretizations::Elements::Element,
@@ -281,16 +298,46 @@ namespace Marmot::Discretizations::Elements {
     void computeKernels( const double* QTotal, const double* dQ, double* Pe, double* Ke, double time, double dT );
 
     /**
-     * @brief Zero consistent inertia: a zero-thickness interface has no volume, the mass of its nodes is carried by
-     * the adjacent bulk elements.
+     * @brief Assemble the internal force for one increment of explicit time integration.
+     *
+     * Same update as @ref computeKernels, without the tangent.
+     *
+     * @param QTotal Total displacement vector at the end of the increment.
+     * @param dQ Incremental displacement.
+     * @param Pe Internal force vector (accumulated), Pe = +Pint.
+     * @param time Time at the beginning of the increment, forwarded to the material.
+     * @param dT Time increment.
+     */
+    void computeKernelsExplicit( const double* QTotal, const double* dQ, double* Pe, double time, double dT );
+
+    /**
+     * @brief Consistent inertia of the mass per unit area \f$ \mu \f$ of the material: \f$ \frac{\mu}{2}
+     * \int_\Gamma \boldsymbol{N}^T \boldsymbol{N} \, dA \f$ on each face, integrated with the rule of the element.
+     * Zero for a massless material.
      */
     void computeConsistentInertia( double* M );
 
     /**
-     * @brief Zero lumped inertia: a zero-thickness interface has no volume, the mass of its nodes is carried by the
-     * adjacent bulk elements.
+     * @brief Lumped inertia of the mass per unit area \f$ \mu \f$ of the material: \f$ \frac{\mu}{2} \int_\Gamma N_i
+     * \, dA \f$ for each node, i.e. half of the mass on each face. Zero for a massless material.
      */
     void computeLumpedInertia( double* M );
+
+    /**
+     * @brief Critical time step of the element from its own mass and the maximum stiffness of the material.
+     *
+     * The largest eigenvalue of \f$ \boldsymbol{M}^{-1} \boldsymbol{K} \f$, with the lumped mass and
+     * \f$ \boldsymbol{K} = \int_\Gamma \boldsymbol{N}_{[\![u]\!]}^T K_{max} \boldsymbol{N}_{[\![u]\!]} \, dA \f$, is
+     * bounded by the Gershgorin row sums; for the nodal rule the bound is exact and gives
+     * \f$ \Delta t_{crit} = \sqrt{ \mu / K_{max} } \f$. \f$ K_{max} \f$ is the maximum stiffness of the material at
+     * the current state of each quadrature point.
+     *
+     * @param[out] criticalTimeStep Critical time step.
+     * @param[in] QTotal Total displacement vector (unused, the current jump is the one stored at the quadrature
+     * points).
+     * @throws std::invalid_argument if the material gives the element no mass.
+     */
+    void computeCriticalTimeStepForExplicitDynamics( double& criticalTimeStep, const double* QTotal );
 
     /**
      * @brief Internal energy of the element: the recoverable and the dissipated energy of all quadrature points,
@@ -326,6 +373,36 @@ namespace Marmot::Discretizations::Elements {
     std::vector< std::vector< double > > getCoordinatesAtQuadraturePoints();
 
     int getNumberOfQuadraturePoints();
+
+  private:
+    /**
+     * @brief Update the traction and the state of a quadrature point for a given displacement jump.
+     *
+     * @param qp Quadrature point.
+     * @param jump Total displacement jump in the local frame.
+     * @param dJump Increment of the displacement jump in the local frame.
+     * @param time Time at the beginning of the increment.
+     * @param dT Time increment.
+     * @param tangents Algorithmic tangents of the material, or @c nullptr for explicit time integration.
+     * @return Traction in the local frame.
+     */
+    VectorDim computeTractionAt( QuadraturePoint&                               qp,
+                                 const VectorDim&                               jump,
+                                 const VectorDim&                               dJump,
+                                 double                                         time,
+                                 double                                         dT,
+                                 Marmot::Materials::MaterialCohesive::Tangents* tangents );
+
+    /// The response of the material at the current state of a quadrature point.
+    static Marmot::Materials::MaterialCohesive::Response materialResponseAt( const QuadraturePoint& qp );
+
+    /// A vector of the element in the local frame as a vector of the material; the components beyond nDim are zero.
+    static Eigen::Matrix< double, nMaterialComponents, 1 > toMaterial( const VectorDim& v )
+    {
+      Eigen::Matrix< double, nMaterialComponents, 1 > v3 = Eigen::Matrix< double, nMaterialComponents, 1 >::Zero();
+      v3.template head< nDim >()                         = v;
+      return v3;
+    }
   };
 
   /**
@@ -437,44 +514,76 @@ namespace Marmot::Discretizations::Elements {
     Eigen::Map< RhsSized >       Pe( Pe_ );
     Eigen::Map< KeSizedMatrix >  Ke( Ke_ );
 
-    using MaterialVector = Eigen::Matrix< double, nMaterialComponents, 1 >;
-
-    // the components of the material beyond nDim, i.e. the out-of-plane jump in 2D, are zero
-    const auto toMaterial = []( const VectorDim& v ) {
-      MaterialVector v3          = MaterialVector::Zero();
-      v3.template head< nDim >() = v;
-      return v3;
-    };
-
     for ( QuadraturePoint& qp : qps ) {
-      auto& qpState = *qp.managedStateVars;
+      Marmot::Materials::MaterialCohesive::Tangents tangents;
 
-      const VectorDim displacementJumpLocal          = qp.NJumpLocal * QTotal;
-      const VectorDim displacementJumpIncrementLocal = qp.NJumpLocal * dQ;
-
-      Marmot::Materials::MaterialCohesive::Response        response{ toMaterial( qpState.traction ),
-                                                              qpState.materialStateVars.data(),
-                                                              qpState.elasticEnergyDensity,
-                                                              qpState.dissipationDensity };
-      Marmot::Materials::MaterialCohesive::Tangents        tangents;
-      const Marmot::Materials::MaterialCohesive::Increment increment{ toMaterial( displacementJumpLocal ),
-                                                                      toMaterial( displacementJumpIncrementLocal ),
-                                                                      time,
-                                                                      dT };
-
-      material->computeTraction( response, tangents, increment );
-
-      const VectorDim traction = response.traction.template head< nDim >();
+      const VectorDim traction = computeTractionAt( qp,
+                                                    qp.NJumpLocal * QTotal,
+                                                    qp.NJumpLocal * dQ,
+                                                    time,
+                                                    dT,
+                                                    &tangents );
       const TensorDim C        = tangents.dTraction_dJump.template topLeftCorner< nDim, nDim >();
-
-      qpState.traction             = traction;
-      qpState.jump                 = displacementJumpLocal;
-      qpState.elasticEnergyDensity = response.elasticEnergyDensity;
-      qpState.dissipationDensity   = response.dissipation;
 
       Pe += qp.NJumpLocal.transpose() * traction * qp.J0xW;
       Ke += qp.NJumpLocal.transpose() * C * qp.NJumpLocal * qp.J0xW;
     }
+  }
+
+  template < int nDim, int nNodes >
+  void CohesiveInterfaceElement< nDim, nNodes >::computeKernelsExplicit( const double* QTotal_,
+                                                                         const double* dQ_,
+                                                                         double*       Pe_,
+                                                                         double        time,
+                                                                         double        dT )
+  {
+    Eigen::Map< const RhsSized > QTotal( QTotal_ );
+    Eigen::Map< const RhsSized > dQ( dQ_ );
+    Eigen::Map< RhsSized >       Pe( Pe_ );
+
+    for ( QuadraturePoint& qp : qps ) {
+      const VectorDim traction = computeTractionAt( qp, qp.NJumpLocal * QTotal, qp.NJumpLocal * dQ, time, dT, nullptr );
+
+      Pe += qp.NJumpLocal.transpose() * traction * qp.J0xW;
+    }
+  }
+
+  template < int nDim, int nNodes >
+  typename CohesiveInterfaceElement< nDim, nNodes >::VectorDim CohesiveInterfaceElement< nDim, nNodes >::
+    computeTractionAt( QuadraturePoint&                               qp,
+                       const VectorDim&                               jump,
+                       const VectorDim&                               dJump,
+                       double                                         time,
+                       double                                         dT,
+                       Marmot::Materials::MaterialCohesive::Tangents* tangents )
+  {
+    auto& qpState = *qp.managedStateVars;
+
+    Marmot::Materials::MaterialCohesive::Response        response = materialResponseAt( qp );
+    const Marmot::Materials::MaterialCohesive::Increment increment{ toMaterial( jump ), toMaterial( dJump ), time, dT };
+
+    if ( tangents )
+      material->computeTraction( response, *tangents, increment );
+    else
+      material->computeTractionExplicit( response, increment );
+
+    qpState.traction             = response.traction.template head< nDim >();
+    qpState.jump                 = jump;
+    qpState.elasticEnergyDensity = response.elasticEnergyDensity;
+    qpState.dissipationDensity   = response.dissipation;
+
+    return qpState.traction;
+  }
+
+  template < int nDim, int nNodes >
+  Marmot::Materials::MaterialCohesive::Response CohesiveInterfaceElement< nDim, nNodes >::materialResponseAt(
+    const QuadraturePoint& qp )
+  {
+    auto& qpState = *qp.managedStateVars;
+    return { toMaterial( qpState.traction ),
+             qpState.materialStateVars.data(),
+             qpState.elasticEnergyDensity,
+             qpState.dissipationDensity };
   }
 
   template < int nDim, int nNodes >
@@ -528,13 +637,70 @@ namespace Marmot::Discretizations::Elements {
   template < int nDim, int nNodes >
   void CohesiveInterfaceElement< nDim, nNodes >::computeConsistentInertia( double* M )
   {
-    Eigen::Map< KeSizedMatrix >( M ).setZero();
+    constexpr int nDofPerSide = ParentGeometryElement::nDofPerSide;
+
+    Eigen::Map< KeSizedMatrix > Me( M );
+    Me.setZero();
+
+    // half of the mass on each face
+    for ( const QuadraturePoint& qp : qps ) {
+      const double massPerArea = material->getMassPerArea( qp.managedStateVars->materialStateVars.data() );
+      const auto   Nm          = this->NMatrix( this->N( qp.xi ) );
+      const Eigen::Matrix< double, nDofPerSide, nDofPerSide > MSide = 0.5 * massPerArea * qp.J0xW * Nm.transpose() * Nm;
+
+      Me.template topLeftCorner< nDofPerSide, nDofPerSide >() += MSide;
+      Me.template bottomRightCorner< nDofPerSide, nDofPerSide >() += MSide;
+    }
   }
 
   template < int nDim, int nNodes >
   void CohesiveInterfaceElement< nDim, nNodes >::computeLumpedInertia( double* M )
   {
-    Eigen::Map< RhsSized >( M ).setZero();
+    constexpr int nInterfaceNodes = ParentGeometryElement::nInterfaceNodes;
+
+    Eigen::Map< RhsSized > Me( M );
+    Me.setZero();
+
+    // the row sums of the consistent inertia: half of the mass on each face
+    for ( const QuadraturePoint& qp : qps ) {
+      const double massPerArea = material->getMassPerArea( qp.managedStateVars->materialStateVars.data() );
+      const auto   N           = this->N( qp.xi );
+      for ( int A = 0; A < nInterfaceNodes; A++ ) {
+        const double mA = 0.5 * massPerArea * N( A ) * qp.J0xW;
+        Me.template segment< nDim >( A * nDim ).array() += mA;
+        Me.template segment< nDim >( ( nInterfaceNodes + A ) * nDim ).array() += mA;
+      }
+    }
+  }
+
+  template < int nDim, int nNodes >
+  void CohesiveInterfaceElement< nDim, nNodes >::computeCriticalTimeStepForExplicitDynamics( double& criticalTimeStep,
+                                                                                             const double* )
+  {
+    RhsSized M;
+    computeLumpedInertia( M.data() );
+
+    if ( !( M.array() > 0.0 ).all() )
+      throw std::invalid_argument( Marmot::Utilities::MakeString()
+                                   << __PRETTY_FUNCTION__ << ": element " << elLabel
+                                   << " has no mass, so its penalty springs have no stable time increment. Explicit "
+                                      "time integration requires a cohesive material with a positive mass per area." );
+
+    /* From the element's own mass and stiffness, as for a bulk element: then the minimum over all elements bounds the
+     * critical time step of the assembled model, however many interfaces and bulk elements share a node. Using the
+     * mass of the adjacent bulk elements instead would count it twice.
+     */
+    KeSizedMatrix K = KeSizedMatrix::Zero();
+    for ( const QuadraturePoint& qp : qps ) {
+      const double Kmax = material->getMaximumStiffness( materialResponseAt( qp ),
+                                                         toMaterial( qp.managedStateVars->jump ) );
+      K += Kmax * qp.J0xW * qp.NJumpLocal.transpose() * qp.NJumpLocal;
+    }
+
+    // Gershgorin bound of the largest eigenvalue of M^-1 K, exact for the isolated node pairs of the nodal rule
+    const double omegaMax2 = ( K.cwiseAbs().rowwise().sum().array() / M.array() ).maxCoeff();
+
+    criticalTimeStep = 2.0 / std::sqrt( omegaMax2 );
   }
 
   template < int nDim, int nNodes >

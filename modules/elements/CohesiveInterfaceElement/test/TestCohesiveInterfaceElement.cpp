@@ -21,7 +21,8 @@ using namespace Marmot::Discretizations::Elements;
 
 namespace {
 
-  /// Linear penalty law t' = diag(kn, ks, ks) [[u]]', to check the element kinematics exactly.
+  /// Linear penalty law t' = diag(kn, ks, ks) [[u]]', to check the element kinematics exactly; the optional third
+  /// parameter is the mass per area, which, as the density of a bulk material, throws if asked for but not given.
   class LinearPenaltyCohesive : public Marmot::Materials::MaterialCohesive {
   public:
     LinearPenaltyCohesive( const double* props, int nProps, int number )
@@ -38,6 +39,13 @@ namespace {
       response.traction             = tangents.dTraction_dJump * increment.jump;
       response.elasticEnergyDensity = 0.5 * response.traction.dot( increment.jump );
       stateLayout.getAs< double& >( response.stateVars, "calls" ) += 1;
+    }
+
+    double getMassPerArea( const double* ) const override
+    {
+      if ( nMaterialProperties <= 2 )
+        throw std::runtime_error( "TESTLINEARPENALTYCOHESIVE: mass per area not specified." );
+      return materialProperties[2];
     }
   };
 
@@ -579,11 +587,31 @@ namespace {
       "an unknown cohesive material" );
   }
 
-  /// A zero-thickness interface has no mass: both inertias are zero, overwriting what the output held before.
+  /**
+   * The inertia asks the material for its mass per area, as a bulk element asks for the density: without one it
+   * throws, so only analyses with inertia need it. A massless material gives zero inertia, overwriting what the
+   * output held before.
+   */
   template < class G >
-  void testInertiaIsZero( const G& g )
+  void testInertiaNeedsMassPerArea( const G& g )
   {
-    ElementFixture f( g, "TESTLINEARPENALTYCOHESIVE", { 1.0, 1.0 } );
+    ElementFixture fWithoutMass( g, "TESTLINEARPENALTYCOHESIVE", { 1.0, 1.0 } );
+    for ( const bool lumped : { false, true } ) {
+      bool thrown = false;
+      try {
+        typename G::DofMatrix M;
+        if ( lumped )
+          fWithoutMass.element->computeLumpedInertia( M.data() );
+        else
+          fWithoutMass.element->computeConsistentInertia( M.data() );
+      }
+      catch ( const std::runtime_error& ) {
+        thrown = true;
+      }
+      throwExceptionOnFailure( thrown, g.name + ": the inertia without a mass per area of the material must throw." );
+    }
+
+    ElementFixture f( g, "TESTLINEARPENALTYCOHESIVE", { 1.0, 1.0, 0.0 } );
 
     typename G::DofMatrix M = G::DofMatrix::Constant( 1.0 );
     f.element->computeConsistentInertia( M.data() );
@@ -592,6 +620,159 @@ namespace {
     typename G::DofVector MLumped = G::DofVector::Constant( 1.0 );
     f.element->computeLumpedInertia( MLumped.data() );
     throwExceptionOnFailure( MLumped.isZero( 0.0 ), g.name + ": the lumped inertia must be zero." );
+  }
+
+  /**
+   * With a material that has a mass per area, half of the mass sits on each face: the lumped inertia is the row sum
+   * of the consistent one, and the mass of each face and direction is half the mass per area times the measure of
+   * the face.
+   */
+  template < class G >
+  void testArtificialMass( const G& g )
+  {
+    using namespace Marmot::Discretizations::Elements::Quadrature;
+
+    const double massPerArea = 2.5e-3;
+    for ( const auto integrationType : { NodalIntegration, FullIntegration } ) {
+      ElementFixture f( g, "TESTLINEARPENALTYCOHESIVE", { 1.0, 1.0, massPerArea }, integrationType );
+
+      typename G::DofMatrix M = G::DofMatrix::Constant( 1.0 );
+      f.element->computeConsistentInertia( M.data() );
+      typename G::DofVector MLumped = G::DofVector::Constant( 1.0 );
+      f.element->computeLumpedInertia( MLumped.data() );
+
+      throwExceptionOnFailure( isClose( MLumped, M.rowwise().sum(), 1e-15 ),
+                               g.name + ": the lumped inertia must be the row sums of the consistent inertia." );
+      throwExceptionOnFailure( isClose( M, M.transpose(), 0.0 ), g.name + ": the consistent inertia is symmetric." );
+      for ( int side = 0; side < 2; side++ )
+        for ( int i = 0; i < G::nDim; i++ ) {
+          double faceMass = 0;
+          for ( int A = 0; A < G::nFaceNodes; A++ )
+            faceMass += MLumped( ( side * G::nFaceNodes + A ) * G::nDim + i );
+          throwExceptionOnFailure( checkIfEqual( faceMass, 0.5 * massPerArea * g.measure, 1e-15 ),
+                                   g.name + ": each face must carry half of the mass." );
+        }
+    }
+  }
+
+  /**
+   * The critical time step bounds the stable increment of the element from its own mass: it is at most 2 / omega_max
+   * of the generalized eigenproblem K v = omega^2 M v with the lumped mass, and equal to it for the nodal rule, where
+   * it is sqrt( mass per area / maximum stiffness ).
+   */
+  template < class G >
+  void testCriticalTimeStep( const G& g )
+  {
+    using namespace Marmot::Discretizations::Elements::Quadrature;
+
+    const double kn = 1e6, ks = 3e5, massPerArea = 2.5e-3;
+    for ( const auto integrationType : { NodalIntegration, FullIntegration } ) {
+      ElementFixture fMassless( g, "TESTLINEARPENALTYCOHESIVE", { kn, ks, 0.0 }, integrationType );
+
+      bool thrown = false;
+      try {
+        double dt;
+        fMassless.element->computeCriticalTimeStepForExplicitDynamics( dt, nullptr );
+      }
+      catch ( const std::invalid_argument& ) {
+        thrown = true;
+      }
+      throwExceptionOnFailure( thrown, g.name + ": the critical time step of an element without mass must throw." );
+
+      ElementFixture f( g, "TESTLINEARPENALTYCOHESIVE", { kn, ks, massPerArea }, integrationType );
+      double         dt;
+      f.element->computeCriticalTimeStepForExplicitDynamics( dt, nullptr );
+
+      // the default MaterialCohesive::getMaximumStiffness() evaluates the material on a copy of the state
+      throwExceptionOnFailure( f.element->getStateView( "calls", 0 ).stateLocation[0] == 0.0,
+                               g.name + ": the critical time step must not change the state of the material." );
+
+      const typename G::DofVector Q = G::DofVector::Zero();
+      const auto                  K = f.compute( Q, Q ).second;
+      typename G::DofVector       M;
+      f.element->computeLumpedInertia( M.data() );
+      const typename G::DofVector MInvSqrt = M.cwiseSqrt().cwiseInverse();
+      const double                omegaMax = std::sqrt(
+        Eigen::SelfAdjointEigenSolver< typename G::DofMatrix >( MInvSqrt.asDiagonal() * K * MInvSqrt.asDiagonal() )
+          .eigenvalues()
+          .maxCoeff() );
+
+      throwExceptionOnFailure( dt <= 2.0 / omegaMax * ( 1 + 1e-12 ),
+                               Marmot::Utilities::MakeString()
+                                 << g.name << " (integration type " << integrationType << "): the critical time step "
+                                 << dt << " exceeds the stable increment " << 2.0 / omegaMax << "." );
+      if ( integrationType == NodalIntegration )
+        throwExceptionOnFailure( checkIfEqual( dt, std::sqrt( massPerArea / kn ), 1e-12 * dt ) &&
+                                   checkIfEqual( dt, 2.0 / omegaMax, 1e-12 * dt ),
+                                 g.name + ": with the nodal rule the critical time step is sqrt( mu / K_max )." );
+    }
+  }
+
+  /// The mass per area belongs to the material, as the density of a bulk element: the element has no named
+  /// properties, and the base element rejects any name, the former element property "mass per area" included.
+  template < class G >
+  void testNamedPropertiesAreRejected( const G& g )
+  {
+    ElementFixture f( g, "TESTLINEARPENALTYCOHESIVE", { 1.0, 1.0 } );
+
+    throwExceptionOnFailure( f.element->getPropertyNames().empty(), g.name + ": the element has no named properties." );
+
+    // through the base, as a solver assigns it: the element's own overloads of assignProperty hide the named one
+    Marmot::Discretizations::Elements::Element& element = *f.element;
+    for ( const std::string name : { "mass per area", "not a property" } ) {
+      const double value  = 1.0;
+      bool         thrown = false;
+      try {
+        element.assignProperty( name, &value, 1 );
+      }
+      catch ( const std::invalid_argument& ) {
+        thrown = true;
+      }
+      throwExceptionOnFailure( thrown, g.name + ": the named property '" + name + "' must throw." );
+    }
+  }
+
+  /**
+   * The explicit kernels are the implicit ones without the tangent: along a load path that opens, softens, closes
+   * and slides the interface, forces and states are identical.
+   */
+  template < class G >
+  void testExplicitKernelsMatchImplicit( const G& g )
+  {
+    const double alpha0 = cohesiveFrictionalProperties[1] / cohesiveFrictionalProperties[0];
+
+    std::vector< std::pair< std::string, std::vector< double > > > materials = {
+      { "TESTLINEARPENALTYCOHESIVE", { 1e6, 3e5 } } };
+    if ( cohesiveFrictionalCrackIsAvailable() )
+      materials.emplace_back( "COHESIVEFRICTIONALCRACK", cohesiveFrictionalProperties );
+
+    for ( const auto& [materialName, props] : materials ) {
+      ElementFixture fImplicit( g, materialName, props );
+      ElementFixture fExplicit( g, materialName, props );
+
+      typename G::DofVector QOld = G::DofVector::Zero();
+      for ( const auto& [normal, tangential] : std::vector< std::pair< double, double > >{
+              { 0.5 * alpha0, 0.2 * alpha0 }, // elastic
+              { 2e-2, 5e-3 },                 // softening
+              { 1e-2, 2.5e-3 },               // unloading
+              { -1e-4, 2e-2 },                // closing and sliding
+            } ) {
+        typename G::DofVector Q = G::DofVector::Zero();
+        for ( int A = 0; A < G::nFaceNodes; A++ )
+          Q.template segment< G::nDim >( G::nDim * ( G::nFaceNodes + A ) ) = normal * ( 1 + 0.2 * A ) * g.normal +
+                                                                             tangential * ( 1 + 0.1 * A ) * g.firstEdge;
+        const typename G::DofVector dQ = Q - QOld;
+
+        const auto            PImplicit = fImplicit.compute( Q, dQ ).first;
+        typename G::DofVector PExplicit = G::DofVector::Zero();
+        fExplicit.element->computeKernelsExplicit( Q.data(), dQ.data(), PExplicit.data(), 0.0, 1.0 );
+        QOld = Q;
+
+        throwExceptionOnFailure( PExplicit == PImplicit && fExplicit.stateVars == fImplicit.stateVars,
+                                 g.name + " with " + materialName +
+                                   ": the explicit kernels must give the forces and states of the implicit ones." );
+      }
+    }
   }
 
   template < class G >
@@ -611,7 +792,11 @@ namespace {
                                                      forElement( testUniformJumpGivesPenaltyForce< G >, geometry ),
                                                      forElement( testGaussIntegrationCouplesNodePairs< G >, geometry ),
                                                      forElement( testUnsupportedOperationsThrow< G >, geometry ),
-                                                     forElement( testInertiaIsZero< G >, geometry ) };
+                                                     forElement( testInertiaNeedsMassPerArea< G >, geometry ),
+                                                     forElement( testArtificialMass< G >, geometry ),
+                                                     forElement( testCriticalTimeStep< G >, geometry ),
+                                                     forElement( testNamedPropertiesAreRejected< G >, geometry ),
+                                                     forElement( testExplicitKernelsMatchImplicit< G >, geometry ) };
     if ( cohesiveFrictionalCrackIsAvailable() ) {
       tests.push_back( forElement( testStiffnessMatchesNumericalDifferentiation< G >, geometry ) );
       tests.push_back( forElement( testInternalEnergyIsTheWorkOfTheElementForces< G >, geometry ) );
