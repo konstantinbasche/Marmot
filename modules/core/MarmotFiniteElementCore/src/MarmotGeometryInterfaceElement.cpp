@@ -38,6 +38,22 @@ Marmot::Discretizations::Elements::GeometryInterfaceElement< 3, 8 >::NSized Marm
   return Marmot::Discretizations::Elements::Spatial2D::Quad4::N( xi );
 }
 
+// ITri3:
+// 3-node triangular interface surface embedded in 3D,
+// with 6 total interface element nodes.
+/**
+ * @brief Shape functions of the three-node triangular interface surface at a parametric point.
+ *
+ * @param[in] xi area coordinates on the surface
+ * @return the three shape functions of the triangle
+ */
+template <>
+Marmot::Discretizations::Elements::GeometryInterfaceElement< 3, 6 >::NSized Marmot::Discretizations::Elements::
+  GeometryInterfaceElement< 3, 6 >::N( const XiSized& xi ) const
+{
+  return Marmot::Discretizations::Elements::Spatial2D::Tri3::N( xi );
+}
+
 /* -------------------------------------------------------------------------- */
 /* Shape-function derivatives wrt interface coordinates                       */
 /* -------------------------------------------------------------------------- */
@@ -72,9 +88,25 @@ Marmot::Discretizations::Elements::GeometryInterfaceElement< 3, 8 >::dNdXiSized 
   return Marmot::Discretizations::Elements::Spatial2D::Quad4::dNdXi( xi );
 }
 
+// ITri3:
+// derivatives wrt area coordinates xi, eta.
+/**
+ * @brief Derivatives of the shape functions of the three-node triangular interface surface.
+ *
+ * @param[in] xi area coordinates on the surface
+ * @return the derivatives of the three shape functions with respect to the surface coordinates
+ */
+template <>
+Marmot::Discretizations::Elements::GeometryInterfaceElement< 3, 6 >::dNdXiSized Marmot::Discretizations::Elements::
+  GeometryInterfaceElement< 3, 6 >::dNdXi( const XiSized& xi ) const
+{
+  return Marmot::Discretizations::Elements::Spatial2D::Tri3::dNdXi( xi );
+}
+
 /* -------------------------------------------------------------------------- */
 /* Explicit template instantiation                                            */
 /* -------------------------------------------------------------------------- */
 
 template class Marmot::Discretizations::Elements::GeometryInterfaceElement< 2, 4 >;
 template class Marmot::Discretizations::Elements::GeometryInterfaceElement< 3, 8 >;
+template class Marmot::Discretizations::Elements::GeometryInterfaceElement< 3, 6 >;

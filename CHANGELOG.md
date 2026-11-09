@@ -40,6 +40,26 @@ All notable changes to Marmot are documented in this file. The format follows
 - Gauss rules of degree 5 on simplices: the 7-point triangle rule (Radon 1948) and the 14-point tetrahedron rule
   (Walkington 2000), both with positive weights and interior points. The 14-point rule makes the consistent mass of
   a quadratic tetrahedron (`gaussExactToDegree( 4 )`) available.
+- `elements/CohesiveInterfaceElement` with the cohesive interfaces `CILINE2` (2D, 4 nodes), `CITRI3` (3D, 6 nodes)
+  and `CIQUAD4` (3D, 8 nodes): zero-thickness interface for discrete crack models, local frame, total jump, nodal
+  integration with the closed Newton-Cotes rule `newtonCotesExactToDegree( 1 )`, whose points are the nodes of the
+  linear face; `CILINE2G`, `CITRI3G` and `CIQUAD4G` with the Gauss rule `gaussExactToDegree( 2 )`.
+- `Marmot::Materials::MaterialCohesive` and `Marmot::Registry::MaterialCohesiveFactory` in `MarmotMechanicsCore`:
+  base class and factory of cohesive traction-separation laws, `computeTraction( Response&, Tangents&,
+  const Increment& )` with the recoverable and dissipated energy per unit area in the response; the element
+  integrates them to its internal energy.
+- Explicit time integration for `elements/CohesiveInterfaceElement`: `computeKernelsExplicit`, lumped and
+  consistent inertia of an artificial interface mass (half on each face; the consistent inertia is integrated exactly
+  with `gaussExactToDegree( 2p )` also for the nodal elements, the lumped one with the rule of the element), and
+  `computeCriticalTimeStepForExplicitDynamics` from that mass and `MaterialCohesive::getMaximumStiffness()`. Two new
+  virtuals of the cohesive material base:
+  - `MaterialCohesive::getMaximumStiffness()`, the counterpart of `MaterialHypoElastic::getMaximumWaveSpeed()`: by
+    default the largest diagonal entry of the tangent at the current state, evaluated on a copy of it;
+  - `MaterialCohesive::getMassPerArea( stateVars )` (pure virtual), the counterpart of
+    `MaterialHypoElastic::getDensity()`: the mass per unit area of the interface. As for the bulk elements, the mass
+    comes from the material, not from an element property, and only the inertia asks for it, so implicit static
+    analyses need none.
+- The triangular interface geometry `GeometryInterfaceElement<3, 6>` (EnSight shape `penta6`).
 
 ### Changed
 - **Breaking:** `PRESSURE` on the faceted particles (`DisplacementParticleSQCNI`, implicit and explicit,

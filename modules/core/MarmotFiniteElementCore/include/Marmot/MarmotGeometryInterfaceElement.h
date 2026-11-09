@@ -53,6 +53,7 @@ namespace Marmot::Discretizations::Elements {
    * Supported interpolations are:
    * - `nDim == 2`, `nNodes == 4`: two-node line interface (`iline2`).
    * - `nDim == 3`, `nNodes == 8`: four-node quadrilateral interface (`iquad4`).
+   * - `nDim == 3`, `nNodes == 6`: three-node triangular interface (`itri3`).
    *
    * Node ordering is expected to be side-wise:
    * - nodes `0 ... nInterfaceNodes - 1`: bottom side,
@@ -139,7 +140,7 @@ namespace Marmot::Discretizations::Elements {
     /**
      * @brief Return the Marmot element shape associated with the template parameters.
      *
-     * @return `Bar2` for 2D line interfaces and `Quad4` for 3D quadrilateral interfaces.
+     * @return `Bar2` for 2D line interfaces, `Quad4` for 3D quadrilateral and `Tri3` for 3D triangular interfaces.
      */
     static constexpr Marmot::Discretizations::Elements::ElementShapes getInterfaceElementShape()
     {
@@ -151,6 +152,9 @@ namespace Marmot::Discretizations::Elements {
       else if constexpr ( nDim == 3 && nInterfaceNodes == 4 ) {
         return Quad4;
       }
+      else if constexpr ( nDim == 3 && nInterfaceNodes == 3 ) {
+        return Tri3;
+      }
       else {
         static_assert( nDim == -1, "Unsupported GeometryInterfaceElement interpolation in the current build." );
       }
@@ -159,15 +163,17 @@ namespace Marmot::Discretizations::Elements {
     /**
      * @brief Return the result-file geometry keyword for this interface interpolation.
      *
-     * @return `"quad4"` for 2D line interfaces and `"hexa8"` for 3D quadrilateral interfaces.
+     * @return `"quad4"` for 2D line interfaces, `"hexa8"` for 3D quadrilateral and `"penta6"` for 3D triangular
+     * interfaces.
      *
      * @details
      * These are EnSight element names, not the computational interface shape. EnSight and ParaView do not
      * understand an `"iline2"`/`"iquad4"` keyword, so a result file names the standard cell spanning the
-     * same nodes: a 3D interface writes its eight nodes as `"hexa8"`, a 2D interface its four nodes as `"quad4"`.
-     * The keyword names the cell of all nodes, not the shape of one face (`"bar2"` is a two-node cell, which made the
-     * geometry of a four-node 2D interface invalid). The element itself remains an interface element; only the
-     * geometry keyword written to result files is affected.
+     * same nodes: a 3D quadrilateral interface writes its eight nodes as `"hexa8"`, a 3D triangular interface its six
+     * nodes as the wedge `"penta6"`, a 2D line interface its four nodes as `"quad4"`. The keyword names the cell of
+     * all nodes, not the shape of one face, which is the computational shape of getInterfaceElementShape(). The
+     * element itself remains an interface element; only the geometry keyword written to result files is
+     * affected.
      *
      * A new interface interpolation is added by extending this map, next to the existing entries. The
      * lookup uses at(), so an unmapped shape throws rather than writing an empty keyword to the file.
@@ -179,6 +185,7 @@ namespace Marmot::Discretizations::Elements {
       static const std::map< ElementShapes, std::string > shapes = {
         { Bar2, "quad4" },
         { Quad4, "hexa8" },
+        { Tri3, "penta6" },
       };
 
       return shapes.at( this->shape );
@@ -218,21 +225,33 @@ namespace Marmot::Discretizations::Elements {
     dNdXiSized dNdXi( const XiSized& xi ) const;
 
     /**
-     * @brief Extract the physical coordinates of one interface side.
+     * @brief Surface of the interface on which the geometry is evaluated.
      *
-     * @param side Interface side index, where `0` is the bottom side and `1` is the top side.
-     * @return Stacked coordinate vector of the selected side.
-     *
-     * @throws std::invalid_argument If `side` is neither `0` nor `1`.
+     * @details
+     * `Bottom` and `Top` are the two sides of the element; their values are the index of the side in the node order.
+     * `Mid` is the mid-surface `(x_bottom + x_top) / 2`, which treats both sides alike: swapping them only flips the
+     * sign of the normal. For coincident sides all three are the same surface.
      */
-    SideCoordinateVector getSideCoordinates( const int side = 0 ) const
+    enum class InterfaceSurface {
+      Bottom = 0,
+      Top    = 1,
+      Mid    = -1,
+    };
+
+    /**
+     * @brief Extract the physical coordinates of one interface surface.
+     *
+     * @param surface Surface whose nodal coordinates are returned; for `Mid` the mean of both sides.
+     * @return Stacked coordinate vector of the selected surface.
+     */
+    SideCoordinateVector getSideCoordinates( const InterfaceSurface surface = InterfaceSurface::Bottom ) const
     {
-      if ( side != 0 && side != 1 )
-        throw std::invalid_argument( "Interface side must be 0 or 1." );
+      if ( surface == InterfaceSurface::Mid )
+        return 0.5 * ( getSideCoordinates( InterfaceSurface::Bottom ) + getSideCoordinates( InterfaceSurface::Top ) );
 
       SideCoordinateVector xSide;
 
-      const int nodeOffset = side * nInterfaceNodes;
+      const int nodeOffset = static_cast< int >( surface ) * nInterfaceNodes;
 
       for ( int A = 0; A < nInterfaceNodes; ++A ) {
         for ( int i = 0; i < nDim; ++i ) {
@@ -244,15 +263,16 @@ namespace Marmot::Discretizations::Elements {
     }
 
     /**
-     * @brief Compute the surface Jacobian of one interface side.
+     * @brief Compute the surface Jacobian of one interface surface.
      *
      * @param dN Parametric shape-function derivatives.
-     * @param side Interface side index used for the geometry, where `0` is bottom and `1` is top.
+     * @param surface Surface used for the geometry.
      * @return Surface Jacobian `J`, with columns spanning the physical tangent space.
      */
-    SurfaceJacobianSized surfaceJacobian( const dNdXiSized& dN, const int side = 0 ) const
+    SurfaceJacobianSized surfaceJacobian( const dNdXiSized&      dN,
+                                          const InterfaceSurface surface = InterfaceSurface::Bottom ) const
     {
-      const SideCoordinateVector xSide = getSideCoordinates( side );
+      const SideCoordinateVector xSide = getSideCoordinates( surface );
 
       /*
        * The shared dynamic Jacobian is documented as "not necessarily square" and is what
@@ -371,6 +391,34 @@ namespace Marmot::Discretizations::Elements {
     TensorDim tangentProjector( const VectorDim& n ) const { return TensorDim::Identity() - normalProjector( n ); }
 
     /**
+     * @brief Compute the rotation from global coordinates into the local frame of the interface.
+     *
+     * @param J Surface Jacobian.
+     * @return Orthonormal matrix `R` whose rows are the local axes in global coordinates: the unit normal
+     * `n = normal( J )`, the unit tangent `s` along the first column of `J`, and in 3D `n x s`. A global vector `v`
+     * has the local components `R * v`.
+     *
+     * @details
+     * In 3D the frame `(n, s, n x s)` is right-handed. In 2D the normal is `s` rotated by +90 degrees, so that
+     * `(n, s)` is left-handed (`det R = -1`); this only fixes the sign of the tangential component.
+     *
+     * @throws std::runtime_error If the normal vector has near-zero norm.
+     */
+    TensorDim localFrame( const SurfaceJacobianSized& J ) const
+    {
+      const VectorDim n = normal( J );
+      const VectorDim s = J.col( 0 ).normalized();
+
+      TensorDim R;
+      R.row( 0 ) = n.transpose();
+      R.row( 1 ) = s.transpose();
+      if constexpr ( nDim == 3 )
+        R.row( 2 ) = n.cross( s ).transpose();
+
+      return R;
+    }
+
+    /**
      * @brief Build the vector-valued interpolation matrix for one interface side.
      *
      * @param N_ Scalar shape-function row vector.
@@ -397,8 +445,8 @@ namespace Marmot::Discretizations::Elements {
           const int colBottom = A * nDim + i;
           const int colTop    = ( nInterfaceNodes + A ) * nDim + i;
 
-          NJump( i, colBottom ) = -N_( 0, A );
-          NJump( i, colTop )    = N_( 0, A );
+          NJump( i, colBottom ) = -N_( A );
+          NJump( i, colTop )    = N_( A );
         }
       }
 
@@ -527,21 +575,20 @@ namespace Marmot::Discretizations::Elements {
      * @brief Evaluate all geometry quantities needed at one quadrature point.
      *
      * @param xi Parametric coordinates of the quadrature point.
-     * @param sideForGeometry Interface side used for the surface Jacobian and derived geometry terms. Use `0` for
-     * bottom-side geometry and `1` for top-side geometry.
+     * @param surfaceForGeometry Surface used for the surface Jacobian and derived geometry terms.
      * @return Fully populated QuadratureGeometry bundle.
      *
-     * @throws std::invalid_argument If `sideForGeometry` is neither `0` nor `1`.
-     * @throws std::runtime_error If the selected side is geometrically degenerate.
+     * @throws std::runtime_error If the selected surface is geometrically degenerate.
      */
-    QuadratureGeometry evaluateAt( const XiSized& xi, const int sideForGeometry = 0 ) const
+    QuadratureGeometry evaluateAt( const XiSized&         xi,
+                                   const InterfaceSurface surfaceForGeometry = InterfaceSurface::Bottom ) const
     {
       QuadratureGeometry q;
 
       q.N     = N( xi );
       q.dNdXi = dNdXi( xi );
 
-      q.J        = surfaceJacobian( q.dNdXi, sideForGeometry );
+      q.J        = surfaceJacobian( q.dNdXi, surfaceForGeometry );
       q.G        = metric( q.J );
       q.sqrtDetG = sqrtDetMetric( q.J );
 
