@@ -34,11 +34,15 @@ namespace {
 
     void computeTraction( Response& response, Tangents& tangents, const Increment& increment ) const override
     {
-      tangents.dTraction_dJump = Eigen::Vector3d( materialProperties[0], materialProperties[1], materialProperties[1] )
-                                   .asDiagonal();
-      response.traction             = tangents.dTraction_dJump * increment.jump;
-      response.elasticEnergyDensity = 0.5 * response.traction.dot( increment.jump );
+      update( response, tangents, increment );
       stateLayout.getAs< double& >( response.stateVars, "calls" ) += 1;
+    }
+
+    /// Without history, the explicit update is the implicit one.
+    void computeTractionExplicit( Response& response, const Increment& increment ) const override
+    {
+      Tangents tangents;
+      update( response, tangents, increment );
     }
 
     double getMassPerArea( const double* ) const override
@@ -46,6 +50,15 @@ namespace {
       if ( nMaterialProperties <= 2 )
         throw std::runtime_error( "TESTLINEARPENALTYCOHESIVE: mass per area not specified." );
       return materialProperties[2];
+    }
+
+  private:
+    void update( Response& response, Tangents& tangents, const Increment& increment ) const
+    {
+      tangents.dTraction_dJump = Eigen::Vector3d( materialProperties[0], materialProperties[1], materialProperties[1] )
+                                   .asDiagonal();
+      response.traction             = tangents.dTraction_dJump * increment.jump;
+      response.elasticEnergyDensity = 0.5 * response.traction.dot( increment.jump );
     }
   };
 
@@ -780,49 +793,6 @@ namespace {
     }
   }
 
-  /**
-   * The explicit kernels are the implicit ones without the tangent: along a load path that opens, softens, closes
-   * and slides the interface, forces and states are identical.
-   */
-  template < class G >
-  void testExplicitKernelsMatchImplicit( const G& g )
-  {
-    const double alpha0 = cohesiveFrictionalProperties[1] / cohesiveFrictionalProperties[0];
-
-    std::vector< std::pair< std::string, std::vector< double > > > materials = {
-      { "TESTLINEARPENALTYCOHESIVE", { 1e6, 3e5 } } };
-    if ( cohesiveFrictionalCrackIsAvailable() )
-      materials.emplace_back( "COHESIVEFRICTIONALCRACK", cohesiveFrictionalProperties );
-
-    for ( const auto& [materialName, props] : materials ) {
-      ElementFixture fImplicit( g, materialName, props );
-      ElementFixture fExplicit( g, materialName, props );
-
-      typename G::DofVector QOld = G::DofVector::Zero();
-      for ( const auto& [normal, tangential] : std::vector< std::pair< double, double > >{
-              { 0.5 * alpha0, 0.2 * alpha0 }, // elastic
-              { 2e-2, 5e-3 },                 // softening
-              { 1e-2, 2.5e-3 },               // unloading
-              { -1e-4, 2e-2 },                // closing and sliding
-            } ) {
-        typename G::DofVector Q = G::DofVector::Zero();
-        for ( int A = 0; A < G::nFaceNodes; A++ )
-          Q.template segment< G::nDim >( G::nDim * ( G::nFaceNodes + A ) ) = normal * ( 1 + 0.2 * A ) * g.normal +
-                                                                             tangential * ( 1 + 0.1 * A ) * g.firstEdge;
-        const typename G::DofVector dQ = Q - QOld;
-
-        const auto            PImplicit = fImplicit.compute( Q, dQ ).first;
-        typename G::DofVector PExplicit = G::DofVector::Zero();
-        fExplicit.element->computeKernelsExplicit( Q.data(), dQ.data(), PExplicit.data(), 0.0, 1.0 );
-        QOld = Q;
-
-        throwExceptionOnFailure( PExplicit == PImplicit && fExplicit.stateVars == fImplicit.stateVars,
-                                 g.name + " with " + materialName +
-                                   ": the explicit kernels must give the forces and states of the implicit ones." );
-      }
-    }
-  }
-
   template < class G >
   std::function< void() > forElement( void ( *test )( const G& ), G ( *geometry )() )
   {
@@ -844,8 +814,7 @@ namespace {
                                                      forElement( testArtificialMass< G >, geometry ),
                                                      forElement( testConsistentMassIsExact< G >, geometry ),
                                                      forElement( testCriticalTimeStep< G >, geometry ),
-                                                     forElement( testNamedPropertiesAreRejected< G >, geometry ),
-                                                     forElement( testExplicitKernelsMatchImplicit< G >, geometry ) };
+                                                     forElement( testNamedPropertiesAreRejected< G >, geometry ) };
     if ( cohesiveFrictionalCrackIsAvailable() ) {
       tests.push_back( forElement( testStiffnessMatchesNumericalDifferentiation< G >, geometry ) );
       tests.push_back( forElement( testInternalEnergyIsTheWorkOfTheElementForces< G >, geometry ) );

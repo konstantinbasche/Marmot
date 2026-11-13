@@ -100,7 +100,11 @@ namespace Marmot::Materials {
     };
 
     /**
-     * @brief Compute the traction and the algorithmic tangent for a given displacement jump.
+     * @brief Compute the traction and the algorithmic tangent for a given displacement jump, for implicit solvers.
+     *
+     * The update may use algorithmic devices that make the equilibrium iterations of an implicit solver converge,
+     * such as internal variables extrapolated from the previous increments (Impl-Ex) or a contact state frozen at the
+     * last converged increment. The tangent is consistent with the traction returned.
      *
      * The work done on the interface, \f$ \int \boldsymbol{t}' \cdot d [\![ \boldsymbol{u} ]\!]' \f$ per unit
      * area, is split into the recoverable part @c elasticEnergyDensity and the remainder @c dissipation.
@@ -112,20 +116,18 @@ namespace Marmot::Materials {
     virtual void computeTraction( Response& response, Tangents& tangents, const Increment& increment ) const = 0;
 
     /**
-     * Explicit version of @ref computeTraction for use in explicit time integration schemes.
-     * The algorithmic tangent is not needed in explicit schemes and will therefore not be computed.
+     * @brief Compute the traction for a given displacement jump, for explicit time integration.
+     *
+     * Returns the traction for the current jump, with the internal variables integrated for that jump, without the
+     * devices for implicit solvers that @ref computeTraction may use, and without an algorithmic tangent. The state
+     * variables and the energies are updated as in @ref computeTraction.
+     *
+     * A material without such devices may simply forward to @ref computeTraction.
      *
      * @param[in,out] response  traction, state variables and energies, old on entry and updated on exit
      * @param[in]     increment displacement jump and time of the increment
-     *
-     * @note The default implementation calls @ref computeTraction and ignores the algorithmic tangent.
-     * @note Derived classes may override this method for efficiency reasons.
      */
-    virtual void computeTractionExplicit( Response& response, const Increment& increment ) const
-    {
-      Tangents tangents;
-      computeTraction( response, tangents, increment );
-    }
+    virtual void computeTractionExplicit( Response& response, const Increment& increment ) const = 0;
 
     /**
      * @brief Get a view to the state variables.
